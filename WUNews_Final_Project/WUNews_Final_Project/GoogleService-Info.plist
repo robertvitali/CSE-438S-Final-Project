@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>182382183278-mvq6ml8q53nq0skgfd79s2a05bruii4k.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.182382183278-mvq6ml8q53nq0skgfd79s2a05bruii4k</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDykgMMb0glayMml0DQmjOQaVqE_nCfoHc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>182382183278</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>rdvitali.WUNews-Final-Project</string>
+	<key>PROJECT_ID</key>
+	<string>wunews-6e9a5</string>
+	<key>STORAGE_BUCKET</key>
+	<string>wunews-6e9a5.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:182382183278:ios:5713b7ab9cfa42b3</string>
+	<key>DATABASE_URL</key>
+	<string>https://wunews-6e9a5.firebaseio.com</string>
+</dict>
+</plist>
