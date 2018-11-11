@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0090EA64DF3278AE81F7E9F1 /* Pods_WUNews_Final_ProjectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D84F08791B18F4AA7AE0AC /* Pods_WUNews_Final_ProjectUITests.framework */; };
 		C92565FE6BCAFC295905845A /* Pods_WUNews_Final_Project.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70EE1B8CE146D5C64881F8AC /* Pods_WUNews_Final_Project.framework */; };
+		E115D1D22198CDA400FD2B29 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E115D1D12198CDA400FD2B29 /* SearchViewController.swift */; };
+		E115D1D42198CDE500FD2B29 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E115D1D32198CDE500FD2B29 /* ProfileViewController.swift */; };
 		E17F82A92196822400F4725F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17F82A82196822400F4725F /* AppDelegate.swift */; };
 		E17F82AE2196822400F4725F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E17F82AC2196822400F4725F /* Main.storyboard */; };
 		E17F82B02196822600F4725F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E17F82AF2196822600F4725F /* Assets.xcassets */; };
@@ -51,6 +53,8 @@
 		969273DF77B141BA8DC77105 /* Pods-WUNews_Final_ProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WUNews_Final_ProjectTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WUNews_Final_ProjectTests/Pods-WUNews_Final_ProjectTests.release.xcconfig"; sourceTree = "<group>"; };
 		BAC9FFEAF4FDEE69A44DF260 /* Pods-WUNews_Final_ProjectUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WUNews_Final_ProjectUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WUNews_Final_ProjectUITests/Pods-WUNews_Final_ProjectUITests.release.xcconfig"; sourceTree = "<group>"; };
 		D3FE77E985EDA9B47D31D18F /* Pods_WUNews_Final_ProjectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WUNews_Final_ProjectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E115D1D12198CDA400FD2B29 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		E115D1D32198CDE500FD2B29 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		E17F82A52196822400F4725F /* WUNews_Final_Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WUNews_Final_Project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E17F82A82196822400F4725F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E17F82AD2196822400F4725F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -150,6 +154,8 @@
 				E19A7C2A219794EF00C5287F /* SignInViewController.swift */,
 				E19382AE2197954300B992B0 /* SignUpViewController.swift */,
 				E17F82AC2196822400F4725F /* Main.storyboard */,
+				E115D1D32198CDE500FD2B29 /* ProfileViewController.swift */,
+				E115D1D12198CDA400FD2B29 /* SearchViewController.swift */,
 				E1CEF62E2198103D006D9D9C /* NewsViewController.swift */,
 				E17F82AF2196822600F4725F /* Assets.xcassets */,
 				E17F82B12196822600F4725F /* LaunchScreen.storyboard */,
@@ -412,6 +418,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E115D1D42198CDE500FD2B29 /* ProfileViewController.swift in Sources */,
+				E115D1D22198CDA400FD2B29 /* SearchViewController.swift in Sources */,
 				E19382AF2197954300B992B0 /* SignUpViewController.swift in Sources */,
 				E19A7C2B219794EF00C5287F /* SignInViewController.swift in Sources */,
 				E17F82A92196822400F4725F /* AppDelegate.swift in Sources */,
