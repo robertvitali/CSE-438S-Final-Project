@@ -60,10 +60,12 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - SwiftSoup (1.7.4)
 
 DEPENDENCIES:
   - Firebase/Core
   - FirebaseUI/Auth
+  - SwiftSoup
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -78,6 +80,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMSessionFetcher
     - nanopb
+    - SwiftSoup
 
 SPEC CHECKSUMS:
   Firebase: 9190018e296139d938b99521cde0c15a6e8d2946
@@ -91,7 +94,8 @@ SPEC CHECKSUMS:
   GoogleUtilities: abb092d2c12e817fa3e0e7b274987dd72fb86ec3
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  SwiftSoup: 92f5b348c131aed8af04f4326db1579ab19fa08c
 
-PODFILE CHECKSUM: fa82cb6a98f33c746da04c92380d4f9f58f709fe
+PODFILE CHECKSUM: a6758c49478b5bc860e0a307c340d3ece538d823
 
 COCOAPODS: 1.5.3

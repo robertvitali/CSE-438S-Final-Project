@@ -10,6 +10,7 @@ import Firebase
 import FirebaseAuth
 
 
+
 class SignInViewController: UIViewController {
     
 
@@ -20,8 +21,8 @@ class SignInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let user = Auth.auth().currentUser
-        /* 
+        /* let user = Auth.auth().currentUser
+        
         if(user!.email! != ""){
             print("LOGGED IN USER'S EMAIL: \(user!.email!)")
             let secondViewController = self.storyboard!.instantiateViewController(withIdentifier: "Sign Up") as! UIViewController

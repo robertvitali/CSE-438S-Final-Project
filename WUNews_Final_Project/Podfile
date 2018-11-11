@@ -8,6 +8,7 @@ target 'WUNews_Final_Project' do
   # Pods for WUNews_Final_Project
   pod 'Firebase/Core'
   pod 'FirebaseUI/Auth'
+  pod 'SwiftSoup'
 
   target 'WUNews_Final_ProjectTests' do
     inherit! :search_paths
