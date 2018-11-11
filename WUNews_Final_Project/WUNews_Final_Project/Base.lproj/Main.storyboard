@@ -38,6 +38,9 @@
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UKH-c2-Vdb">
                                 <rect key="frame" x="122" y="356" width="115" height="30"/>
                                 <state key="normal" title="Forgot Password"/>
+                                <connections>
+                                    <action selector="forgotPassword:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3oN-am-yQM"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ASa-gh-qfS">
                                 <rect key="frame" x="81" y="210" width="212" height="30"/>
@@ -56,11 +59,18 @@
                                     <segue destination="Opo-jM-K0l" kind="show" id="Qza-H2-rBf"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="WU News" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TgL-lL-v4T">
+                                <rect key="frame" x="81" y="94" width="212" height="64"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="C9J-aI-YC3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="298" id="5fJ-o7-YvL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="UKH-c2-Vdb" secondAttribute="bottom" constant="281" id="8bH-9X-kzd"/>
+                            <constraint firstItem="TgL-lL-v4T" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="DRQ-lx-7lj"/>
                             <constraint firstItem="GNg-yc-pJQ" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Gue-nz-9HJ"/>
                             <constraint firstItem="GNg-yc-pJQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="597" id="KKH-mE-EBG"/>
                             <constraint firstItem="ASa-gh-qfS" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="190" id="PoU-5J-adU"/>
@@ -68,6 +78,8 @@
                             <constraint firstItem="EBD-b1-hjR" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Vvy-4D-hNW"/>
                             <constraint firstItem="EBD-b1-hjR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="249" id="WHL-P8-CFY"/>
                             <constraint firstItem="UKH-c2-Vdb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="336" id="XIU-aQ-PVQ"/>
+                            <constraint firstItem="TgL-lL-v4T" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="74" id="f0M-bC-Inq"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="TgL-lL-v4T" secondAttribute="bottom" constant="509" id="iMN-kf-LWy"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="C9J-aI-YC3" secondAttribute="bottom" constant="319" id="j4t-8d-h9U"/>
                             <constraint firstItem="C9J-aI-YC3" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="nnW-SE-kDB"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="GNg-yc-pJQ" secondAttribute="bottom" constant="20" id="oyR-PK-wWp"/>
@@ -84,18 +96,33 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="510" y="138"/>
+            <point key="canvasLocation" x="509.60000000000002" y="137.18140929535232"/>
+        </scene>
+        <!--News View Controller-->
+        <scene sceneID="QTt-RW-Hdh">
+            <objects>
+                <viewController storyboardIdentifier="News" id="Ew4-s5-Gss" customClass="NewsViewController" customModule="WUNews_Final_Project" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VKU-9x-jWI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="1qu-Dy-jCM"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bCy-Mb-eZ6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="546" y="832"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="rj6-gZ-4Gv">
             <objects>
-                <viewController id="Opo-jM-K0l" customClass="SignUpViewController" customModule="WUNews_Final_Project" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Sign Up" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Opo-jM-K0l" customClass="SignUpViewController" customModule="WUNews_Final_Project" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yAM-js-LWg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d1s-gM-Ipu">
-                                <rect key="frame" x="81" y="269" width="212" height="30"/>
+                                <rect key="frame" x="81" y="269" width="212" height="27"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="guL-xv-4gw"/>
                                     <constraint firstAttribute="width" constant="212" id="zj4-3Y-Qi6"/>
@@ -104,12 +131,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="31A-4t-EHT">
-                                <rect key="frame" x="147" y="318" width="55" height="30"/>
-                                <state key="normal" title="Sign Up"/>
-                            </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FsG-6r-MkY">
-                                <rect key="frame" x="81" y="210" width="212" height="30"/>
+                                <rect key="frame" x="81" y="210" width="212" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="212" id="0fL-cd-cKT"/>
                                     <constraint firstAttribute="height" constant="30" id="8rj-Ia-OoB"/>
@@ -125,24 +148,60 @@
                                     <segue destination="BYZ-38-t0r" kind="show" id="EDE-Gh-na9"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hcO-CW-1dU">
+                                <rect key="frame" x="81" y="324" width="212" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="212" id="S0F-ec-bW2"/>
+                                    <constraint firstAttribute="height" constant="30" id="wgb-px-Mdr"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="31A-4t-EHT">
+                                <rect key="frame" x="148" y="393" width="55" height="30"/>
+                                <state key="normal" title="Sign Up"/>
+                                <connections>
+                                    <action selector="signUp:" destination="Opo-jM-K0l" eventType="touchUpInside" id="Q4H-7u-mjh"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WU News" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="esl-5f-Ali">
+                                <rect key="frame" x="102" y="100" width="171.5" height="64"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="31A-4t-EHT" firstAttribute="centerX" secondItem="4zq-Me-oFZ" secondAttribute="centerX" id="5pg-70-Rix"/>
+                            <constraint firstItem="31A-4t-EHT" firstAttribute="centerX" secondItem="4zq-Me-oFZ" secondAttribute="centerX" id="3iE-fX-a5u"/>
+                            <constraint firstItem="hcO-CW-1dU" firstAttribute="top" secondItem="4zq-Me-oFZ" secondAttribute="top" constant="304" id="6ok-hY-TH2"/>
                             <constraint firstItem="d1s-gM-Ipu" firstAttribute="centerX" secondItem="4zq-Me-oFZ" secondAttribute="centerX" id="7ec-Zm-qdc"/>
+                            <constraint firstItem="esl-5f-Ali" firstAttribute="top" secondItem="4zq-Me-oFZ" secondAttribute="top" constant="80" id="A1c-Xs-j0u"/>
+                            <constraint firstItem="hcO-CW-1dU" firstAttribute="centerX" secondItem="4zq-Me-oFZ" secondAttribute="centerX" id="CpQ-BA-Yua"/>
                             <constraint firstItem="FsG-6r-MkY" firstAttribute="centerX" secondItem="4zq-Me-oFZ" secondAttribute="centerX" id="ETZ-S6-htj"/>
                             <constraint firstItem="uXp-9t-X24" firstAttribute="top" secondItem="4zq-Me-oFZ" secondAttribute="top" constant="597" id="M9k-H2-1r0"/>
-                            <constraint firstItem="4zq-Me-oFZ" firstAttribute="bottom" secondItem="31A-4t-EHT" secondAttribute="bottom" constant="319" id="Nhk-01-YkB"/>
+                            <constraint firstItem="d1s-gM-Ipu" firstAttribute="top" secondItem="FsG-6r-MkY" secondAttribute="bottom" constant="25" id="Pdq-tB-MDA"/>
                             <constraint firstItem="FsG-6r-MkY" firstAttribute="top" secondItem="4zq-Me-oFZ" secondAttribute="top" constant="190" id="QNz-uX-t72"/>
+                            <constraint firstItem="hcO-CW-1dU" firstAttribute="top" secondItem="d1s-gM-Ipu" secondAttribute="bottom" constant="28" id="XDX-mP-Qg1"/>
                             <constraint firstItem="4zq-Me-oFZ" firstAttribute="bottom" secondItem="d1s-gM-Ipu" secondAttribute="bottom" constant="368" id="a2e-Va-nC3"/>
+                            <constraint firstItem="31A-4t-EHT" firstAttribute="top" secondItem="4zq-Me-oFZ" secondAttribute="top" constant="373" id="aaM-lG-W75"/>
+                            <constraint firstItem="4zq-Me-oFZ" firstAttribute="bottom" secondItem="31A-4t-EHT" secondAttribute="bottom" constant="244" id="bQ7-uI-GIU"/>
+                            <constraint firstItem="esl-5f-Ali" firstAttribute="centerX" secondItem="4zq-Me-oFZ" secondAttribute="centerX" id="gkd-5L-DZy"/>
                             <constraint firstItem="4zq-Me-oFZ" firstAttribute="bottom" secondItem="FsG-6r-MkY" secondAttribute="bottom" constant="427" id="hkb-Gp-B3b"/>
-                            <constraint firstItem="31A-4t-EHT" firstAttribute="top" secondItem="4zq-Me-oFZ" secondAttribute="top" constant="298" id="m0h-VS-1nj"/>
                             <constraint firstItem="d1s-gM-Ipu" firstAttribute="top" secondItem="4zq-Me-oFZ" secondAttribute="top" constant="249" id="oZ8-HN-lmU"/>
+                            <constraint firstItem="4zq-Me-oFZ" firstAttribute="bottom" secondItem="esl-5f-Ali" secondAttribute="bottom" constant="503" id="pIU-72-UEn"/>
                             <constraint firstItem="uXp-9t-X24" firstAttribute="centerX" secondItem="4zq-Me-oFZ" secondAttribute="centerX" id="sIS-Gu-OdE"/>
                             <constraint firstItem="4zq-Me-oFZ" firstAttribute="bottom" secondItem="uXp-9t-X24" secondAttribute="bottom" constant="20" id="ui2-r5-CLL"/>
+                            <constraint firstItem="4zq-Me-oFZ" firstAttribute="trailing" secondItem="hcO-CW-1dU" secondAttribute="trailing" constant="82" id="wIW-uz-w1q"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4zq-Me-oFZ"/>
                     </view>
+                    <connections>
+                        <outlet property="emailField" destination="FsG-6r-MkY" id="KN2-31-s3u"/>
+                        <outlet property="passwordField" destination="d1s-gM-Ipu" id="Cs1-N3-UUH"/>
+                        <outlet property="passwordField2" destination="hcO-CW-1dU" id="XRz-xJ-jje"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d82-vs-C1v" sceneMemberID="firstResponder"/>
             </objects>

@@ -20,6 +20,7 @@
 		E18714EB219780B800AF3405 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E18714E8219780B800AF3405 /* GoogleService-Info.plist */; };
 		E19382AF2197954300B992B0 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19382AE2197954300B992B0 /* SignUpViewController.swift */; };
 		E19A7C2B219794EF00C5287F /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19A7C2A219794EF00C5287F /* SignInViewController.swift */; };
+		E1CEF62F2198103D006D9D9C /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CEF62E2198103D006D9D9C /* NewsViewController.swift */; };
 		F1E02EAF81D1E49C0A66EBBC /* Pods_WUNews_Final_ProjectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3FE77E985EDA9B47D31D18F /* Pods_WUNews_Final_ProjectTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +66,7 @@
 		E18714E8219780B800AF3405 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E19382AE2197954300B992B0 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E19A7C2A219794EF00C5287F /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		E1CEF62E2198103D006D9D9C /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 				E19A7C2A219794EF00C5287F /* SignInViewController.swift */,
 				E19382AE2197954300B992B0 /* SignUpViewController.swift */,
 				E17F82AC2196822400F4725F /* Main.storyboard */,
+				E1CEF62E2198103D006D9D9C /* NewsViewController.swift */,
 				E17F82AF2196822600F4725F /* Assets.xcassets */,
 				E17F82B12196822600F4725F /* LaunchScreen.storyboard */,
 				E17F82B42196822600F4725F /* Info.plist */,
@@ -313,15 +316,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-WUNews_Final_Project/Pods-WUNews_Final_Project-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
 			);
@@ -416,6 +415,7 @@
 				E19382AF2197954300B992B0 /* SignUpViewController.swift in Sources */,
 				E19A7C2B219794EF00C5287F /* SignInViewController.swift in Sources */,
 				E17F82A92196822400F4725F /* AppDelegate.swift in Sources */,
+				E1CEF62F2198103D006D9D9C /* NewsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
