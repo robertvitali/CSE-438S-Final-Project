@@ -12,6 +12,7 @@ import FirebaseAuth
 
 class NewsViewController: UIViewController {
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,9 +24,10 @@ class NewsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+  
+    
     /*
-    // MARK: - Navigation
+     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

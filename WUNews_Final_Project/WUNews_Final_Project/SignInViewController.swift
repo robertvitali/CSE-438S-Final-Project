@@ -16,25 +16,56 @@ class SignInViewController: UIViewController {
 
     @IBOutlet var emailField: UITextField!
     @IBOutlet var passwordField: UITextField!
-    
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var signInButton: UIButton!
+    @IBOutlet var forgotPasswordButton: UIButton!
+    @IBOutlet var extraButton: UIButton!
+    @IBOutlet var spinner: UIActivityIndicatorView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        /* let user = Auth.auth().currentUser
-        
-        if(user!.email! != ""){
-            print("LOGGED IN USER'S EMAIL: \(user!.email!)")
-            let secondViewController = self.storyboard!.instantiateViewController(withIdentifier: "Sign Up") as! UIViewController
-            navigationController?.pushViewController(secondViewController, animated: true)
-        }
-        */
+        spinner.startAnimating()
+        spinner.isHidden = false
+        emailField.isHidden = true
+        passwordField.isHidden = true
+        titleLabel.isHidden = true
+        signInButton.isHidden = true
+        forgotPasswordButton.isHidden = true
+        extraButton.isHidden = true
+        loadFunction()
         // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    func loadFunction(){
+        DispatchQueue.global().async{
+            let user = Auth.auth().currentUser
+            print("LOGGED IN USER'S EMAIL: \(String(describing: user?.email))")
+            if(user?.email != nil && user?.email != ""){
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "Tab") as! UITabBarController
+                self.present(vc, animated: true, completion: nil)
+            }else{
+                DispatchQueue.main.async {
+                    self.emailField.isHidden = false
+                    self.passwordField.isHidden = false
+                    self.titleLabel.isHidden = false
+                    self.signInButton.isHidden = false
+                    self.forgotPasswordButton.isHidden = false
+                    self.extraButton.isHidden = false
+                    self.spinner.isHidden = true
+                }
+            }
+            DispatchQueue.main.async {
+                self.spinner.stopAnimating()
+                self.spinner.isHidden = true
+            }
+        }
     }
 
     
@@ -59,6 +90,9 @@ class SignInViewController: UIViewController {
                         alert.message = "Email address is not formatted correctly"
                     }
                     self.present(alert, animated: true, completion: nil)
+                }else{
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "Tab") as! UITabBarController
+                    self.present(vc, animated: true, completion: nil)
                 }
             }
         }else{
