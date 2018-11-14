@@ -6,7 +6,7 @@ target 'WUNews_Final_Project' do
   use_frameworks!
 
   # Pods for WUNews_Final_Project
-  pod 'Firebase/Core'
+  pod 'Firebase/Core' 
   pod 'FirebaseUI/Auth'
   pod 'SwiftSoup'
 
