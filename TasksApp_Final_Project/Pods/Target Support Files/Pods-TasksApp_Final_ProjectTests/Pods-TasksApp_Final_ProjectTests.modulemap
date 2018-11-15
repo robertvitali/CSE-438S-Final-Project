@@ -1,0 +1,6 @@
+framework module Pods_TasksApp_Final_ProjectTests {
+  umbrella header "Pods-TasksApp_Final_ProjectTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
