@@ -18,19 +18,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OoS-Fy-qYC" customClass="GIDSignInButton">
-                                <rect key="frame" x="67" y="237" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Everything Today" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0P7-fD-3Pj">
+                                <rect key="frame" x="23" y="81" width="329" height="54"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="45"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="One simple sign in will get you your calendar, reminders, weather, news and much more to help you throughout your day." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="J6E-dR-eUK">
+                                <rect key="frame" x="67" y="143" width="240" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="WTS-VZ-0Jf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="5xl-K6-tSc">
+                                <rect key="frame" x="177" y="333.5" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OoS-Fy-qYC" customClass="GIDSignInButton">
+                                <rect key="frame" x="67" y="355" width="240" height="128"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="J6E-dR-eUK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1Ag-Il-u5S"/>
+                            <constraint firstItem="0P7-fD-3Pj" firstAttribute="centerX" secondItem="J6E-dR-eUK" secondAttribute="centerX" id="2tE-z5-kJy"/>
+                            <constraint firstItem="J6E-dR-eUK" firstAttribute="top" secondItem="0P7-fD-3Pj" secondAttribute="bottom" constant="8" symbolic="YES" id="3ZI-1J-BeF"/>
+                            <constraint firstItem="0P7-fD-3Pj" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="61" id="Ap3-wZ-hcB"/>
+                            <constraint firstItem="5xl-K6-tSc" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="EBS-o9-fzw"/>
+                            <constraint firstItem="5xl-K6-tSc" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ViI-6d-Sr8"/>
+                            <constraint firstItem="OoS-Fy-qYC" firstAttribute="top" secondItem="J6E-dR-eUK" secondAttribute="bottom" constant="84" id="Y5H-d1-gjK"/>
+                            <constraint firstItem="J6E-dR-eUK" firstAttribute="leading" secondItem="OoS-Fy-qYC" secondAttribute="leading" id="dFE-zN-y4b"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="OoS-Fy-qYC" secondAttribute="bottom" constant="184" id="fDP-nb-ppS"/>
+                            <constraint firstItem="J6E-dR-eUK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="67" id="mgM-Al-cDO"/>
+                            <constraint firstItem="J6E-dR-eUK" firstAttribute="trailing" secondItem="OoS-Fy-qYC" secondAttribute="trailing" id="wEV-nU-imE"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="signInButton" destination="OoS-Fy-qYC" id="lve-8n-gpe"/>
+                        <outlet property="spinner" destination="5xl-K6-tSc" id="i9b-Tv-MpY"/>
+                        <outlet property="textParagraph" destination="J6E-dR-eUK" id="XoK-eb-JQY"/>
+                        <outlet property="titleLabel" destination="0P7-fD-3Pj" id="i9O-MB-OBS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="823" y="501"/>
+            <point key="canvasLocation" x="821.60000000000002" y="500.59970014992507"/>
         </scene>
         <!--Item-->
         <scene sceneID="u7o-5Z-JDY">
@@ -99,7 +135,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="Coh-BJ-Raj">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="4f0-en-tHp" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="Tab" automaticallyAdjustsScrollViewInsets="NO" id="4f0-en-tHp" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="UUL-X3-ZWe">
                         <autoresizingMask key="autoresizingMask"/>

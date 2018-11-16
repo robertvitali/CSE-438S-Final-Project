@@ -12,12 +12,36 @@ import Firebase
 
 class SignInViewController: UIViewController, GIDSignInUIDelegate {
     
-
+    @IBOutlet var spinner: UIActivityIndicatorView!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var textParagraph: UITextView!
+    @IBOutlet var signInButton: GIDSignInButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        spinner.isHidden = false
+        spinner.startAnimating()
+        titleLabel.isHidden = true
+        textParagraph.isHidden = true
+        signInButton.isHidden = true
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().signIn()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.loadFunction()
+        }
         // Do any additional setup after loading the view.
+    }
+    
+    func loadFunction(){
+        DispatchQueue.global().async{
+            DispatchQueue.main.async {
+                self.spinner.stopAnimating()
+                self.spinner.isHidden = true
+                self.titleLabel.isHidden = false
+                self.textParagraph.isHidden = false
+                self.signInButton.isHidden = false
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,15 +49,4 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

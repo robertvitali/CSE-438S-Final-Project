@@ -26,9 +26,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             if let error = error {
                 // ...
                 print(error.localizedDescription)
+                print("NOT SIGNED IN")
                 return
             }
             print("SIGNED IN")
+            
+            let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let homePage = mainStoryboard.instantiateViewController(withIdentifier: "Tab") as! UITabBarController
+            self.window?.rootViewController = homePage
+            
+            
+            /*
+            let navigationController = self.window?.rootViewController as? UITabBarController
+            let newVC = UIViewController(nibName: "Tab", bundle: nil)
+            self.present(newVC, animated: true, completion: nil)*/
         }
     }
     
@@ -48,6 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
+        
+       
         // Override point for customization after application launch.
         return true
     }
