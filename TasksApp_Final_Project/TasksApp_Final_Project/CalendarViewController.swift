@@ -5,11 +5,19 @@
 //  Created by Robert on 11/15/18.
 //  Copyright © 2018 Robert Vitali. All rights reserved.
 //
-
+import Foundation
 import UIKit
 import EventKit
 
-class CalendarViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
+class CalendarViewController: UIViewController{
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        <#code#>
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        <#code#>
+//    }
+//
 
     var eventStore:EKEventStore!
     
