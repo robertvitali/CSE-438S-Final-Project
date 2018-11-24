@@ -121,9 +121,6 @@
                         <viewLayoutGuide key="safeArea" id="BAe-6w-zUo"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="Itm-Io-iYH"/>
-                    <connections>
-                        <outlet property="taskTable" destination="lGI-yi-ylG" id="jwb-8f-8vb"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T98-s2-IO0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

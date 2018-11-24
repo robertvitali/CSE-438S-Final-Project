@@ -13,19 +13,19 @@ import FirebaseAuth
 class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var todayTableView: UITableView!
-    var eventStore:EKEventStore!
-    var events:[EKEvent] = []
+    var eventStore:EKEventStore = EKEventStore.init()
+    var eventList:[EKEvent] = []
     
     func fetchEvents(){
     let now = Date()
     let calendar = Calendar.current
     var dateComponents = DateComponents.init()
-    dateComponents.day = 60
+    dateComponents.day = 2
     let futureDate = calendar.date(byAdding: dateComponents, to: now)
     let eventsPredicate = self.eventStore.predicateForEvents(withStart: now, end: futureDate!, calendars: nil)
     let events = self.eventStore.events(matching: eventsPredicate)
-    
     for event in events{
+    eventList.append(event)
     print("\(event.title)")
     }
     }
@@ -37,12 +37,12 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return events.count
+    return eventList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-    cell.textLabel!.text = events[indexPath.row].title
+    cell.textLabel!.text = eventList[indexPath.row].title
     return cell
     }
     
@@ -51,12 +51,15 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     eventStore.requestAccess(to: .event, completion: {(granted,error) in
     if granted{
     print("granted \(granted)")
+    self.fetchEvents()
     }
     else{
+    print("fail to access calendar")
     print("error \(String(describing: error))")
     }
     })
     // Do any additional setup after loading the view.
+    setupTableView()
     }
 
 

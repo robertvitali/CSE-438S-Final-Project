@@ -17,37 +17,11 @@ class CalendarViewController: UIViewController{
 //    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        <#code#>
 //    }
-//
 
-    var eventStore:EKEventStore!
-    
-    
-    func fetchEvents(){
-        let now = Date()
-        let calendar = Calendar.current
-        var dateComponents = DateComponents.init()
-        dateComponents.day = 60
-        let futureDate = calendar.date(byAdding: dateComponents, to: now)
-        let eventsPredicate = self.eventStore.predicateForEvents(withStart: now, end: futureDate!, calendars: nil)
-        let events = self.eventStore.events(matching: eventsPredicate)
-        
-        for event in events{
-            print("\(event.title)")
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 //request access to the calendar(s)
-        eventStore.requestAccess(to: .event, completion: {(granted,error) in
-            if granted{
-                print("granted \(granted)")
-            }
-            else{
-                print("error \(String(describing: error))")
-            }
-        })
-        
         // Do any additional setup after loading the view.
     }
 
