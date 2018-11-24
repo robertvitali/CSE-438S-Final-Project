@@ -7,18 +7,58 @@
 //
 
 import UIKit
+import EventKit
 import FirebaseAuth
 
-class TodayViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-        
+class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-        // Do any additional setup after loading the view.
+    @IBOutlet weak var todayTableView: UITableView!
+    var eventStore:EKEventStore!
+    var events:[EKEvent] = []
+    
+    func fetchEvents(){
+    let now = Date()
+    let calendar = Calendar.current
+    var dateComponents = DateComponents.init()
+    dateComponents.day = 60
+    let futureDate = calendar.date(byAdding: dateComponents, to: now)
+    let eventsPredicate = self.eventStore.predicateForEvents(withStart: now, end: futureDate!, calendars: nil)
+    let events = self.eventStore.events(matching: eventsPredicate)
+    
+    for event in events{
+    print("\(event.title)")
     }
+    }
+    
+    func setupTableView(){
+    todayTableView.dataSource = self
+    todayTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return events.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+    cell.textLabel!.text = events[indexPath.row].title
+    return cell
+    }
+    
+    override func viewDidLoad() {
+    super.viewDidLoad()
+    eventStore.requestAccess(to: .event, completion: {(granted,error) in
+    if granted{
+    print("granted \(granted)")
+    }
+    else{
+    print("error \(String(describing: error))")
+    }
+    })
+    // Do any additional setup after loading the view.
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
