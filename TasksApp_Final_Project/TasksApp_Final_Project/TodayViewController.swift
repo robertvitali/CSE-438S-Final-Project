@@ -20,14 +20,15 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     let now = Date()
     let calendar = Calendar.current
     var dateComponents = DateComponents.init()
-    dateComponents.day = 2
+    dateComponents.day = 60
     let futureDate = calendar.date(byAdding: dateComponents, to: now)
     let eventsPredicate = self.eventStore.predicateForEvents(withStart: now, end: futureDate!, calendars: nil)
     let events = self.eventStore.events(matching: eventsPredicate)
     for event in events{
     eventList.append(event)
-    print("\(event.title)")
+        print("\(String(describing: event.title))")
     }
+        todayTableView.reloadData()
     }
     
     func setupTableView(){
