@@ -21,10 +21,6 @@
 		E1939E9E219E27C4003B3702 /* TasksApp_Final_ProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1939E9D219E27C4003B3702 /* TasksApp_Final_ProjectUITests.swift */; };
 		E1939EAF219E27E9003B3702 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1939EAC219E27E8003B3702 /* Main.storyboard */; };
 		E194846F219E297F004044C3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E194846E219E297F004044C3 /* GoogleService-Info.plist */; };
-		E1ACB2EB21AB950E00F24435 /* icons8-checklist-filled-50.png in Resources */ = {isa = PBXBuildFile; fileRef = E1ACB2E721AB950E00F24435 /* icons8-checklist-filled-50.png */; };
-		E1ACB2EC21AB950E00F24435 /* icons8-star-filled-50.png in Resources */ = {isa = PBXBuildFile; fileRef = E1ACB2E821AB950E00F24435 /* icons8-star-filled-50.png */; };
-		E1ACB2ED21AB950E00F24435 /* icons8-calendar-filled-50.png in Resources */ = {isa = PBXBuildFile; fileRef = E1ACB2E921AB950E00F24435 /* icons8-calendar-filled-50.png */; };
-		E1ACB2EE21AB950E00F24435 /* icons8-settings-26.png in Resources */ = {isa = PBXBuildFile; fileRef = E1ACB2EA21AB950E00F24435 /* icons8-settings-26.png */; };
 		E1ACB32C21AB9FC400F24435 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1ACB32B21AB9FC400F24435 /* Date.swift */; };
 		E1DD1740218DF17466596217 /* Pods_TasksApp_Final_ProjectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8E12277D1F5DD285AE51C8 /* Pods_TasksApp_Final_ProjectUITests.framework */; };
 /* End PBXBuildFile section */
@@ -71,10 +67,6 @@
 		E1939E9F219E27C4003B3702 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1939EAC219E27E8003B3702 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E194846E219E297F004044C3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		E1ACB2E721AB950E00F24435 /* icons8-checklist-filled-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-checklist-filled-50.png"; path = "../../../../../Downloads/icons8-checklist-filled-50.png"; sourceTree = "<group>"; };
-		E1ACB2E821AB950E00F24435 /* icons8-star-filled-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-star-filled-50.png"; path = "../../../../../Downloads/icons8-star-filled-50.png"; sourceTree = "<group>"; };
-		E1ACB2E921AB950E00F24435 /* icons8-calendar-filled-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-calendar-filled-50.png"; path = "../../../../../Downloads/icons8-calendar-filled-50.png"; sourceTree = "<group>"; };
-		E1ACB2EA21AB950E00F24435 /* icons8-settings-26.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-settings-26.png"; path = "../../../../../Downloads/icons8-settings-26.png"; sourceTree = "<group>"; };
 		E1ACB32B21AB9FC400F24435 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		E3AB839EEF64AB9840E5881C /* Pods-TasksApp_Final_ProjectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_ProjectUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_ProjectUITests/Pods-TasksApp_Final_ProjectUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F26D5EDF3A8FEF955C0EED79 /* Pods-TasksApp_Final_ProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_ProjectTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_ProjectTests/Pods-TasksApp_Final_ProjectTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -158,10 +150,6 @@
 			isa = PBXGroup;
 			children = (
 				E1939EAC219E27E8003B3702 /* Main.storyboard */,
-				E1ACB2E921AB950E00F24435 /* icons8-calendar-filled-50.png */,
-				E1ACB2E721AB950E00F24435 /* icons8-checklist-filled-50.png */,
-				E1ACB2EA21AB950E00F24435 /* icons8-settings-26.png */,
-				E1ACB2E821AB950E00F24435 /* icons8-star-filled-50.png */,
 				E14060BB219E34B70043E590 /* TodayViewController.swift */,
 				E1ACB32B21AB9FC400F24435 /* Date.swift */,
 				E14060BD219E34C30043E590 /* CalendarViewController.swift */,
@@ -304,13 +292,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1ACB2EE21AB950E00F24435 /* icons8-settings-26.png in Resources */,
 				E1939E88219E27C4003B3702 /* LaunchScreen.storyboard in Resources */,
-				E1ACB2EB21AB950E00F24435 /* icons8-checklist-filled-50.png in Resources */,
-				E1ACB2EC21AB950E00F24435 /* icons8-star-filled-50.png in Resources */,
 				E1939E85219E27C4003B3702 /* Assets.xcassets in Resources */,
 				E1939EAF219E27E9003B3702 /* Main.storyboard in Resources */,
-				E1ACB2ED21AB950E00F24435 /* icons8-calendar-filled-50.png in Resources */,
 				E194846F219E297F004044C3 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
