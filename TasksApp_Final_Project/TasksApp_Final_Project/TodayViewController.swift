@@ -64,20 +64,8 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let date = Date()
         let calendar = Calendar.current
-        
-        let year = calendar.component(.year, from: date)
-        let month = calendar.component(.month, from: date)
         let day = calendar.component(.day, from: date)
-        
-        let weekday = calendar.component(.weekday, from: Date())
-        
-        print(year)
-        print(month)
-        print(day)
-        
-        
-        
-        //titleBar.title = "\(month)/\(day)/\(year)"
+        titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
     }
 
 

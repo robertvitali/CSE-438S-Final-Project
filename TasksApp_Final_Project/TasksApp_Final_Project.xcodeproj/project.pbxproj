@@ -25,6 +25,7 @@
 		E1ACB2EC21AB950E00F24435 /* icons8-star-filled-50.png in Resources */ = {isa = PBXBuildFile; fileRef = E1ACB2E821AB950E00F24435 /* icons8-star-filled-50.png */; };
 		E1ACB2ED21AB950E00F24435 /* icons8-calendar-filled-50.png in Resources */ = {isa = PBXBuildFile; fileRef = E1ACB2E921AB950E00F24435 /* icons8-calendar-filled-50.png */; };
 		E1ACB2EE21AB950E00F24435 /* icons8-settings-26.png in Resources */ = {isa = PBXBuildFile; fileRef = E1ACB2EA21AB950E00F24435 /* icons8-settings-26.png */; };
+		E1ACB32C21AB9FC400F24435 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1ACB32B21AB9FC400F24435 /* Date.swift */; };
 		E1DD1740218DF17466596217 /* Pods_TasksApp_Final_ProjectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8E12277D1F5DD285AE51C8 /* Pods_TasksApp_Final_ProjectUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +75,7 @@
 		E1ACB2E821AB950E00F24435 /* icons8-star-filled-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-star-filled-50.png"; path = "../../../../../Downloads/icons8-star-filled-50.png"; sourceTree = "<group>"; };
 		E1ACB2E921AB950E00F24435 /* icons8-calendar-filled-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-calendar-filled-50.png"; path = "../../../../../Downloads/icons8-calendar-filled-50.png"; sourceTree = "<group>"; };
 		E1ACB2EA21AB950E00F24435 /* icons8-settings-26.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-settings-26.png"; path = "../../../../../Downloads/icons8-settings-26.png"; sourceTree = "<group>"; };
+		E1ACB32B21AB9FC400F24435 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		E3AB839EEF64AB9840E5881C /* Pods-TasksApp_Final_ProjectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_ProjectUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_ProjectUITests/Pods-TasksApp_Final_ProjectUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F26D5EDF3A8FEF955C0EED79 /* Pods-TasksApp_Final_ProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_ProjectTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_ProjectTests/Pods-TasksApp_Final_ProjectTests.release.xcconfig"; sourceTree = "<group>"; };
 		F41F76A7FD11C829FAAA23FE /* Pods-TasksApp_Final_Project.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_Project.release.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_Project/Pods-TasksApp_Final_Project.release.xcconfig"; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				E1ACB2EA21AB950E00F24435 /* icons8-settings-26.png */,
 				E1ACB2E821AB950E00F24435 /* icons8-star-filled-50.png */,
 				E14060BB219E34B70043E590 /* TodayViewController.swift */,
+				E1ACB32B21AB9FC400F24435 /* Date.swift */,
 				E14060BD219E34C30043E590 /* CalendarViewController.swift */,
 				E14060BF219E34CF0043E590 /* TasksViewController.swift */,
 				E14060C1219E34DB0043E590 /* ProfileViewController.swift */,
@@ -438,6 +441,7 @@
 			files = (
 				E14060C2219E34DB0043E590 /* ProfileViewController.swift in Sources */,
 				E14060BE219E34C30043E590 /* CalendarViewController.swift in Sources */,
+				E1ACB32C21AB9FC400F24435 /* Date.swift in Sources */,
 				E12CCE52219E2E90008E3D37 /* SignInViewController.swift in Sources */,
 				E14060C0219E34CF0043E590 /* TasksViewController.swift in Sources */,
 				E1939E7E219E27C3003B3702 /* AppDelegate.swift in Sources */,
