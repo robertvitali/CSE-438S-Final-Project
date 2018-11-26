@@ -16,6 +16,10 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var todayTableView: UITableView!
     var eventStore:EKEventStore = EKEventStore.init()
     var eventList:[EKEvent] = []
+    var reminderList:[EKReminder] = []
+    var headerList:[String] = ["Event","Reminder","Task"]
+    var calendarArray:[EKCalendar] = []
+    
     
     func fetchEvents(){
         let now = Date()
@@ -32,30 +36,62 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             todayTableView.reloadData()
     }
     
+//    func fetchReminders(){
+//       // let calendar = Calendar.current
+//       // var dateComponents = DateComponents.init()
+//        self.calendarArray = self.eventStore.calendars(for: .reminder)
+//        let remindersPredicate = self.eventStore.predicateForReminders(in: calendarArray)
+//        let predicate: NSPredicate? = self.eventStore.predicateForReminders(in: nil)
+//        if let aPredicate = predicate {
+//            self.eventStore.fetchReminders(matching: aPredicate, completion: {(_ reminders: [Any]?) -> Void in
+//                for reminder: EKReminder? in reminders as? [EKReminder?] ?? [EKReminder?]() {
+//                    self.reminderList.append(reminder ?? <#default value#>)
+//                    // Do something for each reminder.
+//                }
+//            })
+//        }
+//    }
+
+    
+    
+    
+    
+    
     func setupTableView(){
         todayTableView.dataSource = self
         todayTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
+
     
-     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.backgroundColor = UIColor.lightGray
-        let label = UILabel()
-        label.text = "Header"
-        label.frame =  CGRect(x:45,y:5,width:100,height:35)
-        view.addSubview(label)
-        return view
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return headerList[section]
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 45
-    }
     
+    
+//     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let view = UIView()
+//        view.backgroundColor = UIColor.lightGray
+//        let label = UILabel()
+//        label.text = "Header"
+//        label.frame =  CGRect(x:45,y:5,width:100,height:35)
+//        view.addSubview(label)
+//        return view
+//    }
+//
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 45
+//    }
+//
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return eventList.count
+        }
+ 
         return eventList.count
     }
     
