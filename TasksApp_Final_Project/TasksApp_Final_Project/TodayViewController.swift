@@ -36,21 +36,25 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             todayTableView.reloadData()
     }
     
-//    func fetchReminders(){
-//       // let calendar = Calendar.current
-//       // var dateComponents = DateComponents.init()
-//        self.calendarArray = self.eventStore.calendars(for: .reminder)
-//        let remindersPredicate = self.eventStore.predicateForReminders(in: calendarArray)
-//        let predicate: NSPredicate? = self.eventStore.predicateForReminders(in: nil)
-//        if let aPredicate = predicate {
-//            self.eventStore.fetchReminders(matching: aPredicate, completion: {(_ reminders: [Any]?) -> Void in
-//                for reminder: EKReminder? in reminders as? [EKReminder?] ?? [EKReminder?]() {
-//                    self.reminderList.append(reminder ?? <#default value#>)
-//                    // Do something for each reminder.
-//                }
-//            })
-//        }
-//    }
+    func fetchReminder(){
+        self.eventStore.requestAccess(to: .reminder,  completion:{(granted,error) in
+            if granted{
+                let predicate = self.eventStore.predicateForReminders(in: nil)
+                    self.eventStore.fetchReminders(matching: predicate, completion: {
+                        (reminders: [EKReminder]?) -> Void in
+                            for reminder in reminders! {
+                            self.reminderList.append(reminder)
+                                print("granted \(granted)")
+                            }
+                })
+            }
+            else{
+            print("fail to access reminder")
+            print("error \(String(describing: error))")
+            }
+        })
+        
+    }
 
     
     
@@ -91,13 +95,21 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         if section == 0 {
             return eventList.count
         }
- 
-        return eventList.count
+        if section == 1{
+            return reminderList.count
+        }
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        if indexPath.section == 0{
         cell.textLabel!.text = eventList[indexPath.row].title
+        }
+        if indexPath.section == 1{
+            cell.textLabel!.text = reminderList[indexPath.row].title
+        }
         return cell
     }
     
