@@ -31,9 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             }
             print("SIGNED IN")
             
+            /*
             let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let homePage = mainStoryboard.instantiateViewController(withIdentifier: "Tab") as! UITabBarController
-            self.window?.rootViewController = homePage
+            self.window?.rootViewController = homePage*/
             
             
             /*
