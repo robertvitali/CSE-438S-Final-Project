@@ -105,10 +105,10 @@
             </objects>
             <point key="canvasLocation" x="509.60000000000002" y="137.18140929535232"/>
         </scene>
-        <!--News View Controller-->
+        <!--Today View Controller-->
         <scene sceneID="QTt-RW-Hdh">
             <objects>
-                <viewController storyboardIdentifier="News" id="Ew4-s5-Gss" customClass="NewsViewController" customModule="WUNews_Final_Project" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="News" id="Ew4-s5-Gss" customClass="TodayViewController" customModule="WUNews_Final_Project" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VKU-9x-jWI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -121,7 +121,7 @@
             </objects>
             <point key="canvasLocation" x="1912.8" y="877.51124437781118"/>
         </scene>
-        <!--Item-->
+        <!--Calendar-->
         <scene sceneID="q7H-g7-RhH">
             <objects>
                 <viewController id="IcQ-0E-qRI" customClass="SearchViewController" customModule="WUNews_Final_Project" customModuleProvider="target" sceneMemberID="viewController">
@@ -131,13 +131,29 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Daq-iy-OE2"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="TQ1-uC-EeN"/>
+                    <tabBarItem key="tabBarItem" title="Calendar" image="icons8-calendar-filled-50.png" id="TQ1-uC-EeN"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iAl-pQ-RTl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1201" y="1567"/>
+            <point key="canvasLocation" x="510" y="1595"/>
         </scene>
-        <!--Item-->
+        <!--Settings-->
+        <scene sceneID="Pij-k5-oYc">
+            <objects>
+                <viewController id="f7F-4F-u2z" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IQD-U2-kuo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="IuH-z2-R8L"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Settings" image="icons8-settings-26.png" id="tj4-c5-7fV"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oAm-86-86B" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1940" y="1594"/>
+        </scene>
+        <!--Tasks-->
         <scene sceneID="TPU-VN-D4B">
             <objects>
                 <viewController id="dhk-mL-JKO" customClass="ProfileViewController" customModule="WUNews_Final_Project" customModuleProvider="target" sceneMemberID="viewController">
@@ -147,11 +163,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="m5u-bq-Utv"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="s7B-O7-IEt"/>
+                    <tabBarItem key="tabBarItem" title="Tasks" image="icons8-checklist-filled-50.png" id="s7B-O7-IEt"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I1j-PY-Vko" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1201" y="2274"/>
+            <point key="canvasLocation" x="1201" y="1594"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="rj6-gZ-4Gv">
@@ -256,17 +272,18 @@
                         <segue destination="uOt-30-RRz" kind="relationship" relationship="viewControllers" id="V8v-Ql-rgI"/>
                         <segue destination="IcQ-0E-qRI" kind="relationship" relationship="viewControllers" id="WL4-KM-W34"/>
                         <segue destination="dhk-mL-JKO" kind="relationship" relationship="viewControllers" id="N0F-Id-1KQ"/>
+                        <segue destination="f7F-4F-u2z" kind="relationship" relationship="viewControllers" id="iRN-vp-q5q"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nve-RH-8xl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="510" y="878"/>
         </scene>
-        <!--Item-->
+        <!--Today-->
         <scene sceneID="m1p-gi-euh">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uOt-30-RRz" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="JEe-f7-1Dg"/>
+                    <tabBarItem key="tabBarItem" title="Today" image="icons8-star-filled-50.png" id="JEe-f7-1Dg"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="QWD-Ow-B5X">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -282,4 +299,10 @@
             <point key="canvasLocation" x="1201" y="878"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icons8-calendar-filled-50.png" width="25" height="25"/>
+        <image name="icons8-checklist-filled-50.png" width="25" height="25"/>
+        <image name="icons8-settings-26.png" width="26" height="26"/>
+        <image name="icons8-star-filled-50.png" width="25" height="25"/>
+    </resources>
 </document>

@@ -1,18 +1,20 @@
 //
-//  SearchViewController.swift
+//  TodayViewController.swift
 //  WUNews_Final_Project
 //
-//  Created by Robert on 11/11/18.
+//  Created by Robert on 11/25/18.
 //  Copyright © 2018 Robert Vitali. All rights reserved.
 //
 
 import UIKit
 
-class SearchViewController: UIViewController {
+class TodayViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let weekday = Calendar.current.component(.weekday, from: Date())
+        print(weekday)
+        print("WEEKDAY")
         // Do any additional setup after loading the view.
     }
 
