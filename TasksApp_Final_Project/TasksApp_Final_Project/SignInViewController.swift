@@ -29,9 +29,6 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.loadFunction()
         }
-        let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let homePage = mainStoryboard.instantiateViewController(withIdentifier: "Tab") as! UITabBarController
-        self.window?.rootViewController = homePage
         // Do any additional setup after loading the view.
     }
     
