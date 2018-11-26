@@ -37,6 +37,21 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         todayTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
+     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = UIColor.lightGray
+        let label = UILabel()
+        label.text = "Header"
+        label.frame =  CGRect(x:45,y:5,width:100,height:35)
+        view.addSubview(label)
+        return view
+    }
+    
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return eventList.count
     }
