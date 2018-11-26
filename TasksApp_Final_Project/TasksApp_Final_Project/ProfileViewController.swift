@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import GoogleSignIn
+import Firebase
 
 class ProfileViewController: UIViewController {
 
@@ -21,7 +23,16 @@ class ProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    @IBAction func signOutClicked(_ sender: Any) {
+        GIDSignIn.sharedInstance().signOut()
+        print("SIGN OUT")
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "SignIn") as! SignInViewController
+        self.present(nextViewController, animated:true, completion:nil)
+    }
+    
+    
     /*
     // MARK: - Navigation
 
