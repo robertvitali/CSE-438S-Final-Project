@@ -8,8 +8,8 @@ target 'TasksApp_Final_Project' do
   # Pods for TasksApp_Final_Project
   	pod 'Firebase/Core' 
   	pod 'FirebaseUI/Auth'
-	pod 'GoogleSignIn'
-	pod 'Firebase/Database'
+    pod 'GoogleSignIn'
+    pod 'Firebase/Database'
 
 
   target 'TasksApp_Final_ProjectTests' do
