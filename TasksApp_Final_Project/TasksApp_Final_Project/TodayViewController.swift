@@ -47,6 +47,9 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         return view
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 45
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
