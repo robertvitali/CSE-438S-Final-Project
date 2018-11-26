@@ -14,10 +14,12 @@ var list = ["Test 1", "Test 2", "Test 3", "Test 4" ]
 class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     @IBOutlet var taskTable: UITableView!
+    @IBOutlet var navigationBar: UINavigationItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        navigationBar.title = "Lists"
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,6 +44,13 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             list.remove(at: indexPath.row)
             taskTable.reloadData()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let destination = storyboard.instantiateViewController(withIdentifier: "Assignments VC") as! AssignmentsViewController
+        destination.className = list[indexPath.row]
+        navigationController?.pushViewController(destination, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {

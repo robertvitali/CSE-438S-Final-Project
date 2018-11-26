@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7B5BD9DC93AEE9332A5E9738 /* Pods_TasksApp_Final_ProjectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A1368E11420BC4EDE475B8 /* Pods_TasksApp_Final_ProjectTests.framework */; };
 		A033D3092CC38D8CFD44E058 /* Pods_TasksApp_Final_Project.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189424FD61D4DD47DF206BE9 /* Pods_TasksApp_Final_Project.framework */; };
+		E127E4D521ACAF9000C5085C /* AssignmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E127E4D421ACAF9000C5085C /* AssignmentsViewController.swift */; };
 		E12CCE52219E2E90008E3D37 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12CCE51219E2E90008E3D37 /* SignInViewController.swift */; };
 		E14060BC219E34B70043E590 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14060BB219E34B70043E590 /* TodayViewController.swift */; };
 		E14060BE219E34C30043E590 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14060BD219E34C30043E590 /* CalendarViewController.swift */; };
@@ -50,6 +51,7 @@
 		8109AF5EF89054D2E0FCB449 /* Pods-TasksApp_Final_ProjectUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_ProjectUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_ProjectUITests/Pods-TasksApp_Final_ProjectUITests.release.xcconfig"; sourceTree = "<group>"; };
 		CA8E12277D1F5DD285AE51C8 /* Pods_TasksApp_Final_ProjectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TasksApp_Final_ProjectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD065BDA632137E3175773E7 /* Pods-TasksApp_Final_ProjectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_ProjectTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_ProjectTests/Pods-TasksApp_Final_ProjectTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E127E4D421ACAF9000C5085C /* AssignmentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentsViewController.swift; sourceTree = "<group>"; };
 		E12CCE51219E2E90008E3D37 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		E14060BB219E34B70043E590 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		E14060BD219E34C30043E590 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				E1939EAC219E27E8003B3702 /* Main.storyboard */,
+				E127E4D421ACAF9000C5085C /* AssignmentsViewController.swift */,
 				E1C4B13421AC875B00EDDA5D /* AddFolderViewController.swift */,
 				E14060BB219E34B70043E590 /* TodayViewController.swift */,
 				E1ACB32B21AB9FC400F24435 /* Date.swift */,
@@ -428,6 +431,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E127E4D521ACAF9000C5085C /* AssignmentsViewController.swift in Sources */,
 				E14060C2219E34DB0043E590 /* ProfileViewController.swift in Sources */,
 				E14060BE219E34C30043E590 /* CalendarViewController.swift in Sources */,
 				E1ACB32C21AB9FC400F24435 /* Date.swift in Sources */,
