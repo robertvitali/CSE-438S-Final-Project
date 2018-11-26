@@ -9,9 +9,12 @@ import Foundation
 import UIKit
 import EventKit
 
-class TasksViewController: UIViewController{
-    
+var list = ["Test 1", "Test 2", "Test 3", "Test 4" ]
 
+class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+    
+    @IBOutlet var taskTable: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -21,6 +24,28 @@ class TasksViewController: UIViewController{
         super.didReceiveMemoryWarning()
         
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return list.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        cell.textLabel?.text = list[indexPath.row]
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete){
+            list.remove(at: indexPath.row)
+            taskTable.reloadData()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        taskTable.reloadData()
     }
     
 }
