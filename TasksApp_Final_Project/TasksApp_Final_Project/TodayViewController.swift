@@ -38,28 +38,32 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func fetchReminder(){
         self.eventStore.requestAccess(to: .reminder,  completion:{(granted,error) in
+           
             if granted{
-                let predicate = self.eventStore.predicateForReminders(in: nil)
-                    self.eventStore.fetchReminders(matching: predicate, completion: {
+                let now = Date()
+                let calendar = Calendar.current
+                var dateComponents = DateComponents.init()
+                dateComponents.day = 60
+                let futureDate = calendar.date(byAdding: dateComponents, to: now)
+                let reminderPredicate = self.eventStore.predicateForIncompleteReminders(withDueDateStarting: now, ending: futureDate!, calendars: nil)
+                    self.eventStore.fetchReminders(matching: reminderPredicate, completion: {
                         (reminders: [EKReminder]?) -> Void in
                             for reminder in reminders! {
                             self.reminderList.append(reminder)
                                 print("granted \(granted)")
                             }
-                })
+               })
+                self.todayTableView.reloadData()
             }
             else{
             print("fail to access reminder")
             print("error \(String(describing: error))")
             }
-        })
-        
-    }
+    })
+}
+    
+    
 
-    
-    
-    
-    
     
     func setupTableView(){
         todayTableView.dataSource = self
@@ -126,6 +130,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         })
         // Do any additional setup after loading the view.
+        fetchReminder()
         setupTableView()
         
         let date = Date()
