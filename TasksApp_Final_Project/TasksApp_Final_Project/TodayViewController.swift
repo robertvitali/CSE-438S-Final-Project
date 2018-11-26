@@ -62,10 +62,16 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Do any additional setup after loading the view.
         setupTableView()
         
+        /*
         let date = Date()
         let calendar = Calendar.current
         let day = calendar.component(.day, from: date)
-        titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
+        let weekday = date.weekDay()
+        let month = date.monthAsString()
+        let ending = date.dayEnding()
+        print(date.weekDay())
+        print(date.monthAsString())
+        print(date.dayEnding())*/
     }
 
 
