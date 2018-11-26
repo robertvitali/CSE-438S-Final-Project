@@ -33,7 +33,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         eventList.append(event)
             print("\(String(describing: event.title))")
         }
-            todayTableView.reloadData()
+           // todayTableView.reloadData()
     }
     
     func fetchReminder(){
@@ -53,7 +53,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                                 print("granted \(granted)")
                             }
                })
-                self.todayTableView.reloadData()
+              //  self.todayTableView.reloadData()
             }
             else{
             print("fail to access reminder")
@@ -122,7 +122,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         eventStore.requestAccess(to: .event, completion: {(granted,error) in
         if granted{
         print("granted \(granted)")
-        self.fetchEvents()
+            self.fetchEvents()
         }
         else{
         print("fail to access calendar")
@@ -147,6 +147,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        fetchEvents()
+        fetchReminder()
+        todayTableView.reloadData()
+    }
 
     /*
     // MARK: - Navigation
