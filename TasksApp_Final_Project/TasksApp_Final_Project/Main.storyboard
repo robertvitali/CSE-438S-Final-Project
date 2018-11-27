@@ -269,10 +269,10 @@
             </objects>
             <point key="canvasLocation" x="4021.5999999999999" y="3514.9925037481262"/>
         </scene>
-        <!--View Controller-->
+        <!--Add Task View Controller-->
         <scene sceneID="zC2-Sv-fve">
             <objects>
-                <viewController id="nd9-iQ-QL8" sceneMemberID="viewController">
+                <viewController id="nd9-iQ-QL8" customClass="AddTaskViewController" customModule="TasksApp_Final_Project" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ovS-sa-dhs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -316,6 +316,9 @@
                                     <constraint firstAttribute="height" constant="30" id="qOu-Mz-Muj"/>
                                 </constraints>
                                 <state key="normal" title="Add Task"/>
+                                <connections>
+                                    <action selector="createTaskClicked:" destination="nd9-iQ-QL8" eventType="touchUpInside" id="23Z-dB-RVm"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tX7-KW-1Y3">
                                 <rect key="frame" x="95" y="360" width="185" height="30"/>
@@ -348,6 +351,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qrJ-3i-gXx"/>
                     </view>
+                    <connections>
+                        <outlet property="taskDateField" destination="tX7-KW-1Y3" id="Pfq-kT-JRl"/>
+                        <outlet property="taskNameField" destination="QHg-el-x2E" id="lSK-Uo-bOg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TRl-7N-6pu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

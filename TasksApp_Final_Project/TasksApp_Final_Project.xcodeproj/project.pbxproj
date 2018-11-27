@@ -15,6 +15,7 @@
 		E14060BE219E34C30043E590 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14060BD219E34C30043E590 /* CalendarViewController.swift */; };
 		E14060C0219E34CF0043E590 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14060BF219E34CF0043E590 /* TasksViewController.swift */; };
 		E14060C2219E34DB0043E590 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14060C1219E34DB0043E590 /* ProfileViewController.swift */; };
+		E18B47EC21ACCCB500B2E40A /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B47EB21ACCCB500B2E40A /* AddTaskViewController.swift */; };
 		E1939E7E219E27C3003B3702 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1939E7D219E27C3003B3702 /* AppDelegate.swift */; };
 		E1939E85219E27C4003B3702 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1939E84219E27C4003B3702 /* Assets.xcassets */; };
 		E1939E88219E27C4003B3702 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1939E86219E27C4003B3702 /* LaunchScreen.storyboard */; };
@@ -57,6 +58,7 @@
 		E14060BD219E34C30043E590 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		E14060BF219E34CF0043E590 /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
 		E14060C1219E34DB0043E590 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		E18B47EB21ACCCB500B2E40A /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 		E1939E7A219E27C3003B3702 /* TasksApp_Final_Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TasksApp_Final_Project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1939E7D219E27C3003B3702 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1939E84219E27C4003B3702 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				E1939EAC219E27E8003B3702 /* Main.storyboard */,
+				E18B47EB21ACCCB500B2E40A /* AddTaskViewController.swift */,
 				E127E4D421ACAF9000C5085C /* AssignmentsViewController.swift */,
 				E1C4B13421AC875B00EDDA5D /* AddFolderViewController.swift */,
 				E14060BB219E34B70043E590 /* TodayViewController.swift */,
@@ -440,6 +443,7 @@
 				E14060C0219E34CF0043E590 /* TasksViewController.swift in Sources */,
 				E1939E7E219E27C3003B3702 /* AppDelegate.swift in Sources */,
 				E14060BC219E34B70043E590 /* TodayViewController.swift in Sources */,
+				E18B47EC21ACCCB500B2E40A /* AddTaskViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
