@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import EventKit
+import CoreData
 
 var list = ["Test 1", "Test 2", "Test 3", "Test 4" ]
 
@@ -15,6 +16,9 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     @IBOutlet var taskTable: UITableView!
     @IBOutlet var navigationBar: UINavigationItem!
+    
+    //properties of core data
+    //var resultsController: NSFetch
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,8 +57,28 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         navigationController?.pushViewController(destination, animated: true)
     }
     
+    //this function reloads the data when the scene is reloaded
     override func viewDidAppear(_ animated: Bool) {
         taskTable.reloadData()
+    }
+    
+    //these functions will create swipe capabilities in the cells
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "Delete"){ (action, view, completion) in
+            //todo
+            
+            completion(true)
+        }
+        let edit = UIContextualAction(style: .destructive, title: "Edit"){ (action, view, completion) in
+            //todo
+            completion(true)
+        }
+        delete.image = UIImage(named: "trash1")
+        delete.backgroundColor = .red
+        edit.image = UIImage(named: "edit")
+        edit.backgroundColor = .orange
+        return UISwipeActionsConfiguration(actions: [delete, edit])
     }
     
 }
