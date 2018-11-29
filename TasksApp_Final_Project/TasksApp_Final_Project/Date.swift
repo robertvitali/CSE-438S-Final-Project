@@ -53,4 +53,12 @@ extension Date {
         }
         
     }
+    
+    func time(date: Date) -> String{
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        let minute = calendar.component(.minute, from: date)
+        let second = calendar.component(.second, from: date)
+        return "\(hour):\(minute):\(second)"
+}
 }
