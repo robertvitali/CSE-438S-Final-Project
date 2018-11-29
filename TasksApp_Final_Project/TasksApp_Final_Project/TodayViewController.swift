@@ -22,6 +22,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     func fetchEvents(){
+            eventList = []
         let now = Date()
         let calendar = Calendar.current
         var dateComponents = DateComponents.init()
@@ -37,9 +38,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func fetchReminder(){
-        self.eventStore.requestAccess(to: .reminder,  completion:{(granted,error) in
-           
-            if granted{
+                reminderList = []
                 let now = Date()
                 let calendar = Calendar.current
                 var dateComponents = DateComponents.init()
@@ -50,20 +49,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                         (reminders: [EKReminder]?) -> Void in
                             for reminder in reminders! {
                             self.reminderList.append(reminder)
-                                print("granted \(granted)")
+                              
                             }
                })
               //  self.todayTableView.reloadData()
-            }
-            else{
-            print("fail to access reminder")
-            print("error \(String(describing: error))")
-            }
-    })
-}
-    
-    
-
+    }
     
     func setupTableView(){
         todayTableView.dataSource = self
@@ -74,9 +64,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return headerList[section]
     }
-    
-    
-    
 //     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 //        let view = UIView()
 //        view.backgroundColor = UIColor.lightGray
@@ -129,7 +116,19 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         print("error \(String(describing: error))")
         }
         })
+        
+        eventStore.requestAccess(to: .reminder, completion:{(granted,error) in
+            if granted{
+                    self.fetchReminder()
+                    print("granted \(granted)")
+                    }
+            else{
+                print("fail to access reminder")
+                print("error \(String(describing: error))")
+            }
+        })
         // Do any additional setup after loading the view.
+        fetchEvents()
         fetchReminder()
         setupTableView()
         
@@ -148,6 +147,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        print("enter viewDidAppear")
         fetchEvents()
         fetchReminder()
         todayTableView.reloadData()
