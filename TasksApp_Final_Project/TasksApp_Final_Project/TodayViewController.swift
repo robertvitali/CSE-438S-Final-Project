@@ -10,7 +10,7 @@ import UIKit
 import EventKit
 import FirebaseAuth
 
-class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
     
     @IBOutlet var titleBar: UINavigationItem!
     @IBOutlet weak var todayTableView: UITableView!
@@ -60,7 +60,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             print("error \(String(describing: error))")
             }
     })
-}
+    }
     
     
 
@@ -129,9 +129,13 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         print("error \(String(describing: error))")
         }
         })
+        
         // Do any additional setup after loading the view.
         fetchReminder()
         setupTableView()
+        
+        setupNewsCollectionView()
+        fetchDataForNewsCollectionView()
         
         let date = Date()
         let calendar = Calendar.current
@@ -140,7 +144,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
     }
-
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -153,14 +156,50 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         todayTableView.reloadData()
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+   //**********News**********//
+    var newsData: NewsAPIResults? = nil
+    var currentIndex = 0
+    @IBOutlet weak var newsCollectionView: UICollectionView!
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
     }
-    */
-
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = newsCollectionView.dequeueReusableCell(withReuseIdentifier: "ncell", for: indexPath) as! NewsCollectionViewCell
+        
+        guard let results = newsData else {return cell}
+        let story = results.articles[indexPath.row]
+        cell.displayArticle(title: story.title, description: story.description)
+        return cell
+    }
+    
+    func setupNewsCollectionView() {
+        newsCollectionView.dataSource = self
+        newsCollectionView.delegate = self
+        newsCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+    }
+    
+    func fetchDataForNewsCollectionView() {
+        guard let url = URL(string: "https://newsapi.org/v2/top-headlines?country=us&apiKey=1bb0874ef4e84c82a8a341a27670b113") else {
+            print("URL is nil")
+            return
+        }
+        var tempData: NewsAPIResults? = nil
+        guard let data = try? Data(contentsOf: url) else {return}
+        tempData = try! JSONDecoder().decode(NewsAPIResults.self, from: data)
+        newsData = tempData
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.currentIndex = Int((self.newsCollectionView.contentOffset.x) / self.newsCollectionView.frame.size.width)
+    }
+    
+    @IBAction func goToArticle(_ sender: UITapGestureRecognizer) {
+        guard let results = newsData else {return}
+        if let url = results.articles[currentIndex].url {
+            UIApplication.shared.open(url, options: [:])
+        }
+    }
+    //*************************//
 }

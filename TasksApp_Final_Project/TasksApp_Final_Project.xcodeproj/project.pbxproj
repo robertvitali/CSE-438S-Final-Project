@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F2879D421AFAD2F00F247C7 /* NewsAPIResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2879D321AFAD2F00F247C7 /* NewsAPIResults.swift */; };
+		2F2879D621AFAD3E00F247C7 /* NewsStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2879D521AFAD3E00F247C7 /* NewsStory.swift */; };
+		2F2879D821AFAD6300F247C7 /* NewsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2879D721AFAD6300F247C7 /* NewsCollectionViewCell.swift */; };
 		2F7AACF121AD0B3A00E39BF5 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7AACF021AD0B3A00E39BF5 /* CustomView.swift */; };
 		2F7AACF321AD121300E39BF5 /* ExpandingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7AACF221AD121300E39BF5 /* ExpandingTableView.swift */; };
 		7B5BD9DC93AEE9332A5E9738 /* Pods_TasksApp_Final_ProjectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A1368E11420BC4EDE475B8 /* Pods_TasksApp_Final_ProjectTests.framework */; };
@@ -52,6 +55,9 @@
 /* Begin PBXFileReference section */
 		0F2F4B8429C250FA3324DAC5 /* Pods-TasksApp_Final_Project.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_Project.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_Project/Pods-TasksApp_Final_Project.debug.xcconfig"; sourceTree = "<group>"; };
 		189424FD61D4DD47DF206BE9 /* Pods_TasksApp_Final_Project.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TasksApp_Final_Project.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F2879D321AFAD2F00F247C7 /* NewsAPIResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewsAPIResults.swift; path = ../../../NewsTest/NewsTest/NewsAPIResults.swift; sourceTree = "<group>"; };
+		2F2879D521AFAD3E00F247C7 /* NewsStory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewsStory.swift; path = ../../../NewsTest/NewsTest/NewsStory.swift; sourceTree = "<group>"; };
+		2F2879D721AFAD6300F247C7 /* NewsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewsCollectionViewCell.swift; path = ../../../NewsTest/NewsTest/NewsCollectionViewCell.swift; sourceTree = "<group>"; };
 		2F7AACF021AD0B3A00E39BF5 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		2F7AACF221AD121300E39BF5 /* ExpandingTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandingTableView.swift; sourceTree = "<group>"; };
 		38A1368E11420BC4EDE475B8 /* Pods_TasksApp_Final_ProjectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TasksApp_Final_ProjectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,6 +196,9 @@
 				E1939E89219E27C4003B3702 /* Info.plist */,
 				2F7AACF021AD0B3A00E39BF5 /* CustomView.swift */,
 				2F7AACF221AD121300E39BF5 /* ExpandingTableView.swift */,
+				2F2879D321AFAD2F00F247C7 /* NewsAPIResults.swift */,
+				2F2879D521AFAD3E00F247C7 /* NewsStory.swift */,
+				2F2879D721AFAD6300F247C7 /* NewsCollectionViewCell.swift */,
 			);
 			path = TasksApp_Final_Project;
 			sourceTree = "<group>";
@@ -458,9 +467,12 @@
 				E127E4D521ACAF9000C5085C /* AssignmentsViewController.swift in Sources */,
 				E14060C2219E34DB0043E590 /* ProfileViewController.swift in Sources */,
 				E14060BE219E34C30043E590 /* CalendarViewController.swift in Sources */,
+				2F2879D821AFAD6300F247C7 /* NewsCollectionViewCell.swift in Sources */,
+				2F2879D421AFAD2F00F247C7 /* NewsAPIResults.swift in Sources */,
 				E16DBA7421AE5F9D00A26B52 /* Tasks.xcdatamodeld in Sources */,
 				E1ACB32C21AB9FC400F24435 /* Date.swift in Sources */,
 				E12CCE52219E2E90008E3D37 /* SignInViewController.swift in Sources */,
+				2F2879D621AFAD3E00F247C7 /* NewsStory.swift in Sources */,
 				E16DBA7621AE614000A26B52 /* CoreDataStack.swift in Sources */,
 				E1C4B13521AC875B00EDDA5D /* AddFolderViewController.swift in Sources */,
 				2F7AACF121AD0B3A00E39BF5 /* CustomView.swift in Sources */,
