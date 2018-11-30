@@ -215,7 +215,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         guard let results = newsData else {return cell}
         let story = results.articles[indexPath.row]
-        cell.displayArticle(title: story.title, description: story.description)
+        cell.displayArticle(title: story.title)
         return cell
     }
     
