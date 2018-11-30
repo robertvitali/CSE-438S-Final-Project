@@ -17,7 +17,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var eventStore:EKEventStore = EKEventStore.init()
     var eventList:[EKEvent] = []
     var reminderList:[EKReminder] = []
-    var headerList:[String] = ["Event","Reminder","Task"]
+    var headerList:[String] = ["Event","Reminder"]
     var calendarArray:[EKCalendar] = []
     
     
@@ -39,12 +39,12 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func fetchReminder(){
                 reminderList = []
-                let now = Date()
-                let calendar = Calendar.current
+               // let now = Date()
+               // let calendar = Calendar.current
                 var dateComponents = DateComponents.init()
                 dateComponents.day = 60
-                let futureDate = calendar.date(byAdding: dateComponents, to: now)
-                let reminderPredicate = self.eventStore.predicateForIncompleteReminders(withDueDateStarting: now, ending: futureDate!, calendars: nil)
+              //  let futureDate = calendar.date(byAdding: dateComponents, to: now)
+                let reminderPredicate = self.eventStore.predicateForIncompleteReminders(withDueDateStarting: nil, ending: nil, calendars: nil)
                     self.eventStore.fetchReminders(matching: reminderPredicate, completion: {
                         (reminders: [EKReminder]?) -> Void in
                             for reminder in reminders! {
@@ -79,7 +79,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
 //    }
 //
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -89,7 +89,9 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         if section == 1{
             return reminderList.count
         }
-        return 3
+        else{
+            return 2
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -99,11 +101,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         cell.textLabel!.text = eventList[indexPath.row].title
             // eventList[indexPath.row].startDate.startHour
             cell.detailTextLabel?.text = "\(eventList[indexPath.row].startDate.time(date: eventList[indexPath.row].startDate)) -- \(eventList[indexPath.row].endDate.time(date: eventList[indexPath.row].endDate))"
-            print("event show")
+           // print("event show")
         }
-       if indexPath.section == 1{
+       else if indexPath.section == 1{
             cell.textLabel!.text = reminderList[indexPath.row].title
-            print("reminder show")
+          //  print("reminder show")
           //  let shour = reminderList[indexPath.row].startDateComponents!.hour
           //  let smin = (reminderList[indexPath.row].startDateComponents!.minute)
           //  let ssec = (reminderList[indexPath.row].startDateComponents!.second)
@@ -116,30 +118,59 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         return cell
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    func gotoAppleCalendar(date: Date) {
+        let interval = date.timeIntervalSinceReferenceDate
+        if let url = URL(string: "calshow:\(interval)"){
+            //let canOpen = UIApplication.shared.canOpenURL(url)
+            let appName = "Calendar"
+            let appScheme = "\(appName)://"
+            let appSchemeURL = URL(string: appScheme)
+            if UIApplication.shared.canOpenURL(appSchemeURL!){
+                UIApplication.shared.open(appSchemeURL!, options: [:], completionHandler: nil)
+            }
+            else{
+                print("error")
+            }
+        }
+    }
+    
+    private func tableView(_ ExpandingTableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let date = Date()
+        print("cell selected")
+        gotoAppleCalendar(date: date)
+    }
+    
+    func requestEventAccess(){
         eventStore.requestAccess(to: .event, completion: {(granted,error) in
-        if granted{
-        print("granted \(granted)")
-            self.fetchEvents()
-        }
-        else{
-        print("fail to access calendar")
-        print("error \(String(describing: error))")
-        }
+            if granted{
+                print("granted \(granted)")
+                self.fetchEvents()
+            }
+            else{
+                print("fail to access calendar")
+                print("error \(String(describing: error))")
+            }
         })
         
+    }
+    
+    func requestReminderAccess(){
         eventStore.requestAccess(to: .reminder, completion:{(granted,error) in
             if granted{
-                    self.fetchReminder()
-                    print("granted \(granted)")
-                    }
+                self.fetchReminder()
+                print("granted \(granted)")
+            }
             else{
                 print("fail to access reminder")
                 print("error \(String(describing: error))")
             }
         })
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
         // Do any additional setup after loading the view.
+        requestEventAccess()
+        requestReminderAccess()
         fetchEvents()
         fetchReminder()
         setupTableView()
