@@ -211,7 +211,7 @@
                     <navigationItem key="navigationItem" id="yL0-Q2-0Bu"/>
                     <size key="freeformSize" width="375" height="1250"/>
                     <connections>
-                        <outlet property="newsCollectionView" destination="5JY-1X-1gA" id="Gnh-sQ-YGi"/>
+                        <outlet property="newsCollectionView" destination="5JY-1X-1gA" id="XBN-Mg-ZoA"/>
                         <outlet property="titleBar" destination="yL0-Q2-0Bu" id="7h5-O7-Bjh"/>
                         <outlet property="todayTableView" destination="gU6-Re-5Mp" id="lNa-nv-Q75"/>
                     </connections>

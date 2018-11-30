@@ -53,9 +53,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                             }
                })
             //   self.todayTableView.reloadData()
-    
-    
-
+    }
     
     func setupTableView(){
         todayTableView.dataSource = self
@@ -146,15 +144,15 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         fetchReminder()
         setupTableView()
         
-        setupNewsCollectionView()
-        fetchDataForNewsCollectionView()
-        
         let date = Date()
         let calendar = Calendar.current
         let day = calendar.component(.day, from: date)
         
         
         titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
+        
+        setupNewsCollectionView()
+        fetchDataForNewsCollectionView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -169,6 +167,9 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
        self.todayTableView.reloadData()
     }
 
+    
+    
+    
    //**********News**********//
     var newsData: NewsAPIResults? = nil
     var currentIndex = 0
@@ -205,7 +206,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        self.currentIndex = Int((self.newsCollectionView.contentOffset.x) / self.newsCollectionView.frame.size.width)
+        currentIndex = Int((self.newsCollectionView.contentOffset.x) / self.newsCollectionView.frame.size.width)
     }
     
     @IBAction func goToArticle(_ sender: UITapGestureRecognizer) {
