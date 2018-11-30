@@ -34,7 +34,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         eventList.append(event)
             print("\(String(describing: event.title))")
         }
-           // todayTableView.reloadData()
+         //  todayTableView.reloadData()
     }
     
     func fetchReminder(){
@@ -49,17 +49,10 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                         (reminders: [EKReminder]?) -> Void in
                             for reminder in reminders! {
                             self.reminderList.append(reminder)
-                              
+                            print("\(String(describing: reminder.title))")
                             }
                })
-              //  self.todayTableView.reloadData()
-            }
-            else{
-            print("fail to access reminder")
-            print("error \(String(describing: error))")
-            }
-    })
-    }
+            //   self.todayTableView.reloadData()
     
     
 
@@ -103,12 +96,24 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         if indexPath.section == 0{
         cell.textLabel!.text = eventList[indexPath.row].title
+            // eventList[indexPath.row].startDate.startHour
+            cell.detailTextLabel?.text = "\(eventList[indexPath.row].startDate.time(date: eventList[indexPath.row].startDate)) -- \(eventList[indexPath.row].endDate.time(date: eventList[indexPath.row].endDate))"
+            print("event show")
         }
-        if indexPath.section == 1{
+       if indexPath.section == 1{
             cell.textLabel!.text = reminderList[indexPath.row].title
+            print("reminder show")
+          //  let shour = reminderList[indexPath.row].startDateComponents!.hour
+          //  let smin = (reminderList[indexPath.row].startDateComponents!.minute)
+          //  let ssec = (reminderList[indexPath.row].startDateComponents!.second)
+          //  let dhour = (reminderList[indexPath.row].dueDateComponents!.hour)
+          //  let dmin = (reminderList[indexPath.row].dueDateComponents!.minute)
+          //  let dsec = (reminderList[indexPath.row].dueDateComponents!.second)
+          //  cell.detailTextLabel?.text = "\(shour):\(smin):\(ssec)"
+            //-- \(dhour):\(dmin):\(dsec)"
         }
         return cell
     }
@@ -161,7 +166,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         print("enter viewDidAppear")
         fetchEvents()
         fetchReminder()
-        todayTableView.reloadData()
+       self.todayTableView.reloadData()
     }
 
    //**********News**********//
