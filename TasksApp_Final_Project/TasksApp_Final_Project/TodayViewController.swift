@@ -34,16 +34,12 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         eventList.append(event)
             print("\(String(describing: event.title))")
         }
-         //  todayTableView.reloadData()
     }
     
     func fetchReminder(){
                 reminderList = []
-               // let now = Date()
-               // let calendar = Calendar.current
                 var dateComponents = DateComponents.init()
                 dateComponents.day = 60
-              //  let futureDate = calendar.date(byAdding: dateComponents, to: now)
                 let reminderPredicate = self.eventStore.predicateForIncompleteReminders(withDueDateStarting: nil, ending: nil, calendars: nil)
                     self.eventStore.fetchReminders(matching: reminderPredicate, completion: {
                         (reminders: [EKReminder]?) -> Void in
@@ -52,7 +48,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                             print("\(String(describing: reminder.title))")
                             }
                })
-            //   self.todayTableView.reloadData()
     }
     
     func setupTableView(){
@@ -64,6 +59,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return headerList[section]
     }
+    
 //     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 //        let view = UIView()
 //        view.backgroundColor = UIColor.lightGray
@@ -78,6 +74,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
 //        return 45
 //    }
 //
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -100,45 +97,50 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         if indexPath.section == 0{
         cell.textLabel!.text = eventList[indexPath.row].title
             // eventList[indexPath.row].startDate.startHour
+            
             cell.detailTextLabel?.text = "\(eventList[indexPath.row].startDate.time(date: eventList[indexPath.row].startDate)) -- \(eventList[indexPath.row].endDate.time(date: eventList[indexPath.row].endDate))"
-           // print("event show")
         }
        else if indexPath.section == 1{
             cell.textLabel!.text = reminderList[indexPath.row].title
-          //  print("reminder show")
-          //  let shour = reminderList[indexPath.row].startDateComponents!.hour
-          //  let smin = (reminderList[indexPath.row].startDateComponents!.minute)
-          //  let ssec = (reminderList[indexPath.row].startDateComponents!.second)
-          //  let dhour = (reminderList[indexPath.row].dueDateComponents!.hour)
-          //  let dmin = (reminderList[indexPath.row].dueDateComponents!.minute)
-          //  let dsec = (reminderList[indexPath.row].dueDateComponents!.second)
-          //  cell.detailTextLabel?.text = "\(shour):\(smin):\(ssec)"
-            //-- \(dhour):\(dmin):\(dsec)"
         }
         return cell
     }
     
-    func gotoAppleCalendar(date: Date) {
-        let interval = date.timeIntervalSinceReferenceDate
-        if let url = URL(string: "calshow:\(interval)"){
-            //let canOpen = UIApplication.shared.canOpenURL(url)
-            let appName = "Calendar"
-            let appScheme = "\(appName)://"
-            let appSchemeURL = URL(string: appScheme)
-            if UIApplication.shared.canOpenURL(appSchemeURL!){
-                UIApplication.shared.open(appSchemeURL!, options: [:], completionHandler: nil)
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if(editingStyle == .delete){
+            if(indexPath.section == 0){
+                print("\(indexPath.row) \(String(describing: eventList[indexPath.row].title))deleted")
+            eventList.remove(at: indexPath.row)
+                self.todayTableView.reloadData()
+
             }
             else{
-                print("error")
+                print("\(indexPath.row) \(String(describing: reminderList[indexPath.row].title))deleted")
+                reminderList.remove(at: indexPath.row)
+                self.todayTableView.reloadData()
+
             }
         }
     }
     
-    private func tableView(_ ExpandingTableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func gotoAppleCalendar(date: Date) {
+    //https://stackoverflow.com/questions/48312759/swift-how-to-open-up-calendar-app-at-specific-date-and-time
+        let interval = date.timeIntervalSinceReferenceDate
+        if let url = URL(string: "calshow:\(interval)") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let date = Date()
         print("cell selected")
         gotoAppleCalendar(date: date)
     }
+    
     
     func requestEventAccess(){
         eventStore.requestAccess(to: .event, completion: {(granted,error) in
@@ -166,6 +168,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         })
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -178,12 +181,15 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         let date = Date()
         let calendar = Calendar.current
         let day = calendar.component(.day, from: date)
-        
+        todayTableView.delegate = self
         
         titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
         
         setupNewsCollectionView()
         fetchDataForNewsCollectionView()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.todayTableView.reloadData()
+        }
     }
 
     override func didReceiveMemoryWarning() {
