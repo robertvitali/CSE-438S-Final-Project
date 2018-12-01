@@ -205,6 +205,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var newsData: NewsAPIResults? = nil
     var currentIndex = 0
     @IBOutlet weak var newsCollectionView: UICollectionView!
+    @IBOutlet weak var pageControl: UIPageControl!
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
@@ -238,6 +239,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         currentIndex = Int((self.newsCollectionView.contentOffset.x) / self.newsCollectionView.frame.size.width)
+        self.pageControl.currentPage = currentIndex
     }
     
     @IBAction func goToArticle(_ sender: UITapGestureRecognizer) {
