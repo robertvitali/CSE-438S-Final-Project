@@ -10,6 +10,7 @@ import UIKit
 
 class AssignmentsViewController: UIViewController {
     
+    
     var className: String!
 
     @IBOutlet var topTitle: UINavigationItem!
@@ -19,7 +20,11 @@ class AssignmentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("Assignments VC")
         topTitle.title = className
+        
+        
         // Do any additional setup after loading the view.
     }
 
@@ -29,6 +34,7 @@ class AssignmentsViewController: UIViewController {
     }
     
     //these functions will create swipe capabilities in the cells
+    //completion swipe
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let complete = UIContextualAction(style: .destructive, title: "Check"){ (action, view, completion) in
             //todo
@@ -40,6 +46,7 @@ class AssignmentsViewController: UIViewController {
         return UISwipeActionsConfiguration(actions: [complete])
     }
     
+    //delete and edit swipe
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "Delete"){ (action, view, completion) in
             //todo
@@ -56,15 +63,20 @@ class AssignmentsViewController: UIViewController {
         edit.backgroundColor = .orange
         return UISwipeActionsConfiguration(actions: [delete, edit])
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    /*
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        return
+    }*/
 
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+    
+    }*/
 
 }

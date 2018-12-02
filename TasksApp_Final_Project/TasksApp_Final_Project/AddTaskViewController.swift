@@ -8,7 +8,9 @@
 
 import UIKit
 
+
 class AddTaskViewController: UIViewController {
+    
     @IBOutlet var taskNameField: UITextField!
     @IBOutlet var taskDateField: UITextField!
     @IBOutlet var notesBox: UITextView!
@@ -49,7 +51,6 @@ class AddTaskViewController: UIViewController {
     
     @IBAction func createTaskClicked(_ sender: Any) {
         if(taskNameField.text != "" && taskDateField.text != ""){
-            //add to firebase
             taskNameField.text = ""
             taskDateField.text = ""
             notesBox.text = ""

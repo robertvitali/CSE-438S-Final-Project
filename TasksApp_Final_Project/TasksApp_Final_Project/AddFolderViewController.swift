@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import Firebase
 
 class AddFolderViewController: UIViewController {
-
+    let database = Database.database().reference()
+    let userID = Auth.auth().currentUser?.uid
     @IBOutlet var textField: UITextField!
     
     override func viewDidLoad() {
@@ -34,11 +36,13 @@ class AddFolderViewController: UIViewController {
     }
     
     @IBAction func addToList(_ sender: Any) {
+       /*
         if(textField.text != ""){
             list.append(textField.text!)
+            database.child("\(userID!)/\(textField.text!)").setValue("")
             textField.text = ""
             navigationController?.popViewController(animated: true)
-        }
+        }*/
     }
     
     

@@ -8,14 +8,22 @@
 import Foundation
 import UIKit
 import EventKit
+import Firebase
 import CoreData
 
-var list = ["Test 1", "Test 2", "Test 3", "Test 4" ]
 
-class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource{
+    
+//    let database = Database.database().reference()
+//    let userID = Auth.auth().currentUser?.uid
+
+    var itemName: [NSManagedObject] = []
+    var theIndex:Int = 0
     
     @IBOutlet var taskTable: UITableView!
     @IBOutlet var navigationBar: UINavigationItem!
+    
+
     
     //properties of core data
     //var resultsController: NSFetch
@@ -34,26 +42,38 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return list.count
+        return itemName.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-        cell.textLabel?.text = list[indexPath.row]
+        let title = itemName[indexPath.row]
+        let cell = taskTable.dequeueReusableCell(withIdentifier: "folderCell", for: indexPath)
+        cell.textLabel?.text = title.value(forKey: "name") as? String
         return cell
     }
     
+    /*
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        print(editingStyle)
         if (editingStyle == UITableViewCellEditingStyle.delete){
-            list.remove(at: indexPath.row)
-            taskTable.reloadData()
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            context.delete(itemName[indexPath.row])
+            print("TRYING TO DELETE")
+            do{
+                try context.save()
+                taskTable.reloadData()
+            }catch{
+                print("ERROR")
+            }
         }
-    }
+    }*/
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let destination = storyboard.instantiateViewController(withIdentifier: "Assignments VC") as! AssignmentsViewController
-        destination.className = list[indexPath.row]
+        let title = itemName[indexPath.row]
+        destination.className = title.value(forKey:"name") as? String
         navigationController?.pushViewController(destination, animated: true)
     }
     
@@ -62,16 +82,47 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         taskTable.reloadData()
     }
     
-    //these functions will create swipe capabilities in the cells
+    override func viewWillAppear(_ animated: Bool) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Folders")
+        
+        do{
+            itemName = try context.fetch(fetchRequest)
+        }catch{
+            print("ERROR")
+        }
+    }
     
+
+    
+    //delete and edit swipe
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "Delete"){ (action, view, completion) in
-            //todo
-            
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            context.delete(self.itemName[indexPath.row])
+            self.itemName.remove(at: indexPath.row)
+            print("TRYING TO DELETE")
+            do{
+                try context.save()
+            }catch{
+                print("ERROR")
+            }
+            //DELETE ROWS ISNT WORKING
+            //self.taskTable.deleteRows(at: [indexPath], with: .automatic)
+            self.taskTable.reloadData()
             completion(true)
         }
-        let edit = UIContextualAction(style: .destructive, title: "Edit"){ (action, view, completion) in
-            //todo
+        let edit = UIContextualAction(style: .normal, title: "Edit"){ (action, view, completion) in
+            let alert = UIAlertController(title: "Update Name", message: "Update Name of Folder", preferredStyle: .alert)
+            let update = UIAlertAction(title: "Update", style: .default, handler: self.update)
+            alert.addAction(update)
+            alert.addTextField(configurationHandler: self.titleTextField)
+            self.present(alert, animated: true, completion: nil)
+            let title = self.itemName[indexPath.row]
+            self.titleTextField.text = title.value(forKey:"name") as? String
+            self.theIndex = indexPath.row
             completion(true)
         }
         delete.image = UIImage(named: "trash1")
@@ -79,6 +130,60 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         edit.image = UIImage(named: "edit")
         edit.backgroundColor = .orange
         return UISwipeActionsConfiguration(actions: [delete, edit])
+    }
+    
+    var titleTextField: UITextField!
+    
+    func titleTextField(textField: UITextField!){
+        titleTextField = textField
+        titleTextField.placeholder = "Name"
+    }
+    
+    @IBAction func addButton(_ sender: Any) {
+        let alert = UIAlertController(title: "Add Folder", message: "Name Your Folder", preferredStyle: .alert)
+        let save = UIAlertAction(title: "Save", style: .default, handler: self.save)
+        let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil )
+        alert.addAction(save)
+        alert.addAction(cancel)
+        alert.addTextField(configurationHandler: titleTextField)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func save(alert: UIAlertAction!){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Folders", in: context)!
+        let theTitle = NSManagedObject(entity: entity, insertInto: context)
+        theTitle.setValue(titleTextField.text, forKey: "name")
+        
+        
+        do{
+            try context.save()
+            itemName.append(theTitle)
+            
+        }catch{
+            print("ERROR")
+        }
+        self.taskTable.reloadData()
+        
+    }
+    
+    
+    func update(alert:UIAlertAction){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Folders")
+        
+        
+        do{
+            let test = try context.fetch(fetchRequest)
+            let objectUpdate = test[theIndex] as! NSManagedObject
+            objectUpdate.setValue(titleTextField.text, forKey: "name")
+            try context.save()
+        }catch{
+            print("ERROR")
+        }
+        self.taskTable.reloadData()
     }
     
 }
