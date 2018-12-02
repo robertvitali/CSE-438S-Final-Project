@@ -9,8 +9,10 @@
 import UIKit
 import EventKit
 import FirebaseAuth
+import ForecastIO
+import CoreLocation
 
-class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, CLLocationManagerDelegate {
     
     @IBOutlet var titleBar: UINavigationItem!
     @IBOutlet weak var todayTableView: UITableView!
@@ -19,6 +21,103 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var reminderList: ExpandableReminders? = nil
     var headerList:[String] = ["Event","Reminder"]
     var calendarArray:[EKCalendar] = []
+    
+    //***********WEATHER************
+    
+    let client = DarkSkyClient(apiKey: "fba905c888a58959fec530185e206514")
+    var myLat:Double = 42.3601
+    var myLon:Double = -71.0589
+    var iconView:SKYIconView = SKYIconView()
+    let manager = CLLocationManager()
+    let weatherTypes: [Skycons] =
+        [
+            .clearDay,
+            .clearNight,
+            .cloudy,
+            .fog,
+            .partlyCloudyDay,
+            .partlyCloudyNight,
+            .rain,
+            .sleet,
+            .snow,
+            .wind
+    ]
+    var displayUnits: String = "F"
+    
+    var xPadding: CGFloat = 30
+    var yPadding: CGFloat = 30
+    var summaryText:String = ""
+    var tempText:String = ""
+    
+    @IBOutlet weak var summaryLabel: UILabel!
+    @IBOutlet weak var tempLabel: UILabel!
+    
+    @IBOutlet weak var weatherIconView: UIView!
+    
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations[0]
+        myLat = location.coordinate.latitude
+        myLon = location.coordinate.longitude
+    }
+    
+    func getData() {
+        spinner.isHidden = false
+        spinner.startAnimating()
+        self.client.getForecast(latitude: self.myLat, longitude: self.myLon) { result in
+            switch result {
+            case .success(let currentForecast, let requestMetadata):
+                self.spinner.isHidden = true
+                self.summaryText = (currentForecast.currently?.summary)!
+                self.tempText = "\(String((currentForecast.currently?.temperature)!))º \(self.displayUnits)"
+                self.summaryLabel.font.withSize(20)
+                self.tempLabel.font.withSize(12)
+                self.summaryLabel.textColor = .gray
+                print((currentForecast.currently?.summary)!)
+                self.summaryLabel.text = self.summaryText
+                self.tempLabel.text = self.tempText
+            //icons
+                if ((currentForecast.currently?.icon)!.rawValue == "clear-day") {
+                    self.iconView.setType = self.weatherTypes[0]
+                }
+                else if ((currentForecast.currently?.icon)!.rawValue == "clear-night") {
+                    self.iconView.setType = self.weatherTypes[1]
+                }
+                else if ((currentForecast.currently?.icon)!.rawValue == "cloudy") {
+                    self.iconView.setType = self.weatherTypes[2]
+                }
+                else if ((currentForecast.currently?.icon)!.rawValue == "fog") {
+                    self.iconView.setType = self.weatherTypes[3]
+                }
+                else if ((currentForecast.currently?.icon)!.rawValue == "partly-cloudy-day") {
+                    self.iconView.setType = self.weatherTypes[4]
+                }
+                else if ((currentForecast.currently?.icon)!.rawValue == "partly-cloudy-night") {
+                    self.iconView.setType = self.weatherTypes[5]
+                }
+                else if ((currentForecast.currently?.icon)!.rawValue == "rain") {
+                    self.iconView.setType = self.weatherTypes[6]
+                }
+                else if ((currentForecast.currently?.icon)!.rawValue == "sleet") {
+                    self.iconView.setType = self.weatherTypes[7]
+                }
+                else if ((currentForecast.currently?.icon)!.rawValue == "snow") {
+                    self.iconView.setType = self.weatherTypes[8]
+                }
+                else if ((currentForecast.currently?.icon)!.rawValue == "wind") {
+                    self.iconView.setType = self.weatherTypes[9]
+                }
+                self.iconView.setColor = UIColor.black
+            case .failure(let error):
+                //  Uh-oh. We have an error!
+                print("error getting forecast!")
+            }
+        }
+    }
+    
+    //********************
+    
     
     func fetchEvents() {
         var eList: [EKEvent] = []
@@ -229,6 +328,27 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.todayTableView.reloadData()
         }
+    //WEATHER
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.requestWhenInUseAuthorization()
+        manager.startUpdatingLocation()
+        
+        iconView = SKYIconView(frame: CGRect(x: 0, y: 0, width: weatherIconView.bounds.size.width, height: weatherIconView.bounds.size.height))
+        
+        if yPadding >= UIScreen.main.bounds.height - 200 {
+            xPadding += 100
+            yPadding = 30
+        } else {
+            yPadding += 140
+        }
+        
+        iconView.setColor = UIColor.clear
+        iconView.backgroundColor = UIColor.clear
+        
+        self.weatherIconView.addSubview(iconView)
+        getData()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -243,8 +363,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
        self.todayTableView.reloadData()
     }
 
-    
-    
     
    //**********News**********//
     var newsData: NewsAPIResults? = nil

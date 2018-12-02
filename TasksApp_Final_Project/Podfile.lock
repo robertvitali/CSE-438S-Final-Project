@@ -36,6 +36,7 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 5.3)
   - FirebaseUI/Auth (5.2.2):
     - Firebase/Auth (~> 5.0)
+  - ForecastIO (5.1.0)
   - GoogleAppMeasurement (5.3.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
@@ -91,6 +92,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - FirebaseUI/Auth
+  - ForecastIO
   - GoogleSignIn
 
 SPEC REPOS:
@@ -103,6 +105,7 @@ SPEC REPOS:
     - FirebaseDatabase
     - FirebaseInstanceID
     - FirebaseUI
+    - ForecastIO
     - GoogleAppMeasurement
     - GoogleSignIn
     - GoogleToolboxForMac
@@ -121,6 +124,7 @@ SPEC CHECKSUMS:
   FirebaseDatabase: e2bcbc106adc4b11a2da3ec2eb63c0c4a44f2f54
   FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
   FirebaseUI: 09519bf436a055cd696bf68687d624423150e4c0
+  ForecastIO: cefaecb3a1bd764a03067a82ff546e84d3b97456
   GoogleAppMeasurement: 5029d78f2b438bd30ffb44e6c558b57c21622727
   GoogleSignIn: 11183592dc63e105475c7305a325045ff95e02b7
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
@@ -130,6 +134,6 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
 
-PODFILE CHECKSUM: b6ae3badd5d46fb9fcca0ed43605b9da5cdceff5
+PODFILE CHECKSUM: f86e2b5bb0bbab7d00f2c94d9b29cb4222b06e56
 
 COCOAPODS: 1.5.3
