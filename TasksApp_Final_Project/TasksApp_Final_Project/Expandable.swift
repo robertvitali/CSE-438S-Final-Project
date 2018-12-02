@@ -9,12 +9,12 @@
 import Foundation
 import EventKit
 
-struct ExpandableEvent {
+struct ExpandableEvents {
     var isExpanded: Bool
-    let events: [EKEvent]
+    var events: [EKEvent]
 }
 
-struct ExpandableReminder {
+struct ExpandableReminders {
     var isExpanded: Bool
-    let reminders: [EKReminder]
+    var reminders: [EKReminder]
 }

@@ -15,13 +15,13 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet var titleBar: UINavigationItem!
     @IBOutlet weak var todayTableView: UITableView!
     var eventStore:EKEventStore = EKEventStore.init()
-    var eventList:[EKEvent] = []
-    var reminderList:[EKReminder] = []
+    var eventList: ExpandableEvents? = nil
+    var reminderList: ExpandableReminders? = nil
     var headerList:[String] = ["Event","Reminder"]
     var calendarArray:[EKCalendar] = []
     
     func fetchEvents() {
-        eventList = []
+        var eList: [EKEvent] = []
         let now = Date()
         let calendar = Calendar.current
         var dateComponents = DateComponents.init()
@@ -30,23 +30,25 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         let eventsPredicate = self.eventStore.predicateForEvents(withStart: now, end: futureDate!, calendars: nil)
         let events = self.eventStore.events(matching: eventsPredicate)
         for event in events {
-        eventList.append(event)
+        eList.append(event)
             print("\(String(describing: event.title))")
         }
+        eventList = ExpandableEvents(isExpanded: true, events: eList)
     }
     
     func fetchReminder(){
-                reminderList = []
+        var rList: [EKReminder] = []
                 var dateComponents = DateComponents.init()
                 dateComponents.day = 60
                 let reminderPredicate = self.eventStore.predicateForIncompleteReminders(withDueDateStarting: nil, ending: nil, calendars: nil)
                     self.eventStore.fetchReminders(matching: reminderPredicate, completion: {
                         (reminders: [EKReminder]?) -> Void in
                             for reminder in reminders! {
-                            self.reminderList.append(reminder)
+                            rList.append(reminder)
                             print("\(String(describing: reminder.title))")
                             }
                })
+        reminderList = ExpandableReminders(isExpanded: true, reminders: rList)
     }
     
     func setupTableView() {
@@ -68,7 +70,19 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let button = UIButton(type: .system)
         button.tag = section
-        button.setTitle("Close", for: .normal)
+        if section == 0 {
+            if eventList!.isExpanded == true {
+                button.setTitle("Close", for: .normal)
+            } else {
+                button.setTitle("Open", for: .normal)
+            }
+        } else {
+            if reminderList!.isExpanded == true {
+                button.setTitle("Close", for: .normal)
+            } else {
+                button.setTitle("Open", for: .normal)
+            }
+        }
         button.addTarget(self, action: #selector(expandCollapse), for: .touchUpInside)
         button.frame = CGRect(x: 250, y: 5, width: 50, height: 35)
         view.addSubview(button)
@@ -76,7 +90,16 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @objc func expandCollapse(button: UIButton) {
+        let section = button.tag
         
+        if section == 0 {
+            eventList!.isExpanded = !eventList!.isExpanded
+        }
+        if section == 1 {
+            reminderList!.isExpanded = !reminderList!.isExpanded
+        }
+        
+        todayTableView.reloadSections(IndexSet(arrayLiteral: section), with: .automatic)
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -89,12 +112,20 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return eventList.count
+            if eventList!.isExpanded == true {
+                return eventList!.events.count
+            } else {
+                return 0
+            }
         }
         if section == 1 {
-            return reminderList.count
+            if reminderList!.isExpanded == true {
+                return reminderList!.reminders.count
+            } else {
+                return 0
+            }
         }
-        else{
+        else {
             return 2
         }
     }
@@ -103,13 +134,13 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         if indexPath.section == 0{
-        cell.textLabel!.text = eventList[indexPath.row].title
+        cell.textLabel!.text = eventList!.events[indexPath.row].title
             // eventList[indexPath.row].startDate.startHour
             
-            cell.detailTextLabel?.text = "\(eventList[indexPath.row].startDate.time(date: eventList[indexPath.row].startDate)) -- \(eventList[indexPath.row].endDate.time(date: eventList[indexPath.row].endDate))"
+            cell.detailTextLabel?.text = "\(eventList!.events[indexPath.row].startDate.time(date: eventList!.events[indexPath.row].startDate)) -- \(eventList!.events[indexPath.row].endDate.time(date: eventList!.events[indexPath.row].endDate))"
         }
        else if indexPath.section == 1 {
-            cell.textLabel!.text = reminderList[indexPath.row].title
+            cell.textLabel!.text = reminderList!.reminders[indexPath.row].title
         }
         return cell
     }
@@ -121,14 +152,14 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if(editingStyle == .delete){
             if(indexPath.section == 0){
-                print("\(indexPath.row) \(String(describing: eventList[indexPath.row].title))deleted")
-                eventList.remove(at: indexPath.row)
+                print("\(indexPath.row) \(String(describing: eventList!.events[indexPath.row].title))deleted")
+                eventList!.events.remove(at: indexPath.row)
                 self.todayTableView.reloadData()
 
             }
             else{
-                print("\(indexPath.row) \(String(describing: reminderList[indexPath.row].title))deleted")
-                reminderList.remove(at: indexPath.row)
+                print("\(indexPath.row) \(String(describing: reminderList!.reminders[indexPath.row].title))deleted")
+                reminderList!.reminders.remove(at: indexPath.row)
                 self.todayTableView.reloadData()
 
             }
