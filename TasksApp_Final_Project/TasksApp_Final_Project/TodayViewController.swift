@@ -116,9 +116,9 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    //********************
+    //*****************************Event/calendar******************************************
     
-    
+    // fetch event from local calendar data
     func fetchEvents() {
         var eList: [EKEvent] = []
         let now = Date()
@@ -134,7 +134,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         eventList = ExpandableEvents(isExpanded: true, events: eList)
     }
-    
+    //fetch reminder from local reminder
     func fetchReminder(){
         var rList: [EKReminder] = []
                 var dateComponents = DateComponents.init()
@@ -150,15 +150,17 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         reminderList = ExpandableReminders(isExpanded: true, reminders: rList)
     }
     
+    //set up table view
     func setupTableView() {
         todayTableView.dataSource = self
         todayTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
-    
+    // table view header function
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return headerList[section]
     }
     
+    //table view header view
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         view.backgroundColor = UIColor.lightGray
@@ -209,6 +211,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         return 2
     }
     
+    //determine the content for each section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             if eventList!.isExpanded == true {
@@ -229,6 +232,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    //table view cell format
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
@@ -244,27 +248,135 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         return cell
     }
     
+    //allow editing for table view cells
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if(editingStyle == .delete){
-            if(indexPath.section == 0){
-                print("\(indexPath.row) \(String(describing: eventList!.events[indexPath.row].title))deleted")
-                eventList!.events.remove(at: indexPath.row)
-                self.todayTableView.reloadData()
-
-            }
-            else{
-                print("\(indexPath.row) \(String(describing: reminderList!.reminders[indexPath.row].title))deleted")
-                reminderList!.reminders.remove(at: indexPath.row)
-                self.todayTableView.reloadData()
-
-            }
-        }
+    //swipe to delete table view cells
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = deleteAction(at: indexPath)
+        return  UISwipeActionsConfiguration(actions: [delete])
     }
     
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let completed = completedAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [completed])
+    }
+    
+    func completedAction(at indexPath:IndexPath) -> UIContextualAction{
+         let action = UIContextualAction(style: .normal, title:"Complete"){(action,view,completion) in
+            if(indexPath.section == 1){
+                self.reminderList!.reminders[indexPath.row].isCompleted = true
+                do{
+                    try self.eventStore.save(self.reminderList!.reminders[indexPath.row], commit: true)
+                } catch _ as NSError{return}
+                self.reminderList!.reminders.remove(at: indexPath.row)
+            }
+        }
+        return action
+    }
+    
+    
+    
+    
+    func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
+        let action = UIContextualAction(style: .destructive, title: "Delete"){(action, view, completion) in
+        if(indexPath.section == 0){
+          //  let eventSelected = eventList?.events[indexPath.row]
+                print("\(indexPath.row) \(String(describing: self.eventList!.events[indexPath.row].title))deleted")
+                self.deleteEvent((self.eventList?.events[indexPath.row].eventIdentifier)!)
+                self.eventList!.events.remove(at: indexPath.row)
+                self.todayTableView.reloadData()
+            }
+        if(indexPath.section == 1){
+            self.deleteReminder(self.reminderList!.reminders[indexPath.row])
+            self.reminderList!.reminders.remove(at: indexPath.row)
+            self.todayTableView.reloadData()
+        }
+        completion(true)
+        action.backgroundColor = .red
+    }
+        return action
+    }
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//            if(indexPath.section == 0){
+//                if(editingStyle == .delete){
+//                print("\(indexPath.row) \(String(describing: eventList!.events[indexPath.row].title))deleted")
+//                deleteEvent((eventList?.events[indexPath.row].eventIdentifier)!)
+//                eventList!.events.remove(at: indexPath.row)
+//                self.todayTableView.reloadData()
+//                }
+//            }
+//            else{
+//                 if(editingStyle == .delete){
+//                print("\(indexPath.row) \(String(describing: reminderList!.reminders[indexPath.row].title))deleted")
+//                reminderList!.reminders.remove(at: indexPath.row)
+//                self.todayTableView.reloadData()
+//                }
+//                if(editingStyle == .none){
+//
+//                }
+//            }
+//    }
+    // delete event from calendar
+    func deleteEvent(_ storedEventID: String)
+    {
+        //https://stackoverflow.com/questions/50425744/eventkit-remove-event-from-calendar
+        eventStore.requestAccess(to: .event, completion: { (granted, error) in
+            if (granted) && (error == nil)
+            {
+                
+                if let calendarEvent_toDelete = self.eventStore.event(withIdentifier: storedEventID){
+                    
+                    //recurring event
+                    if calendarEvent_toDelete.recurrenceRules?.isEmpty == false
+                    {
+                        let alert = UIAlertController(title: "Repeating Event", message:
+                            "This is a repeating event.", preferredStyle: UIAlertControllerStyle.alert)
+                        
+                        //delete this event only
+                        let thisEvent_Action = UIAlertAction(title: "Delete this event", style: UIAlertActionStyle.default)
+                        {
+                            (result : UIAlertAction) -> Void in
+                            
+                            //sometimes doesn't delete anything, sometimes deletes all reccurent events, not just current!!!
+                            do{
+                                try self.eventStore.remove(calendarEvent_toDelete, span: .thisEvent)
+                            } catch _ as NSError{return}
+                            
+                        }
+                        alert.addAction(thisEvent_Action)
+                        
+                    }
+                        //not recurring event
+                    else{
+                        //works fine
+                        do{
+                            try self.eventStore.remove(calendarEvent_toDelete, span: EKSpan.thisEvent)
+                        } catch _ as NSError{
+                            return
+                        }
+                    }
+                }
+                
+            }
+        })
+    }
+    
+    func deleteReminder(_ reminder_toDelete: EKReminder){
+        eventStore.requestAccess(to: .reminder, completion: { (granted, error) in
+            if (granted) && (error == nil)
+            {
+                do{
+                     try self.eventStore.remove(reminder_toDelete,commit: true)
+                } catch _ as NSError{
+                    return
+                }
+            }
+        })
+    }
+    
+    // open calendar function call
     func gotoAppleCalendar(date: Date) {
     //https://stackoverflow.com/questions/48312759/swift-how-to-open-up-calendar-app-at-specific-date-and-time
         let interval = date.timeIntervalSinceReferenceDate
@@ -279,7 +391,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         gotoAppleCalendar(date: date)
     }
     
-    
+    // request access for local event
     func requestEventAccess(){
         eventStore.requestAccess(to: .event, completion: {(granted,error) in
             if granted{
@@ -294,6 +406,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
     }
     
+    //request access for local reminder
     func requestReminderAccess(){
         eventStore.requestAccess(to: .reminder, completion:{(granted,error) in
             if granted{
@@ -325,7 +438,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         setupNewsCollectionView()
         fetchDataForNewsCollectionView()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.todayTableView.reloadData()
         }
     //WEATHER
@@ -348,7 +461,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.weatherIconView.addSubview(iconView)
         getData()
-
     }
 
     override func didReceiveMemoryWarning() {
