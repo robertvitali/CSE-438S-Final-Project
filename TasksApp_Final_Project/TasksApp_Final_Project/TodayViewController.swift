@@ -20,9 +20,8 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var headerList:[String] = ["Event","Reminder"]
     var calendarArray:[EKCalendar] = []
     
-    
-    func fetchEvents(){
-            eventList = []
+    func fetchEvents() {
+        eventList = []
         let now = Date()
         let calendar = Calendar.current
         var dateComponents = DateComponents.init()
@@ -30,7 +29,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         let futureDate = calendar.date(byAdding: dateComponents, to: now)
         let eventsPredicate = self.eventStore.predicateForEvents(withStart: now, end: futureDate!, calendars: nil)
         let events = self.eventStore.events(matching: eventsPredicate)
-        for event in events{
+        for event in events {
         eventList.append(event)
             print("\(String(describing: event.title))")
         }
@@ -50,30 +49,39 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                })
     }
     
-    func setupTableView(){
+    func setupTableView() {
         todayTableView.dataSource = self
         todayTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
-
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return headerList[section]
     }
     
-//     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let view = UIView()
-//        view.backgroundColor = UIColor.lightGray
-//        let label = UILabel()
-//        label.text = "Header"
-//        label.frame =  CGRect(x:45,y:5,width:100,height:35)
-//        view.addSubview(label)
-//        return view
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 45
-//    }
-//
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = UIColor.lightGray
+        let label = UILabel()
+        label.text = headerList[section]
+        label.frame =  CGRect(x:45,y:5,width:100,height:35)
+        view.addSubview(label)
+        
+        let button = UIButton(type: .system)
+        button.tag = section
+        button.setTitle("Close", for: .normal)
+        button.addTarget(self, action: #selector(expandCollapse), for: .touchUpInside)
+        button.frame = CGRect(x: 250, y: 5, width: 50, height: 35)
+        view.addSubview(button)
+        return view
+    }
+    
+    @objc func expandCollapse(button: UIButton) {
+        
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 45
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -83,7 +91,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         if section == 0 {
             return eventList.count
         }
-        if section == 1{
+        if section == 1 {
             return reminderList.count
         }
         else{
@@ -100,7 +108,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             
             cell.detailTextLabel?.text = "\(eventList[indexPath.row].startDate.time(date: eventList[indexPath.row].startDate)) -- \(eventList[indexPath.row].endDate.time(date: eventList[indexPath.row].endDate))"
         }
-       else if indexPath.section == 1{
+       else if indexPath.section == 1 {
             cell.textLabel!.text = reminderList[indexPath.row].title
         }
         return cell
@@ -114,7 +122,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         if(editingStyle == .delete){
             if(indexPath.section == 0){
                 print("\(indexPath.row) \(String(describing: eventList[indexPath.row].title))deleted")
-            eventList.remove(at: indexPath.row)
+                eventList.remove(at: indexPath.row)
                 self.todayTableView.reloadData()
 
             }
@@ -219,10 +227,19 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = newsCollectionView.dequeueReusableCell(withReuseIdentifier: "ncell", for: indexPath) as! NewsCollectionViewCell
-        
         guard let results = newsData else {return cell}
         let story = results.articles[indexPath.row]
-        cell.displayArticle(title: story.title)
+        
+        //Format the headline and outlet, then display
+        let titleSplit = story.title?.components(separatedBy: "-")
+        guard let titleSplitUnwrapped = titleSplit else {return cell}
+        var headline = ""
+        for index in 0 ..< titleSplitUnwrapped.count - 1 {
+            headline += titleSplitUnwrapped[index]
+        }
+        let outlet = "-" + titleSplitUnwrapped.last!
+        cell.displayArticle(title: headline, media: outlet)
+        
         return cell
     }
     

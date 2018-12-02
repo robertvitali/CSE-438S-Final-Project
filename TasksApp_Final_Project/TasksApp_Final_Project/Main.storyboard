@@ -112,7 +112,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HaI-gM-iCD" userLabel="News View" customClass="CustomView" customModule="TasksApp_Final_Project" customModuleProvider="target">
                                                 <rect key="frame" x="12.5" y="917" width="350" height="200"/>
                                                 <subviews>
-                                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5JY-1X-1gA">
+                                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5JY-1X-1gA">
                                                         <rect key="frame" x="0.0" y="50" width="350" height="120"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="TKx-iG-OTN">
@@ -129,8 +129,17 @@
                                                                     <rect key="frame" x="0.0" y="0.0" width="350" height="120"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Outlet" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6fe-Ia-7QD">
+                                                                            <rect key="frame" x="50" y="100" width="48" height="20"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T97-XX-uCg">
-                                                                            <rect key="frame" x="20" y="0.0" width="310" height="120"/>
+                                                                            <rect key="frame" x="20" y="0.0" width="310" height="100"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="height" constant="100" id="Kbp-ZU-02X"/>
+                                                                            </constraints>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
@@ -139,13 +148,16 @@
                                                                 </view>
                                                                 <constraints>
                                                                     <constraint firstAttribute="trailing" secondItem="T97-XX-uCg" secondAttribute="trailing" constant="20" id="4bZ-al-ofP"/>
-                                                                    <constraint firstItem="T97-XX-uCg" firstAttribute="centerY" secondItem="a3t-ul-I6Z" secondAttribute="centerY" id="9pV-iP-aZZ"/>
+                                                                    <constraint firstItem="T97-XX-uCg" firstAttribute="top" secondItem="a3t-ul-I6Z" secondAttribute="top" id="Emh-OQ-jJX"/>
+                                                                    <constraint firstItem="6fe-Ia-7QD" firstAttribute="leading" secondItem="a3t-ul-I6Z" secondAttribute="leading" constant="50" id="KWJ-qd-9kj"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="6fe-Ia-7QD" secondAttribute="bottom" id="KkM-Im-eWM"/>
+                                                                    <constraint firstItem="6fe-Ia-7QD" firstAttribute="top" secondItem="T97-XX-uCg" secondAttribute="bottom" id="o1e-F2-FU0"/>
                                                                     <constraint firstItem="T97-XX-uCg" firstAttribute="leading" secondItem="a3t-ul-I6Z" secondAttribute="leading" constant="20" id="qet-re-f83"/>
-                                                                    <constraint firstItem="T97-XX-uCg" firstAttribute="height" secondItem="a3t-ul-I6Z" secondAttribute="height" id="scG-Tr-ad2"/>
                                                                 </constraints>
                                                                 <size key="customSize" width="350" height="120"/>
                                                                 <connections>
                                                                     <outlet property="articleTitle" destination="T97-XX-uCg" id="nZa-Fc-fgA"/>
+                                                                    <outlet property="outlet" destination="6fe-Ia-7QD" id="TFz-TV-aA8"/>
                                                                 </connections>
                                                             </collectionViewCell>
                                                         </cells>
@@ -161,9 +173,9 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="10" translatesAutoresizingMaskIntoConstraints="NO" id="nYZ-We-Zlx">
-                                                        <rect key="frame" x="99.5" y="170" width="151" height="30"/>
+                                                        <rect key="frame" x="99.5" y="180" width="151" height="20"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="30" id="9r4-XV-8Ag"/>
+                                                            <constraint firstAttribute="height" constant="20" id="9r4-XV-8Ag"/>
                                                         </constraints>
                                                         <color key="pageIndicatorTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                         <color key="currentPageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -177,7 +189,7 @@
                                                     <constraint firstItem="nYZ-We-Zlx" firstAttribute="centerX" secondItem="HaI-gM-iCD" secondAttribute="centerX" id="Bpt-BB-3aG"/>
                                                     <constraint firstItem="5JY-1X-1gA" firstAttribute="top" secondItem="HaI-gM-iCD" secondAttribute="top" constant="50" id="E15-k7-JQo"/>
                                                     <constraint firstItem="tXu-WC-HzB" firstAttribute="top" secondItem="HaI-gM-iCD" secondAttribute="top" constant="20" id="JrN-Yu-mtO"/>
-                                                    <constraint firstItem="nYZ-We-Zlx" firstAttribute="top" secondItem="5JY-1X-1gA" secondAttribute="bottom" id="K6R-0j-h1J"/>
+                                                    <constraint firstItem="nYZ-We-Zlx" firstAttribute="top" secondItem="5JY-1X-1gA" secondAttribute="bottom" constant="10" id="K6R-0j-h1J"/>
                                                     <constraint firstAttribute="bottom" secondItem="nYZ-We-Zlx" secondAttribute="bottom" id="YY7-sI-peT"/>
                                                     <constraint firstItem="tXu-WC-HzB" firstAttribute="leading" secondItem="HaI-gM-iCD" secondAttribute="leading" constant="30" id="dgM-HC-5Gi"/>
                                                     <constraint firstAttribute="width" constant="350" id="yr9-uJ-eLl"/>

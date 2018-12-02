@@ -11,12 +11,10 @@ import UIKit
 class NewsCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var articleTitle: UILabel!
+    @IBOutlet weak var outlet: UILabel!
     
-    func displayArticle(title: String?) {
-        guard let t = title else {
-            self.articleTitle.text = ""
-            return
-        }
-        self.articleTitle.text = t
+    func displayArticle(title: String, media: String) {
+        self.articleTitle.text = title
+        self.outlet.text = media
     }
 }
