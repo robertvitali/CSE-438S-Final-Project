@@ -22,7 +22,6 @@
 		E14060BE219E34C30043E590 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14060BD219E34C30043E590 /* CalendarViewController.swift */; };
 		E14060C0219E34CF0043E590 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14060BF219E34CF0043E590 /* TasksViewController.swift */; };
 		E14060C2219E34DB0043E590 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14060C1219E34DB0043E590 /* ProfileViewController.swift */; };
-		E1638EB321B3E69600A30BD3 /* List.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E1638EB121B3E69600A30BD3 /* List.xcdatamodeld */; };
 		E18B47EC21ACCCB500B2E40A /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B47EB21ACCCB500B2E40A /* AddTaskViewController.swift */; };
 		E1939E7E219E27C3003B3702 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1939E7D219E27C3003B3702 /* AppDelegate.swift */; };
 		E1939E85219E27C4003B3702 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1939E84219E27C4003B3702 /* Assets.xcassets */; };
@@ -32,6 +31,7 @@
 		E1939EAF219E27E9003B3702 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1939EAC219E27E8003B3702 /* Main.storyboard */; };
 		E194846F219E297F004044C3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E194846E219E297F004044C3 /* GoogleService-Info.plist */; };
 		E1ACB32C21AB9FC400F24435 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1ACB32B21AB9FC400F24435 /* Date.swift */; };
+		E1B7E67C21B45F1E009907E8 /* List.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E1B7E67A21B45F1E009907E8 /* List.xcdatamodeld */; };
 		E1C4B13521AC875B00EDDA5D /* AddFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C4B13421AC875B00EDDA5D /* AddFolderViewController.swift */; };
 		E1DD1740218DF17466596217 /* Pods_TasksApp_Final_ProjectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8E12277D1F5DD285AE51C8 /* Pods_TasksApp_Final_ProjectUITests.framework */; };
 /* End PBXBuildFile section */
@@ -73,7 +73,6 @@
 		E14060BD219E34C30043E590 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		E14060BF219E34CF0043E590 /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
 		E14060C1219E34DB0043E590 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		E1638EB221B3E69600A30BD3 /* List.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = List.xcdatamodel; sourceTree = "<group>"; };
 		E18B47EB21ACCCB500B2E40A /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 		E1939E7A219E27C3003B3702 /* TasksApp_Final_Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TasksApp_Final_Project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1939E7D219E27C3003B3702 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +88,7 @@
 		E1939EAC219E27E8003B3702 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E194846E219E297F004044C3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E1ACB32B21AB9FC400F24435 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		E1B7E67B21B45F1E009907E8 /* List.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = List.xcdatamodel; sourceTree = "<group>"; };
 		E1C4B13421AC875B00EDDA5D /* AddFolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolderViewController.swift; sourceTree = "<group>"; };
 		E3AB839EEF64AB9840E5881C /* Pods-TasksApp_Final_ProjectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_ProjectUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_ProjectUITests/Pods-TasksApp_Final_ProjectUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F26D5EDF3A8FEF955C0EED79 /* Pods-TasksApp_Final_ProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_ProjectTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_ProjectTests/Pods-TasksApp_Final_ProjectTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -182,7 +182,6 @@
 				E14060C1219E34DB0043E590 /* ProfileViewController.swift */,
 				E12CCE51219E2E90008E3D37 /* SignInViewController.swift */,
 				E1939E7D219E27C3003B3702 /* AppDelegate.swift */,
-				E1638EB121B3E69600A30BD3 /* List.xcdatamodeld */,
 				E194846E219E297F004044C3 /* GoogleService-Info.plist */,
 				E1939E84219E27C4003B3702 /* Assets.xcassets */,
 				E1939E86219E27C4003B3702 /* LaunchScreen.storyboard */,
@@ -194,6 +193,7 @@
 				2F03C3A821B205C500CB2E6E /* NewsCollectionViewCell.swift */,
 				2F940D9B21B393B50088E59E /* Expandable.swift */,
 				A730412921B3B664000B6F2F /* Skycons.swift */,
+				E1B7E67A21B45F1E009907E8 /* List.xcdatamodeld */,
 			);
 			path = TasksApp_Final_Project;
 			sourceTree = "<group>";
@@ -471,7 +471,7 @@
 				E1C4B13521AC875B00EDDA5D /* AddFolderViewController.swift in Sources */,
 				2F940D9C21B393B50088E59E /* Expandable.swift in Sources */,
 				2F7AACF121AD0B3A00E39BF5 /* CustomView.swift in Sources */,
-				E1638EB321B3E69600A30BD3 /* List.xcdatamodeld in Sources */,
+				E1B7E67C21B45F1E009907E8 /* List.xcdatamodeld in Sources */,
 				E14060C0219E34CF0043E590 /* TasksViewController.swift in Sources */,
 				E1939E7E219E27C3003B3702 /* AppDelegate.swift in Sources */,
 				E14060BC219E34B70043E590 /* TodayViewController.swift in Sources */,
@@ -804,14 +804,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		E1638EB121B3E69600A30BD3 /* List.xcdatamodeld */ = {
+		E1B7E67A21B45F1E009907E8 /* List.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				E1638EB221B3E69600A30BD3 /* List.xcdatamodel */,
+				E1B7E67B21B45F1E009907E8 /* List.xcdatamodel */,
 			);
-			currentVersion = E1638EB221B3E69600A30BD3 /* List.xcdatamodel */;
-			name = List.xcdatamodeld;
-			path = ../../../../../Desktop/CSE_438_Final_Project/TasksApp_Final_Project/TasksApp_Final_Project/List.xcdatamodeld;
+			currentVersion = E1B7E67B21B45F1E009907E8 /* List.xcdatamodel */;
+			path = List.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
