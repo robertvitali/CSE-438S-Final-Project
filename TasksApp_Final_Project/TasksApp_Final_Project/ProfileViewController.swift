@@ -11,9 +11,6 @@ import GoogleSignIn
 import Firebase
 import FirebaseDatabase
 
-var displayInF:Bool = true
-var darkMode:Bool = false
-
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     let userID = Auth.auth().currentUser!.uid
@@ -40,24 +37,22 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @objc func changeTempUnit(_ sender:UISwitch){
         if(sender.isOn == true){
-           displayInF = true
-            ref.child("\(userID)?").setValue(["TempUnitF":displayInF])
+            Profile.displayInF = true
         }
         else{
-            displayInF = false
-           ref.child("\(userID)?").setValue(["TempUnitF":displayInF])
+            Profile.displayInF = false
         }
+        ref.child("\(userID)").setValue(["TempUnitF":Profile.displayInF])
     }
     
     @objc func setDarkMode(_ sender:UISwitch){
         if(sender.isOn == true){
-            darkMode = true
-          ref.child("\(userID)?").setValue(["darkMode":darkMode])
+            Profile.darkMode = true
         }
         else{
-            darkMode = false
-          ref.child("\(userID)?").setValue(["darkMode":darkMode])
+            Profile.darkMode = false
         }
+        ref.child("\(userID)").setValue(["darkMode":Profile.darkMode])
     }
     
     
@@ -71,10 +66,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             //https://stackoverflow.com/questions/47038673/add-switch-in-uitableview-cell-in-swift for adding switch to table view cell
             let switchView = UISwitch(frame : .zero)
             if(indexPath.row == 0){
-            switchView.setOn(displayInF, animated: true)
+            switchView.setOn(Profile.displayInF, animated: true)
             }
             else{
-            switchView.setOn(darkMode, animated: true)
+            switchView.setOn(Profile.darkMode, animated: true)
             }
             switchView.tag = indexPath.row
             if(indexPath.row == 0){
@@ -112,21 +107,20 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func fetchDataFromFirebase() {
         print ("firebase time")
-//        ref.child("\(userID)?/darkMode").observe(.value, with: {(snapshot) in
-//             //darkMode = snapshot.value
-//            let store = snapshot.value as? Bool
-//            darkMode = store!
-//        })
-//            ref.child("\(userID)?/tempUnitF").observe(.value, with: {(snapshot) in
-//                //darkMode = snapshot.value
-//                let store = snapshot.value as? Bool
-//               displayInF = store!
-//            })
+        ref.child("\(userID)?/darkMode").observe(.value, with: {(snapshot) in
+            let store = snapshot.value as? Bool
+            Profile.darkMode = store!
+        })
+        ref.child("\(userID)?/TempUnitF").observe(.value, with: {(snapshot) in
+                let store = snapshot.value as? Bool
+               Profile.displayInF = store!
+            })
     }
     
     override func viewDidLoad() {
-       // ref.child().observeSingleEvent
         super.viewDidLoad()
+         ref.child("\(userID)").setValue(["darkMode":Profile.darkMode])
+         ref.child("\(userID)").setValue(["TempUnitF":Profile.displayInF])
         fetchDataFromFirebase()
         setupTableView()
         // Do any additional setup after loading the view.
