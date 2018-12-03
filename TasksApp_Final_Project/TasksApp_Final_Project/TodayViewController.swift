@@ -72,6 +72,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             switch result {
             case .success(let currentForecast, let requestMetadata):
                 print("Forecast received!")
+                self.spinner.isHidden = true
                 self.iconView.refresh()
                 self.spinner.isHidden = true
                 self.summaryText = (currentForecast.currently?.summary)!
@@ -115,6 +116,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                     self.iconView.setType = self.weatherTypes[9]
                 }
                 self.iconView.setColor = UIColor.black
+                self.spinner.isHidden = true
             case .failure(let error):
                 //  Uh-oh. We have an error!
                 print("error getting forecast!")
@@ -497,6 +499,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.iconView.refresh()
+            self.spinner.isHidden = true
         }
   
     }
@@ -512,6 +515,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         fetchReminder()
         self.todayTableView.reloadData()
         self.iconView.refresh()
+        self.spinner.isHidden = true
     }
     
    //****************News****************//
