@@ -275,13 +275,13 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                     try self.eventStore.save(self.reminderList!.reminders[indexPath.row], commit: true)
                 } catch _ as NSError{return}
                 self.reminderList!.reminders.remove(at: indexPath.row)
+                self.todayTableView.reloadData()
             }
+            completion(true)
+            action.backgroundColor = .purple
         }
         return action
     }
-    
-    
-    
     
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete"){(action, view, completion) in
