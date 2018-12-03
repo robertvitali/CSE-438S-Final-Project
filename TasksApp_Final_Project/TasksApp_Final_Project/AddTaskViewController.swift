@@ -66,7 +66,7 @@ class AddTaskViewController: UIViewController {
             theTitle.setValue(date, forKey: "date")
             theTitle.setValue(notesBox.text, forKey: "notes")
             theTitle.setValue(nameClass!, forKey: "folderName")
-            theTitle.setValue(false, forKey: "completed")
+            theTitle.setValue(false, forKey: "complete")
             let number = Int.random(in: 0 ... 1000000000000)
             theTitle.setValue(number, forKey: "uniqueID")
             

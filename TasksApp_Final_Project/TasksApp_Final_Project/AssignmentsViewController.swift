@@ -16,6 +16,7 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
     var itemName: [NSManagedObject] = []
     var sortedItems: [NSManagedObject] = []
     var theIndex:Int = 0
+    var showingCompleted:Bool = false
     
     
     
@@ -24,6 +25,7 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
     @IBOutlet var topTitle: UINavigationItem!
     @IBOutlet var assignmentTable: UITableView!
     @IBOutlet var addTask: UIBarButtonItem!
+    @IBOutlet var toggleCompleted: UIBarButtonItem!
     
     
     override func viewDidLoad() {
@@ -43,11 +45,55 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         // Dispose of any resources that can be recreated.
     }
     
+    func getData(){
+        sortedItems = []
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Tasks")
+        
+        do{
+            itemName = try context.fetch(fetchRequest)
+            var s:String = ""
+            var tf:Bool = false
+            print("GETTING TASKS")
+            for item in itemName {
+                s = (item.value(forKey: "folderName") as? String)!
+                tf = (item.value(forKey: "complete") as? Bool)!
+                print("\(s)")
+                if(s == className && tf == showingCompleted){
+                    sortedItems.append(item)
+                }
+            }
+            print(sortedItems.count)
+        }catch{
+            print("ERROR")
+        }
+        assignmentTable.reloadData()
+    }
+    
     //these functions will create swipe capabilities in the cells
     //completion swipe
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let complete = UIContextualAction(style: .destructive, title: "Check"){ (action, view, completion) in
-            //todo
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            let title = self.sortedItems[indexPath.row]
+            let uniqueString:Int64 = (title.value(forKey: "uniqueID") as? Int64)!
+            let position:Int = self.getPosition(uniqueString: uniqueString)
+            let objectUpdate = self.sortedItems[indexPath.row]
+            var tf:Bool = (objectUpdate.value(forKey: "complete") as? Bool)!
+            tf = !tf
+            objectUpdate.setValue(tf, forKey: "complete")
+            
+            do{
+                try context.save()
+            }catch{
+                print("ERROR")
+            }
+            //DELETE ROWS ISNT WORKING
+            //self.taskTable.deleteRows(at: [indexPath], with: .automatic)
+            self.getData()
+            
             completion(true)
         }
         
@@ -87,7 +133,8 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
             }
             //DELETE ROWS ISNT WORKING
             //self.taskTable.deleteRows(at: [indexPath], with: .automatic)
-            self.assignmentTable.reloadData()
+            //self.assignmentTable.reloadData()
+            self.getData()
             
             completion(true)
         }
@@ -147,50 +194,10 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        sortedItems = []
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Tasks")
-
-        do{
-            itemName = try context.fetch(fetchRequest)
-            var s:String = ""
-            print("GETTING TASKS")
-            for item in itemName {
-                s = (item.value(forKey: "folderName") as? String)!
-                print("\(s)")
-                if(s == className){
-                    sortedItems.append(item)
-                }
-            }
-            print(sortedItems.count)
-        }catch{
-            print("ERROR")
-        }
-        assignmentTable.reloadData()
+        getData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        sortedItems = []
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Tasks")
-        
-        do{
-            itemName = try context.fetch(fetchRequest)
-            var s:String = ""
-            print("GETTING TASKS")
-            for item in itemName {
-                s = (item.value(forKey: "folderName") as? String)!
-                print("\(s)")
-                if(s == className){
-                    sortedItems.append(item)
-                }
-            }
-            print(sortedItems.count)
-        }catch{
-            print("ERROR")
-        }
-        assignmentTable.reloadData()
+        getData()
     }
 }

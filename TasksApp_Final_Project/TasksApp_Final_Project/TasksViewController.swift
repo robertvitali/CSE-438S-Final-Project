@@ -73,10 +73,12 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         do{
             taskData = try context2.fetch(fetchRequest2)
             var s:String = ""
+            var tf:Bool = false
             if taskData.count != 0{
                 for item in taskData {
                     s = (item.value(forKey: "folderName") as? String)!
-                    if(s == Name){
+                    tf = (item.value(forKey: "complete") as? Bool)!
+                    if(s == Name && tf == false){
                         count = count + 1
                     }
                 }

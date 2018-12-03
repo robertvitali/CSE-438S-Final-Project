@@ -424,15 +424,19 @@
                         <viewLayoutGuide key="safeArea" id="5z5-Aj-4aK"/>
                     </view>
                     <navigationItem key="navigationItem" id="aVh-QN-xN8">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="uFk-HP-rDp">
-                            <connections>
-                                <segue destination="nd9-iQ-QL8" kind="show" id="byX-f0-s0R"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="uFk-HP-rDp">
+                                <connections>
+                                    <segue destination="nd9-iQ-QL8" kind="show" id="byX-f0-s0R"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="..." id="Xjb-ov-mua"/>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="addTask" destination="uFk-HP-rDp" id="JrD-Cp-c2Q"/>
                         <outlet property="assignmentTable" destination="4nz-Ze-KZf" id="CRF-II-goM"/>
+                        <outlet property="toggleCompleted" destination="Xjb-ov-mua" id="xjT-GR-TtO"/>
                         <outlet property="topTitle" destination="aVh-QN-xN8" id="OTK-cf-b4d"/>
                     </connections>
                 </viewController>
