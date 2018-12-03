@@ -496,8 +496,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xg1-T0-nJd">
+                                <rect key="frame" x="0.0" y="20" width="375" height="598"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FW0-Z5-kr2">
-                                <rect key="frame" x="157" y="114" width="60" height="30"/>
+                                <rect key="frame" x="0.0" y="318" width="375" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Sign Out"/>
                                 <connections>
@@ -509,10 +514,13 @@
                         <viewLayoutGuide key="safeArea" id="pxY-sL-xbx"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" image="icons8-settings-26.png" id="ysV-R1-dE6"/>
+                    <connections>
+                        <outlet property="settingTableView" destination="xg1-T0-nJd" id="yK8-tq-1tj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZKi-WB-OTZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1561" y="3545"/>
+            <point key="canvasLocation" x="1560.8" y="3544.6776611694154"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Coh-BJ-Raj">
