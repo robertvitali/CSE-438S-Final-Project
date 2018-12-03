@@ -12,6 +12,9 @@ import Firebase
 
 class SignInViewController: UIViewController, GIDSignInUIDelegate {
     
+   // let userID = Auth.auth().currentUser!.uid
+   // let ref = Database.database().reference()
+    
     @IBOutlet var spinner: UIActivityIndicatorView!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var textParagraph: UITextView!
@@ -29,6 +32,8 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.loadFunction()
         }
+       //  ref.child("\(userID)?").setValue(["darkMode":darkMode])
+       //  ref.child("\(userID)?").setValue(["TempUnitF":displayInF])
         // Do any additional setup after loading the view.
     }
     
