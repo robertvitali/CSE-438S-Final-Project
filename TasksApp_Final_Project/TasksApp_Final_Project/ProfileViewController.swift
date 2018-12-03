@@ -39,6 +39,13 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         if indexPath.section == 1 {
             cell.textLabel!.text = setting[indexPath.row]
+            //https://stackoverflow.com/questions/47038673/add-switch-in-uitableview-cell-in-swift for adding switch to table view cell
+            let switchView = UISwitch(frame : .zero)
+            switchView.setOn(false, animated: true)
+            switchView.tag = indexPath.row
+//            switchView.addTarget(<#T##target: Any?##Any?#>, action: <#T##Selector#>, for: <#T##UIControlEvents#>)
+//            (self, action: #selector(self.switchChanged(_:)), for: .valueChanged)
+            cell.accessoryView = switchView
         }
         return cell
     }
