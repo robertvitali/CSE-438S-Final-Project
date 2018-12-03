@@ -507,6 +507,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
+    @IBOutlet weak var weatherViewfull: CustomView!
     override func viewDidAppear(_ animated: Bool) {
         print("enter viewDidAppear")
         fetchEvents()
@@ -514,7 +515,10 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
         self.todayTableView.reloadData()
         self.iconView.refresh()
+            self.getData()
+            self.setUpWeather()
         self.spinner.isHidden = true
+            print(Profile.displayInF)
         }
     }
     

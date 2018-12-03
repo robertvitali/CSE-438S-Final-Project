@@ -92,7 +92,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         print ("firebase time")
         ref.child("\(userID)?/TempUnitF").observe(.value, with: {(snapshot) in
                 let store = snapshot.value as? Bool
-               Profile.displayInF = store! ?? true
+            if(store == nil){
+                Profile.displayInF = true
+            }else{
+                Profile.displayInF = store
+            }
+              // Profile.displayInF = store
             })
     }
     
