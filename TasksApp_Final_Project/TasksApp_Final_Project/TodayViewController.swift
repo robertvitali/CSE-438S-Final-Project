@@ -48,9 +48,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var yPadding: CGFloat = 30
     var summaryText:String = ""
     var tempText:String = ""
+    var tempRangeText:String = ""
     
     @IBOutlet weak var summaryLabel: UILabel!
     @IBOutlet weak var tempLabel: UILabel!
+    @IBOutlet weak var tempRangeLabel: UILabel!
     
     @IBOutlet weak var weatherIconView: UIView!
     
@@ -68,15 +70,18 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.client.getForecast(latitude: self.myLat, longitude: self.myLon) { result in
             switch result {
             case .success(let currentForecast, let requestMetadata):
+                print("Forecast received!")
                 self.iconView.refresh()
                 self.spinner.isHidden = true
                 self.summaryText = (currentForecast.currently?.summary)!
-                self.tempText = "\(String((currentForecast.currently?.temperature)!))º \(self.displayUnits)"
+                self.tempText = "\(Int((currentForecast.currently?.temperature)!))º \(self.displayUnits)"
+                self.tempRangeText = "\((currentForecast.daily?.data[0].temperatureHigh)!) / \((currentForecast.daily?.data[0].temperatureLow)!)"
                 self.summaryLabel.font.withSize(20)
                 self.tempLabel.font.withSize(12)
                 self.summaryLabel.textColor = .gray
                 self.summaryLabel.text = self.summaryText
                 self.tempLabel.text = self.tempText
+                self.tempRangeLabel.text = self.tempRangeText
             //icons
                 if ((currentForecast.currently?.icon)!.rawValue == "clear-day") {
                     self.iconView.setType = self.weatherTypes[0]
@@ -114,6 +119,29 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 print("error getting forecast!")
             }
         }
+    }
+    
+    
+    func setUpWeather() {
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.requestWhenInUseAuthorization()
+        manager.startUpdatingLocation()
+        
+        iconView = SKYIconView(frame: CGRect(x: 0, y: 0, width: weatherIconView.bounds.size.width, height: weatherIconView.bounds.size.height))
+        
+        if yPadding >= UIScreen.main.bounds.height - 200 {
+            xPadding += 100
+            yPadding = 30
+        } else {
+            yPadding += 140
+        }
+        
+        iconView.setColor = UIColor.clear
+        iconView.backgroundColor = UIColor.clear
+        
+        self.weatherIconView.addSubview(iconView)
+        getData()
     }
     
     //*****************************Event/calendar******************************************
@@ -437,6 +465,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         fetchEvents()
         fetchReminder()
         setupTableView()
+        setUpWeather()
         
         let date = Date()
         let calendar = Calendar.current
@@ -450,26 +479,10 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.todayTableView.reloadData()
         }
-    //WEATHER
-        manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyBest
-        manager.requestWhenInUseAuthorization()
-        manager.startUpdatingLocation()
-        
-        iconView = SKYIconView(frame: CGRect(x: 0, y: 0, width: weatherIconView.bounds.size.width, height: weatherIconView.bounds.size.height))
-        
-        if yPadding >= UIScreen.main.bounds.height - 200 {
-            xPadding += 100
-            yPadding = 30
-        } else {
-            yPadding += 140
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.iconView.refresh()
         }
-        
-        iconView.setColor = UIColor.clear
-        iconView.backgroundColor = UIColor.clear
-        
-        self.weatherIconView.addSubview(iconView)
-        getData()
+  
     }
 
     override func didReceiveMemoryWarning() {
@@ -481,7 +494,8 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         print("enter viewDidAppear")
         fetchEvents()
         fetchReminder()
-       self.todayTableView.reloadData()
+        self.todayTableView.reloadData()
+        self.iconView.refresh()
     }
 
     
