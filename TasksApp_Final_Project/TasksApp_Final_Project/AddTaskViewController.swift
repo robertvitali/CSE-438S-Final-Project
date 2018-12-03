@@ -53,19 +53,28 @@ class AddTaskViewController: UIViewController {
     
     @IBAction func createTaskClicked(_ sender: Any) {
         if(taskNameField.text != "" && taskDateField.text != ""){
-           
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            let entity = NSEntityDescription.entity(forEntityName: "Tasks", in: context)!
+            let theTitle = NSManagedObject(entity: entity, insertInto: context)
+            theTitle.setValue(taskNameField.text, forKey: "name")
             
-            
-            var tempTask:Tasks?
-            tempTask!.name = taskNameField.text
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MM/dd/yy"
             let date = dateFormatter.date(from: taskDateField.text!)
-            tempTask!.date = date! as NSDate
-            tempTask!.notes = notesBox.text
-            //currentFolder?.assignments = tempTask
-            tempTask?.parent = currentFolder
+            theTitle.setValue(date, forKey: "date")
+            theTitle.setValue(notesBox.text, forKey: "notes")
+            theTitle.setValue(nameClass!, forKey: "folderName")
+            let number = Int.random(in: 0 ... 1000000000000)
+            theTitle.setValue(number, forKey: "uniqueID")
+            
+            
+            do{
+                try context.save()
+            }catch{
+                print("CANNOT SAVE! ERROR!")
+            }
             taskNameField.text = ""
             taskDateField.text = ""
             notesBox.text = ""

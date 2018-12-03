@@ -11,8 +11,6 @@ import EventKit
 import Firebase
 import CoreData
 
-var currentFolder:Folders?
-
 
 class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource{
     
@@ -20,6 +18,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
 //    let userID = Auth.auth().currentUser?.uid
 
     var itemName: [NSManagedObject] = []
+    var taskData: [NSManagedObject] = []
     var theIndex:Int = 0
     
     @IBOutlet var taskTable: UITableView!
@@ -49,18 +48,44 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let title = itemName[indexPath.row]
-        let cell = taskTable.dequeueReusableCell(withIdentifier: "folderCell", for: indexPath)
-        cell.textLabel?.text = title.value(forKey: "name") as? String
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: "folderCell")
+        let titleLabel = title.value(forKey: "name") as? String
+        let count: Int = getNumberOfTasks(Name: titleLabel!)
+        cell.textLabel?.text = titleLabel
+        cell.detailTextLabel?.text = "\(count)"
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let destination = storyboard.instantiateViewController(withIdentifier: "Assignments VC") as! AssignmentsViewController
-        currentFolder = itemName[indexPath.row] as? Folders
         let title = itemName[indexPath.row]
         destination.className = title.value(forKey:"name") as? String
         navigationController?.pushViewController(destination, animated: true)
+    }
+    
+    func getNumberOfTasks(Name: String) -> Int{
+        taskData = []
+        let appDelegate2 = UIApplication.shared.delegate as! AppDelegate
+        let context2 = appDelegate2.persistentContainer.viewContext
+        let fetchRequest2 = NSFetchRequest<NSManagedObject>(entityName: "Tasks")
+        var count = 0
+        do{
+            taskData = try context2.fetch(fetchRequest2)
+            var s:String = ""
+            if taskData.count != 0{
+                for item in taskData {
+                    s = (item.value(forKey: "folderName") as? String)!
+                    if(s == Name){
+                        count = count + 1
+                    }
+                }
+        
+            }
+        }catch{
+            print("ERROR")
+        }
+        return count
     }
     
     //this function reloads the data when the scene is reloaded
@@ -80,6 +105,32 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         }
     }
     
+    func deleteTasks(){
+        taskData = []
+        let appDelegate2 = UIApplication.shared.delegate as! AppDelegate
+        let context2 = appDelegate2.persistentContainer.viewContext
+        let fetchRequest2 = NSFetchRequest<NSManagedObject>(entityName: "Tasks")
+        
+        do{
+            taskData = try context2.fetch(fetchRequest2)
+            var s:String = ""
+            print("GETTING TASKS")
+            if taskData.count != 0{
+                print("COUNT IS NOT ZERO")
+                for (index, item) in taskData.enumerated() {
+                    s = (item.value(forKey: "folderName") as? String)!
+                    print("\(s)")
+                    if(s == nameClass){
+                        context2.delete(item)
+                    }
+                }
+                try context2.save()
+            }
+        }catch{
+            print("ERROR")
+        }
+    }
+    
 
     
     //delete and edit swipe
@@ -87,8 +138,11 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         let delete = UIContextualAction(style: .destructive, title: "Delete"){ (action, view, completion) in
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let context = appDelegate.persistentContainer.viewContext
+            nameClass = self.itemName[indexPath.row].value(forKey:"name") as? String
+            self.deleteTasks()
             context.delete(self.itemName[indexPath.row])
             self.itemName.remove(at: indexPath.row)
+           
             print("TRYING TO DELETE")
             do{
                 try context.save()
@@ -136,21 +190,21 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     }
     
     func save(alert: UIAlertAction!){
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Folders", in: context)!
-        let theTitle = NSManagedObject(entity: entity, insertInto: context)
-        theTitle.setValue(titleTextField.text, forKey: "name")
-        
-        
-        do{
-            try context.save()
-            itemName.append(theTitle)
-            
-        }catch{
-            print("ERROR")
+        if(titleTextField.text != ""){
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            let entity = NSEntityDescription.entity(forEntityName: "Folders", in: context)!
+            let theTitle = NSManagedObject(entity: entity, insertInto: context)
+            theTitle.setValue(titleTextField.text, forKey: "name")
+            do{
+                try context.save()
+                itemName.append(theTitle)
+                
+            }catch{
+                print("ERROR")
+            }
+            self.taskTable.reloadData()
         }
-        self.taskTable.reloadData()
         
     }
     

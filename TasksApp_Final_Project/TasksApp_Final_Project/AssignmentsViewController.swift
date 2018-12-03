@@ -9,11 +9,12 @@
 import UIKit
 import CoreData
 
-
+var nameClass:String?
 
 class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
     var itemName: [NSManagedObject] = []
+    var sortedItems: [NSManagedObject] = []
     var theIndex:Int = 0
     
     
@@ -27,9 +28,11 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nameClass = className
+        topTitle.title = className
         
         print("Assignments VC")
-        topTitle.title = className
+        
         
         
         // Do any additional setup after loading the view.
@@ -52,14 +55,48 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         complete.backgroundColor = .green
         return UISwipeActionsConfiguration(actions: [complete])
     }
+    /*
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
+    nameClass = self.itemName[indexPath.row].value(forKey:"name") as? String
+    self.deleteTasks()
+    context.delete(self.itemName[indexPath.row])
+    self.itemName.remove(at: indexPath.row)
+    
+    print("TRYING TO DELETE")
+    do{
+    try context.save()
+    }catch{
+    print("ERROR")
+    }
+    //DELETE ROWS ISNT WORKING
+    //self.taskTable.deleteRows(at: [indexPath], with: .automatic)
+    self.taskTable.reloadData()
+    completion(true)*/
+    
+    func getPosition(uniqueString: Int64) -> Int{
+        var count = 0
+        for item in itemName{
+            let uid = item.value(forKey: "uniqueID") as? Int64
+            if(uid == uniqueString){
+                return count
+            }
+            count = count + 1
+        }
+        return 0
+    }
     
     //delete and edit swipe
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "Delete"){ (action, view, completion) in
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let context = appDelegate.persistentContainer.viewContext
-            context.delete(self.itemName[indexPath.row])
-            self.itemName.remove(at: indexPath.row)
+            let title = self.sortedItems[indexPath.row]
+            let uniqueString:Int64 = (title.value(forKey: "uniqueID") as? Int64)!
+            let position:Int = self.getPosition(uniqueString: uniqueString)
+            context.delete(self.itemName[position])
+            self.itemName.remove(at: position)
+            self.sortedItems.remove(at: indexPath.row)
             print("TRYING TO DELETE")
             do{
                 try context.save()
@@ -72,7 +109,7 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
             
             completion(true)
         }
-        let edit = UIContextualAction(style: .destructive, title: "Edit"){ (action, view, completion) in
+        let edit = UIContextualAction(style: .normal, title: "Edit"){ (action, view, completion) in
 
             completion(true)
         }
@@ -84,25 +121,61 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemName.count
+        return sortedItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let title = itemName[indexPath.row]
+        let title = sortedItems[indexPath.row]
         let cell = assignmentTable.dequeueReusableCell(withIdentifier: "assignmentCell", for: indexPath)
         cell.textLabel?.text = title.value(forKey: "name") as? String
         return cell
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        sortedItems = []
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Tasks")
+
+        do{
+            itemName = try context.fetch(fetchRequest)
+            var s:String = ""
+            print("GETTING TASKS")
+            for item in itemName {
+                s = (item.value(forKey: "folderName") as? String)!
+                print("\(s)")
+                if(s == className){
+                    sortedItems.append(item)
+                }
+            }
+            print(sortedItems.count)
+        }catch{
+            print("ERROR")
+        }
+        assignmentTable.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        sortedItems = []
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Tasks")
         
         do{
             itemName = try context.fetch(fetchRequest)
+            var s:String = ""
+            print("GETTING TASKS")
+            for item in itemName {
+                s = (item.value(forKey: "folderName") as? String)!
+                print("\(s)")
+                if(s == className){
+                    sortedItems.append(item)
+                }
+            }
+            print(sortedItems.count)
         }catch{
             print("ERROR")
         }
+        assignmentTable.reloadData()
     }
 }
