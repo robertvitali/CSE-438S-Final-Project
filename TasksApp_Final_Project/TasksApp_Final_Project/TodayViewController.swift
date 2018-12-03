@@ -22,7 +22,8 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var headerList:[String] = ["Events","Reminders"]
     var calendarArray:[EKCalendar] = []
     
-    //***********WEATHER************
+    //***********WEATHER************//
+    @IBOutlet weak var weatherHeader: UIView!
     
     let client = DarkSkyClient(apiKey: "fba905c888a58959fec530185e206514")
     var myLat:Double = 42.3601
@@ -144,7 +145,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         getData()
     }
     
-    //*****************************Event/calendar******************************************
+    //*****************************Event/calendar*********************************//
     
     // fetch event from local calendar data
     func fetchEvents() {
@@ -194,11 +195,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     //table view header view
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
-        view.backgroundColor = UIColor(displayP3Red: 110.0/255, green: 193.0/255, blue: 248.0/255, alpha: 0.8)
+        view.backgroundColor = Colors.headerBackground
         let label = UILabel()
         label.text = headerList[section]
         label.frame =  CGRect(x:30,y:5,width:100,height:35)
-        label.font = UIFont.boldSystemFont(ofSize: 18.0)
+        label.font = UIFont.boldSystemFont(ofSize: 20.0)
         view.addSubview(label)
         
         let button = UIButton(type: .custom)
@@ -238,7 +239,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let animation = CABasicAnimation(keyPath: "transform.rotation")
         animation.toValue = CGFloat.pi
-        animation.duration = 0.2
+        animation.duration = 0.25
         animation.isRemovedOnCompletion = false
         animation.fillMode = kCAFillModeForwards
         button.layer.add(animation, forKey: nil)
@@ -279,11 +280,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-        if indexPath.section == 0{
+        if indexPath.section == 0 {
         cell.textLabel!.text = eventList!.events[indexPath.row].title
             // eventList[indexPath.row].startDate.startHour
             
-            cell.detailTextLabel?.text = "\(eventList!.events[indexPath.row].startDate.time(date: eventList!.events[indexPath.row].startDate)) -- \(eventList!.events[indexPath.row].endDate.time(date: eventList!.events[indexPath.row].endDate))"
+            cell.detailTextLabel?.text = "\(eventList!.events[indexPath.row].startDate.time(date: eventList!.events[indexPath.row].startDate)) to \(eventList!.events[indexPath.row].endDate.time(date: eventList!.events[indexPath.row].endDate))"
         }
        if indexPath.section == 1 {
             cell.textLabel!.text = reminderList!.reminders[indexPath.row].title
@@ -472,6 +473,9 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        weatherHeader.backgroundColor = Colors.headerBackground
+        newsHeader.backgroundColor = Colors.headerBackground
+        
         requestEventAccess()
         requestReminderAccess()
         fetchEvents()
@@ -509,13 +513,13 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.todayTableView.reloadData()
         self.iconView.refresh()
     }
-
     
-   //**********News**********//
+   //****************News****************//
     var newsData: NewsAPIResults? = nil
     var currentIndex = 0
     @IBOutlet weak var newsCollectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var newsHeader: UIView!
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
@@ -567,5 +571,4 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             UIApplication.shared.open(url, options: [:])
         }
     }
-    //*************************//
 }

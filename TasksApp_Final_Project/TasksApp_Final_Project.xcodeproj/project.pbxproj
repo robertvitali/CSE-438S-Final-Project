@@ -13,6 +13,7 @@
 		2F7AACF121AD0B3A00E39BF5 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7AACF021AD0B3A00E39BF5 /* CustomView.swift */; };
 		2F7AACF321AD121300E39BF5 /* ExpandingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7AACF221AD121300E39BF5 /* ExpandingTableView.swift */; };
 		2F940D9C21B393B50088E59E /* Expandable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F940D9B21B393B50088E59E /* Expandable.swift */; };
+		2F998A0321B4E7CF001A8F74 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F998A0221B4E7CF001A8F74 /* Colors.swift */; };
 		7B5BD9DC93AEE9332A5E9738 /* Pods_TasksApp_Final_ProjectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A1368E11420BC4EDE475B8 /* Pods_TasksApp_Final_ProjectTests.framework */; };
 		A033D3092CC38D8CFD44E058 /* Pods_TasksApp_Final_Project.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189424FD61D4DD47DF206BE9 /* Pods_TasksApp_Final_Project.framework */; };
 		A730412A21B3B664000B6F2F /* Skycons.swift in Sources */ = {isa = PBXBuildFile; fileRef = A730412921B3B664000B6F2F /* Skycons.swift */; };
@@ -66,6 +67,7 @@
 		2F7AACF021AD0B3A00E39BF5 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		2F7AACF221AD121300E39BF5 /* ExpandingTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandingTableView.swift; sourceTree = "<group>"; };
 		2F940D9B21B393B50088E59E /* Expandable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expandable.swift; sourceTree = "<group>"; };
+		2F998A0221B4E7CF001A8F74 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		38A1368E11420BC4EDE475B8 /* Pods_TasksApp_Final_ProjectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TasksApp_Final_ProjectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8109AF5EF89054D2E0FCB449 /* Pods-TasksApp_Final_ProjectUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_ProjectUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_ProjectUITests/Pods-TasksApp_Final_ProjectUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A730412921B3B664000B6F2F /* Skycons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skycons.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				2F03C3A821B205C500CB2E6E /* NewsCollectionViewCell.swift */,
 				2F940D9B21B393B50088E59E /* Expandable.swift */,
 				A730412921B3B664000B6F2F /* Skycons.swift */,
+				2F998A0221B4E7CF001A8F74 /* Colors.swift */,
 				E1B7E67A21B45F1E009907E8 /* List.xcdatamodeld */,
 			);
 			path = TasksApp_Final_Project;
@@ -485,6 +488,7 @@
 				E1C4B13521AC875B00EDDA5D /* AddFolderViewController.swift in Sources */,
 				2F940D9C21B393B50088E59E /* Expandable.swift in Sources */,
 				E129081421B4C8A800236F27 /* Tasks+CoreDataProperties.swift in Sources */,
+				2F998A0321B4E7CF001A8F74 /* Colors.swift in Sources */,
 				2F7AACF121AD0B3A00E39BF5 /* CustomView.swift in Sources */,
 				E1B7E67C21B45F1E009907E8 /* List.xcdatamodeld in Sources */,
 				E14060C0219E34CF0043E590 /* TasksViewController.swift in Sources */,

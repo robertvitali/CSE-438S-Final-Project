@@ -13,7 +13,7 @@ class CustomView: UIView {
     override func draw(_ rect: CGRect) {
         layer.masksToBounds = false
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.4
+        layer.shadowOpacity = 0.5
         layer.shadowOffset = .zero
         layer.shadowRadius = 2
     }
