@@ -11,19 +11,48 @@ import GoogleSignIn
 import Firebase
 
 class ProfileViewController: UIViewController, UITableViewDataSource {
+   
+    var account:[String] = ["Sign Out"]
+    var setting:[String] = ["Temperature", "Night Mode"]
+    var headerList:[String] = ["Account","Settings"]
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return headerList[section]
+    }
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        if(section == 0){
+            return account.count
+        }
+        else{
+            return setting.count
+        }
     }
     
     @IBOutlet weak var settingTableView: UITableView!
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        if indexPath.section == 0{
+            cell.detailTextLabel?.text = account[indexPath.row]
+        }
+        if indexPath.section == 1 {
+            cell.textLabel!.text = setting[indexPath.row]
+        }
+        return cell
     }
     
-
-    
-    
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if(indexPath.section == 0) && indexPath.row == 0{
+            GIDSignIn.sharedInstance().signOut()
+            print("SIGN OUT")
+            let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+            
+            let nextViewController = storyBoard.instantiateViewController(withIdentifier: "SignIn") as! SignInViewController
+            self.present(nextViewController, animated:true, completion:nil)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,16 +67,16 @@ class ProfileViewController: UIViewController, UITableViewDataSource {
     
     
     
-    @IBAction func signOutClicked(_ sender: Any) {
-        GIDSignIn.sharedInstance().signOut()
-        print("SIGN OUT")
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        
-        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "SignIn") as! SignInViewController
-        self.present(nextViewController, animated:true, completion:nil)
-    }
-    
-    
+//    @IBAction func signOutClicked(_ sender: Any) {
+//        GIDSignIn.sharedInstance().signOut()
+//        print("SIGN OUT")
+//        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+//
+//        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "SignIn") as! SignInViewController
+//        self.present(nextViewController, animated:true, completion:nil)
+//    }
+//
+//
     /*
     // MARK: - Navigation
 

@@ -393,6 +393,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    //
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let date = Date()
         print("cell selected")
