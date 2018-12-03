@@ -25,7 +25,6 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
     @IBOutlet var topTitle: UINavigationItem!
     @IBOutlet var assignmentTable: UITableView!
     @IBOutlet var addTask: UIBarButtonItem!
-    @IBOutlet var toggleCompleted: UIBarButtonItem!
     
     
     override func viewDidLoad() {
@@ -199,5 +198,8 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
     
     override func viewDidAppear(_ animated: Bool) {
         getData()
+    }
+    @IBAction func toggleCompleted(_ sender: Any) {
+        
     }
 }
