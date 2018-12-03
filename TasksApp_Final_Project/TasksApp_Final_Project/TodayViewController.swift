@@ -21,7 +21,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     @IBOutlet var titleBar: UINavigationItem!
     
-    
     @IBOutlet weak var todayTableView: UITableView!
     var eventStore:EKEventStore = EKEventStore.init()
     var eventList: ExpandableEvents? = nil
@@ -485,6 +484,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         let day = calendar.component(.day, from: date)
         todayTableView.delegate = self
         
+       // titleBar.prefersLargeTitles = true
         titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
         setupNewsCollectionView()
         fetchDataForNewsCollectionView()
