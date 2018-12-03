@@ -32,7 +32,8 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        navigationBar.title = "Lists"
+        navigationBar.title = "Folders"
+        taskTable.backgroundColor = Colors.headerBackground
     }
 
     override func didReceiveMemoryWarning() {

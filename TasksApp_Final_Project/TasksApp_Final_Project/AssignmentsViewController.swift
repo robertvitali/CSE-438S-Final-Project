@@ -31,6 +31,7 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         super.viewDidLoad()
         nameClass = className
         topTitle.title = className
+        assignmentTable.backgroundColor = Colors.headerBackground
         
         print("Assignments VC")
         
@@ -130,9 +131,6 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
             }catch{
                 print("ERROR")
             }
-            //DELETE ROWS ISNT WORKING
-            //self.taskTable.deleteRows(at: [indexPath], with: .automatic)
-            //self.assignmentTable.reloadData()
             self.getData()
             
             completion(true)
@@ -156,6 +154,11 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         let title = sortedItems[indexPath.row]
         let cell = assignmentTable.dequeueReusableCell(withIdentifier: "assignmentCell", for: indexPath)
         cell.textLabel?.text = title.value(forKey: "name") as? String
+        if(showingCompleted == true){
+            cell.textLabel?.textColor = Colors.headerBackground
+        }else{
+            cell.textLabel?.textColor = .black
+        }
         return cell
     }
     
@@ -200,6 +203,18 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         getData()
     }
     @IBAction func toggleCompleted(_ sender: Any) {
-        
+        let alert = UIAlertController(title: "Toggle", message: "Would you like to toggle the completed/not completed events?", preferredStyle: .alert)
+        let Yes = UIAlertAction(title: "Yes", style: .default, handler: self.yes)
+        let No = UIAlertAction(title: "No", style: .default, handler: nil)
+        alert.addAction(Yes)
+        alert.addAction(No)
+        self.present(alert, animated: true, completion: nil)
     }
+    
+    func yes(alert:UIAlertAction){
+        showingCompleted = !showingCompleted
+        getData()
+    }
+    
+    
 }
