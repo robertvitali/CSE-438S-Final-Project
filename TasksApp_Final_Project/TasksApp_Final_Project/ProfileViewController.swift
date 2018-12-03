@@ -9,9 +9,15 @@
 import UIKit
 import GoogleSignIn
 import Firebase
+import FirebaseDatabase
+
+var displayInF:Bool = true
+var darkMode:Bool = false
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-   
+
+    let userID = Auth.auth().currentUser!.uid
+    let ref = Database.database().reference()
     var account:[String] = ["Sign Out"]
     var setting:[String] = ["Temperature", "Night Mode"]
     var headerList:[String] = ["Account","Settings"]
@@ -20,7 +26,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         return headerList[section]
     }
     
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(section == 0){
             return account.count
@@ -32,6 +38,29 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBOutlet weak var settingTableView: UITableView!
     
+    @objc func changeTempUnit(_ sender:UISwitch){
+        if(sender.isOn == true){
+           displayInF = true
+            ref.child("\(userID)?").setValue(["TempUnitF":displayInF])
+        }
+        else{
+            displayInF = false
+           ref.child("\(userID)?").setValue(["TempUnitF":displayInF])
+        }
+    }
+    
+    @objc func setDarkMode(_ sender:UISwitch){
+        if(sender.isOn == true){
+            darkMode = true
+        //   ref.child("\(userID)?").setValue(["darkMode":darkMode])
+        }
+        else{
+            darkMode = false
+         //  ref.child("\(userID)?").setValue(["darkMode":darkMode])
+        }
+    }
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
         if indexPath.section == 0{
@@ -41,10 +70,19 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.textLabel!.text = setting[indexPath.row]
             //https://stackoverflow.com/questions/47038673/add-switch-in-uitableview-cell-in-swift for adding switch to table view cell
             let switchView = UISwitch(frame : .zero)
-            switchView.setOn(false, animated: true)
+            if(indexPath.row == 0){
+            switchView.setOn(displayInF, animated: true)
+            }
+            else{
+            switchView.setOn(darkMode, animated: true)
+            }
             switchView.tag = indexPath.row
-//            switchView.addTarget(<#T##target: Any?##Any?#>, action: <#T##Selector#>, for: <#T##UIControlEvents#>)
-//            (self, action: #selector(self.switchChanged(_:)), for: .valueChanged)
+            if(indexPath.row == 0){
+                switchView.addTarget(self, action: #selector(ProfileViewController.changeTempUnit(_:)), for: .valueChanged)
+            }
+            else{
+                switchView.addTarget(self, action: #selector(ProfileViewController.setDarkMode(_:)), for: .valueChanged)
+            }
             cell.accessoryView = switchView
         }
         return cell
@@ -72,8 +110,23 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         return 2
     }
     
+//    func fetchDataFromFirebase() {
+//        print ("firebase time")
+//        ref.child("\(userID)?/darkMode").observe(.value){ (snapshot) in
+//            darkMode = (snapshot.value as? Bool)!
+//        }
+//        ref.child("\(userID)?/tempUnitF").observe(.value){ (snapshot) in
+//            displayInF = (snapshot.value as? Bool)!
+//        }
+//    }
+    
+    
+    
+    
     override func viewDidLoad() {
+       // ref.child().observeSingleEvent
         super.viewDidLoad()
+      //  fetchDataFromFirebase()
         setupTableView()
         // Do any additional setup after loading the view.
     }
@@ -83,18 +136,11 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         // Dispose of any resources that can be recreated.
     }
     
+
     
     
-//    @IBAction func signOutClicked(_ sender: Any) {
-//        GIDSignIn.sharedInstance().signOut()
-//        print("SIGN OUT")
-//        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-//
-//        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "SignIn") as! SignInViewController
-//        self.present(nextViewController, animated:true, completion:nil)
-//    }
-
-
+    
+    
     /*
     // MARK: - Navigation
 
