@@ -17,12 +17,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     let userID = Auth.auth().currentUser!.uid
     let ref = Database.database().reference()
     
-    
-    
-    
-    
-    
-    
     @IBOutlet var titleBar: UINavigationItem!
     @IBOutlet weak var todayTableView: UITableView!
     var eventStore:EKEventStore = EKEventStore.init()
@@ -30,6 +24,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var reminderList: ExpandableReminders? = nil
     var headerList:[String] = ["Events","Reminders"]
     var calendarArray:[EKCalendar] = []
+    
     
     //***********WEATHER************//
     @IBOutlet weak var weatherHeader: UIView!

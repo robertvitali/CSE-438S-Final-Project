@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/zhangxiangmin/Documents/GitHub/CSE_438_Final_Project/TasksApp_Final_Project/TasksApp_Final_Project/Profile.swift">
-   </FileRef>
-   <FileRef
       location = "group:TasksApp_Final_Project.xcodeproj">
    </FileRef>
    <FileRef
