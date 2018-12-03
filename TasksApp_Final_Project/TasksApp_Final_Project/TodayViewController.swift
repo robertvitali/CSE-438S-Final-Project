@@ -68,13 +68,13 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.client.getForecast(latitude: self.myLat, longitude: self.myLon) { result in
             switch result {
             case .success(let currentForecast, let requestMetadata):
+                self.iconView.refresh()
                 self.spinner.isHidden = true
                 self.summaryText = (currentForecast.currently?.summary)!
                 self.tempText = "\(String((currentForecast.currently?.temperature)!))º \(self.displayUnits)"
                 self.summaryLabel.font.withSize(20)
                 self.tempLabel.font.withSize(12)
                 self.summaryLabel.textColor = .gray
-                print((currentForecast.currently?.summary)!)
                 self.summaryLabel.text = self.summaryText
                 self.tempLabel.text = self.tempText
             //icons
