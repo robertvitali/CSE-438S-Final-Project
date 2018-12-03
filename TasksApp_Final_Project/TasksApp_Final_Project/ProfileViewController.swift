@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     let userID = Auth.auth().currentUser!.uid
     let ref = Database.database().reference()
     var account:[String] = ["Sign Out"]
-    var setting:[String] = ["Temperature", "Night Mode"]
+    var setting:[String] = ["Temperature"]
     var headerList:[String] = ["Account","Settings"]
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -42,19 +42,8 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         else{
             Profile.displayInF = false
         }
-        ref.child("\(userID)").setValue(["TempUnitF":Profile.displayInF])
+        ref.child("\(userID)/TempUnitF").setValue(["TempUnitF":Profile.displayInF])
     }
-    
-    @objc func setDarkMode(_ sender:UISwitch){
-        if(sender.isOn == true){
-            Profile.darkMode = true
-        }
-        else{
-            Profile.darkMode = false
-        }
-        ref.child("\(userID)").setValue(["darkMode":Profile.darkMode])
-    }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
@@ -66,17 +55,11 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             //https://stackoverflow.com/questions/47038673/add-switch-in-uitableview-cell-in-swift for adding switch to table view cell
             let switchView = UISwitch(frame : .zero)
             if(indexPath.row == 0){
-            switchView.setOn(Profile.displayInF, animated: true)
-            }
-            else{
-            switchView.setOn(Profile.darkMode, animated: true)
+                switchView.setOn(Profile.displayInF ?? true, animated: true)
             }
             switchView.tag = indexPath.row
             if(indexPath.row == 0){
                 switchView.addTarget(self, action: #selector(ProfileViewController.changeTempUnit(_:)), for: .valueChanged)
-            }
-            else{
-                switchView.addTarget(self, action: #selector(ProfileViewController.setDarkMode(_:)), for: .valueChanged)
             }
             cell.accessoryView = switchView
         }
@@ -107,25 +90,27 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func fetchDataFromFirebase() {
         print ("firebase time")
-        ref.child("\(userID)?/darkMode").observe(.value, with: {(snapshot) in
-            let store = snapshot.value as? Bool
-            Profile.darkMode = store!
-        })
         ref.child("\(userID)?/TempUnitF").observe(.value, with: {(snapshot) in
                 let store = snapshot.value as? Bool
-               Profile.displayInF = store!
+               Profile.displayInF = store! ?? true
             })
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         ref.child("\(userID)").setValue(["darkMode":Profile.darkMode])
-         ref.child("\(userID)").setValue(["TempUnitF":Profile.displayInF])
-        fetchDataFromFirebase()
-        setupTableView()
+        print(Profile.displayInF)
+        self.fetchDataFromFirebase()
+        ref.child("\(userID)/TempUnitF").setValue(["TempUnitF":Profile.displayInF])
+        print(Profile.displayInF)
+        self.setupTableView()
         // Do any additional setup after loading the view.
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        self.fetchDataFromFirebase()
+        print(Profile.displayInF)
+        settingTableView.reloadData()
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

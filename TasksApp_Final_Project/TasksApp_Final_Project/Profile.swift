@@ -9,6 +9,6 @@
 import Foundation
 
 struct Profile{
-    static var displayInF:Bool = true
-    static var darkMode:Bool = false
+    static var displayInF:Bool?
+    static var darkMode:Bool?
 }

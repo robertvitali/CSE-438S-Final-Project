@@ -76,7 +76,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         spinner.startAnimating()
         self.client.getForecast(latitude: self.myLat, longitude: self.myLon) { result in
             switch result {
-            case .success(let currentForecast, let _):
+            case .success(let currentForecast, _):
                 print("Forecast received!")
                 self.spinner.isHidden = true
                 self.iconView.refresh()
@@ -130,7 +130,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
                 self.iconView.setColor = UIColor.black
                 self.spinner.isHidden = true
-            case .failure(let error):
+            case .failure(let _):
                 //  Uh-oh. We have an error!
                 print("error getting forecast!")
             }
