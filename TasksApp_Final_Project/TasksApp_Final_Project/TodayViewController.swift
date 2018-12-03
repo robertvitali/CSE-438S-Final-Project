@@ -9,10 +9,19 @@
 import UIKit
 import EventKit
 import FirebaseAuth
+import FirebaseDatabase
 import ForecastIO
 import CoreLocation
 
 class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, CLLocationManagerDelegate {
+    let userID = Auth.auth().currentUser!.uid
+    let ref = Database.database().reference()
+    
+    
+    
+    
+    
+    
     
     @IBOutlet var titleBar: UINavigationItem!
     @IBOutlet weak var todayTableView: UITableView!
@@ -468,6 +477,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         requestEventAccess()
         requestReminderAccess()
+        fetchDataFromFirebase()
         fetchEvents()
         fetchReminder()
         setupTableView()
@@ -538,6 +548,18 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         newsCollectionView.dataSource = self
         newsCollectionView.delegate = self
         newsCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+    }
+    
+    func fetchDataFromFirebase() {
+        print ("firebase time")
+        ref.child("\(userID)?/darkMode").observe(.value, with: {(snapshot) in
+            let store = snapshot.value as? Bool
+            Profile.darkMode = store!
+        })
+        ref.child("\(userID)?/TempUnitF").observe(.value, with: {(snapshot) in
+            let store = snapshot.value as? Bool
+            Profile.displayInF = store!
+        })
     }
     
     func fetchDataForNewsCollectionView() {
