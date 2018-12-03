@@ -155,7 +155,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         let now = Date()
         let calendar = Calendar.current
         var dateComponents = DateComponents.init()
-        dateComponents.day = 60
+        dateComponents.day = 1
         let futureDate = calendar.date(byAdding: dateComponents, to: now)
         let eventsPredicate = self.eventStore.predicateForEvents(withStart: now, end: futureDate!, calendars: nil)
         let events = self.eventStore.events(matching: eventsPredicate)
@@ -164,14 +164,13 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             print("\(String(describing: event.title))")
         }
         eventList = ExpandableEvents(isExpanded: true, events: eList)
-        print("eList contains\(eList)")
     }
     
     //fetch reminder from local reminder
     func fetchReminder(){
         var rList: [EKReminder] = []
                 var dateComponents = DateComponents.init()
-                dateComponents.day = 60
+                dateComponents.day = 1
                 let reminderPredicate = self.eventStore.predicateForIncompleteReminders(withDueDateStarting: nil, ending: nil, calendars: nil)
                     self.eventStore.fetchReminders(matching: reminderPredicate, completion: {
                         (reminders: [EKReminder]?) -> Void in
@@ -180,7 +179,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                             print("\(String(describing: reminder.title))")
                             }
                         self.reminderList = ExpandableReminders(isExpanded: true, reminders: rList)
-                        print("rList contains\(rList)")
                })
     }
     
@@ -333,7 +331,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete"){(action, view, completion) in
         if(indexPath.section == 0){
-          //  let eventSelected = eventList?.events[indexPath.row]
                 print("\(indexPath.row) \(String(describing: self.eventList!.events[indexPath.row].title))deleted")
                 self.deleteEvent((self.eventList?.events[indexPath.row].eventIdentifier)!)
                 self.eventList!.events.remove(at: indexPath.row)
@@ -349,26 +346,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
         return action
     }
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//            if(indexPath.section == 0){
-//                if(editingStyle == .delete){
-//                print("\(indexPath.row) \(String(describing: eventList!.events[indexPath.row].title))deleted")
-//                deleteEvent((eventList?.events[indexPath.row].eventIdentifier)!)
-//                eventList!.events.remove(at: indexPath.row)
-//                self.todayTableView.reloadData()
-//                }
-//            }
-//            else{
-//                 if(editingStyle == .delete){
-//                print("\(indexPath.row) \(String(describing: reminderList!.reminders[indexPath.row].title))deleted")
-//                reminderList!.reminders.remove(at: indexPath.row)
-//                self.todayTableView.reloadData()
-//                }
-//                if(editingStyle == .none){
-//
-//                }
-//            }
-//    }
+    
     // delete event from calendar
     func deleteEvent(_ storedEventID: String)
     {
@@ -436,11 +414,21 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    func gotoReminder(){
+        if let url = URL(string: "x-apple-reminder://"){
+             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
     //
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let date = Date()
         print("cell selected")
+            if(indexPath.section == 0){
         gotoAppleCalendar(date: date)
+    }
+            else{
+                gotoReminder()
+            }
     }
     
     // request access for local event
@@ -494,14 +482,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         setupNewsCollectionView()
         fetchDataForNewsCollectionView()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.todayTableView.reloadData()
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.iconView.refresh()
             self.spinner.isHidden = true
         }
-  
     }
 
     override func didReceiveMemoryWarning() {
@@ -513,9 +498,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         print("enter viewDidAppear")
         fetchEvents()
         fetchReminder()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
         self.todayTableView.reloadData()
         self.iconView.refresh()
         self.spinner.isHidden = true
+        }
     }
     
    //****************News****************//

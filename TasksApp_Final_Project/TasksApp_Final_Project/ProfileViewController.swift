@@ -52,11 +52,11 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     @objc func setDarkMode(_ sender:UISwitch){
         if(sender.isOn == true){
             darkMode = true
-        //   ref.child("\(userID)?").setValue(["darkMode":darkMode])
+          ref.child("\(userID)?").setValue(["darkMode":darkMode])
         }
         else{
             darkMode = false
-         //  ref.child("\(userID)?").setValue(["darkMode":darkMode])
+          ref.child("\(userID)?").setValue(["darkMode":darkMode])
         }
     }
     
@@ -110,23 +110,24 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         return 2
     }
     
-//    func fetchDataFromFirebase() {
-//        print ("firebase time")
-//        ref.child("\(userID)?/darkMode").observe(.value){ (snapshot) in
-//            darkMode = (snapshot.value as? Bool)!
-//        }
-//        ref.child("\(userID)?/tempUnitF").observe(.value){ (snapshot) in
-//            displayInF = (snapshot.value as? Bool)!
-//        }
-//    }
-    
-    
-    
+    func fetchDataFromFirebase() {
+        print ("firebase time")
+//        ref.child("\(userID)?/darkMode").observe(.value, with: {(snapshot) in
+//             //darkMode = snapshot.value
+//            let store = snapshot.value as? Bool
+//            darkMode = store!
+//        })
+//            ref.child("\(userID)?/tempUnitF").observe(.value, with: {(snapshot) in
+//                //darkMode = snapshot.value
+//                let store = snapshot.value as? Bool
+//               displayInF = store!
+//            })
+    }
     
     override func viewDidLoad() {
        // ref.child().observeSingleEvent
         super.viewDidLoad()
-      //  fetchDataFromFirebase()
+        fetchDataFromFirebase()
         setupTableView()
         // Do any additional setup after loading the view.
     }
@@ -135,11 +136,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
-    
-    
-    
     
     /*
     // MARK: - Navigation
