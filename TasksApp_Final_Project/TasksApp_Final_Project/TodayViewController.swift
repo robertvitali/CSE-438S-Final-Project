@@ -19,7 +19,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var eventStore:EKEventStore = EKEventStore.init()
     var eventList: ExpandableEvents? = nil
     var reminderList: ExpandableReminders? = nil
-    var headerList:[String] = ["Event","Reminder"]
+    var headerList:[String] = ["Events","Reminders"]
     var calendarArray:[EKCalendar] = []
     
     //***********WEATHER************
