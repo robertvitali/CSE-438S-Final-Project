@@ -472,7 +472,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         requestEventAccess()
         requestReminderAccess()
-        fetchDataFromFirebase()
         fetchEvents()
         fetchReminder()
         setupTableView()
@@ -545,17 +544,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         newsCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
     }
     
-    func fetchDataFromFirebase() {
-        print ("firebase time")
-        ref.child("\(userID)?/darkMode").observe(.value, with: {(snapshot) in
-            let store = snapshot.value as? Bool
-            Profile.darkMode = store!
-        })
-        ref.child("\(userID)?/TempUnitF").observe(.value, with: {(snapshot) in
-            let store = snapshot.value as? Bool
-            Profile.displayInF = store!
-        })
-    }
     
     func fetchDataForNewsCollectionView() {
         guard let url = URL(string: "https://newsapi.org/v2/top-headlines?country=us&apiKey=1bb0874ef4e84c82a8a341a27670b113") else {
