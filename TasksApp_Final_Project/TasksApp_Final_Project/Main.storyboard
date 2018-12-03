@@ -319,22 +319,6 @@
             </objects>
             <point key="canvasLocation" x="2437.5999999999999" y="1208.095952023988"/>
         </scene>
-        <!--Calendar-->
-        <scene sceneID="Qa4-9E-t9S">
-            <objects>
-                <viewController id="NiS-n7-b8K" customClass="CalendarViewController" customModule="TasksApp_Final_Project" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="P9u-SU-yQC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="9VZ-mp-cZ7"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Calendar" image="icons8-calendar-filled-50.png" id="rsn-uf-tLx"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kCq-w6-Tpn" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1561" y="1995"/>
-        </scene>
         <!--Tasks View Controller-->
         <scene sceneID="yJG-4E-DQB">
             <objects>
@@ -456,40 +440,40 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QHg-el-x2E">
-                                <rect key="frame" x="95" y="114" width="185" height="30"/>
+                                <rect key="frame" x="95" y="182" width="185" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lCx-aS-vqT">
-                                <rect key="frame" x="95" y="85" width="89" height="21"/>
+                                <rect key="frame" x="95" y="153" width="89" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Due Date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k8d-OB-EgJ">
-                                <rect key="frame" x="95" y="175" width="116" height="21"/>
+                                <rect key="frame" x="95" y="229" width="116" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tX7-KW-1Y3">
-                                <rect key="frame" x="95" y="204" width="185" height="30"/>
+                                <rect key="frame" x="95" y="258" width="185" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xMA-P5-nFn">
-                                <rect key="frame" x="95" y="284" width="185" height="103"/>
+                                <rect key="frame" x="95" y="351" width="185" height="103"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="103" id="T9o-it-BN9"/>
+                                    <constraint firstAttribute="height" constant="103" id="Af2-mC-h6r"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tci-MQ-Nid">
-                                <rect key="frame" x="95" y="255" width="51" height="21"/>
+                                <rect key="frame" x="95" y="322" width="51" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -501,34 +485,46 @@
                                 </items>
                             </navigationBar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6fQ-rI-azU">
-                                <rect key="frame" x="156" y="395" width="63" height="30"/>
+                                <rect key="frame" x="156" y="572" width="63" height="30"/>
                                 <state key="normal" title="Add Task"/>
                                 <connections>
                                     <action selector="createTaskClicked:" destination="nd9-iQ-QL8" eventType="touchUpInside" id="23Z-dB-RVm"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLr-sr-PIr">
+                                <rect key="frame" x="95" y="97" width="185" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="zbk-x9-E17"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="xMA-P5-nFn" firstAttribute="centerX" secondItem="fud-Y4-03s" secondAttribute="centerX" id="5i8-2R-2F4"/>
-                            <constraint firstItem="tX7-KW-1Y3" firstAttribute="leading" secondItem="tci-MQ-Nid" secondAttribute="leading" id="6aP-wD-oec"/>
-                            <constraint firstItem="QHg-el-x2E" firstAttribute="top" secondItem="lCx-aS-vqT" secondAttribute="bottom" constant="8" symbolic="YES" id="9qj-3A-6tp"/>
-                            <constraint firstItem="6fQ-rI-azU" firstAttribute="top" secondItem="xMA-P5-nFn" secondAttribute="bottom" constant="8" symbolic="YES" id="Jce-be-s62"/>
-                            <constraint firstItem="k8d-OB-EgJ" firstAttribute="leading" secondItem="tX7-KW-1Y3" secondAttribute="leading" id="JeW-h6-Yu2"/>
-                            <constraint firstItem="QHg-el-x2E" firstAttribute="centerX" secondItem="fud-Y4-03s" secondAttribute="centerX" id="MzQ-rf-67m"/>
-                            <constraint firstItem="lCx-aS-vqT" firstAttribute="leading" secondItem="qrJ-3i-gXx" secondAttribute="leading" constant="95" id="TjW-jO-4ed"/>
-                            <constraint firstItem="tX7-KW-1Y3" firstAttribute="top" secondItem="k8d-OB-EgJ" secondAttribute="bottom" constant="8" symbolic="YES" id="V9X-nd-N9f"/>
-                            <constraint firstItem="QHg-el-x2E" firstAttribute="centerX" secondItem="ovS-sa-dhs" secondAttribute="centerX" id="Xz1-6A-ohW"/>
-                            <constraint firstItem="lCx-aS-vqT" firstAttribute="leading" secondItem="QHg-el-x2E" secondAttribute="leading" id="Ybb-Ri-HtM"/>
-                            <constraint firstItem="lCx-aS-vqT" firstAttribute="top" secondItem="fud-Y4-03s" secondAttribute="bottom" constant="21" id="Yl0-CX-AXI"/>
-                            <constraint firstItem="qrJ-3i-gXx" firstAttribute="bottom" secondItem="6fQ-rI-azU" secondAttribute="bottom" constant="242" id="YmK-Sg-MNf"/>
-                            <constraint firstItem="QHg-el-x2E" firstAttribute="leading" secondItem="k8d-OB-EgJ" secondAttribute="leading" id="csY-lL-xlY"/>
-                            <constraint firstItem="xMA-P5-nFn" firstAttribute="top" secondItem="tci-MQ-Nid" secondAttribute="bottom" constant="8" symbolic="YES" id="dtA-Rl-J6S"/>
-                            <constraint firstItem="tX7-KW-1Y3" firstAttribute="centerX" secondItem="fud-Y4-03s" secondAttribute="centerX" id="eFO-1j-2g7"/>
-                            <constraint firstItem="tci-MQ-Nid" firstAttribute="leading" secondItem="xMA-P5-nFn" secondAttribute="leading" id="mUh-le-Afq"/>
-                            <constraint firstItem="k8d-OB-EgJ" firstAttribute="top" secondItem="QHg-el-x2E" secondAttribute="bottom" constant="31" id="pOs-FA-xYJ"/>
-                            <constraint firstItem="tci-MQ-Nid" firstAttribute="top" secondItem="tX7-KW-1Y3" secondAttribute="bottom" constant="21" id="y9R-Zg-M6c"/>
-                            <constraint firstItem="6fQ-rI-azU" firstAttribute="centerX" secondItem="fud-Y4-03s" secondAttribute="centerX" id="yAr-dH-q9k"/>
+                            <constraint firstItem="QHg-el-x2E" firstAttribute="centerX" secondItem="fud-Y4-03s" secondAttribute="centerX" id="0Vw-W0-NmZ"/>
+                            <constraint firstItem="vLr-sr-PIr" firstAttribute="leading" secondItem="lCx-aS-vqT" secondAttribute="leading" id="5Ph-vI-DG5"/>
+                            <constraint firstItem="xMA-P5-nFn" firstAttribute="top" secondItem="tci-MQ-Nid" secondAttribute="bottom" constant="8" symbolic="YES" id="9be-nB-QJF"/>
+                            <constraint firstItem="vLr-sr-PIr" firstAttribute="top" secondItem="ovS-sa-dhs" secondAttribute="top" constant="97" id="Ge7-tf-vWB"/>
+                            <constraint firstItem="qrJ-3i-gXx" firstAttribute="bottom" secondItem="6fQ-rI-azU" secondAttribute="bottom" constant="65" id="J6J-nl-8VE"/>
+                            <constraint firstItem="xMA-P5-nFn" firstAttribute="centerX" secondItem="fud-Y4-03s" secondAttribute="centerX" id="Ml7-la-6MW"/>
+                            <constraint firstItem="vLr-sr-PIr" firstAttribute="top" secondItem="fud-Y4-03s" secondAttribute="bottom" constant="33" id="OiK-BZ-hud"/>
+                            <constraint firstItem="vLr-sr-PIr" firstAttribute="leading" secondItem="qrJ-3i-gXx" secondAttribute="leading" constant="95" id="Q2D-Am-kcn"/>
+                            <constraint firstItem="tX7-KW-1Y3" firstAttribute="leading" secondItem="tci-MQ-Nid" secondAttribute="leading" id="Sqr-oC-sXc"/>
+                            <constraint firstItem="lCx-aS-vqT" firstAttribute="leading" secondItem="QHg-el-x2E" secondAttribute="leading" id="UOP-4a-O3A"/>
+                            <constraint firstItem="QHg-el-x2E" firstAttribute="top" secondItem="lCx-aS-vqT" secondAttribute="bottom" constant="8" symbolic="YES" id="WJR-8x-8zE"/>
+                            <constraint firstItem="6fQ-rI-azU" firstAttribute="centerX" secondItem="fud-Y4-03s" secondAttribute="centerX" id="aHR-Bn-qaT"/>
+                            <constraint firstItem="tci-MQ-Nid" firstAttribute="top" secondItem="tX7-KW-1Y3" secondAttribute="bottom" constant="34" id="bYW-Cg-X36"/>
+                            <constraint firstItem="vLr-sr-PIr" firstAttribute="centerX" secondItem="fud-Y4-03s" secondAttribute="centerX" id="dJe-CR-Ajk"/>
+                            <constraint firstItem="tX7-KW-1Y3" firstAttribute="top" secondItem="k8d-OB-EgJ" secondAttribute="bottom" constant="8" symbolic="YES" id="eYt-AR-4Zk"/>
+                            <constraint firstItem="k8d-OB-EgJ" firstAttribute="top" secondItem="QHg-el-x2E" secondAttribute="bottom" constant="17" id="gRq-A9-L6l"/>
+                            <constraint firstItem="QHg-el-x2E" firstAttribute="leading" secondItem="k8d-OB-EgJ" secondAttribute="leading" id="hYI-27-mwt"/>
+                            <constraint firstItem="tci-MQ-Nid" firstAttribute="leading" secondItem="xMA-P5-nFn" secondAttribute="leading" id="j8m-DS-uYx"/>
+                            <constraint firstItem="lCx-aS-vqT" firstAttribute="top" secondItem="vLr-sr-PIr" secondAttribute="bottom" constant="8" symbolic="YES" id="nSj-rq-Lsa"/>
+                            <constraint firstItem="k8d-OB-EgJ" firstAttribute="leading" secondItem="tX7-KW-1Y3" secondAttribute="leading" id="sGy-g2-sKO"/>
+                            <constraint firstItem="tX7-KW-1Y3" firstAttribute="centerX" secondItem="fud-Y4-03s" secondAttribute="centerX" id="vMn-Uc-V9K"/>
+                            <constraint firstItem="vLr-sr-PIr" firstAttribute="centerX" secondItem="ovS-sa-dhs" secondAttribute="centerX" id="yRb-fi-P82"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qrJ-3i-gXx"/>
                     </view>
@@ -537,6 +533,7 @@
                         <outlet property="notesBox" destination="xMA-P5-nFn" id="PlR-Ok-l8A"/>
                         <outlet property="taskButton" destination="6fQ-rI-azU" id="tZi-83-2nA"/>
                         <outlet property="taskDateField" destination="tX7-KW-1Y3" id="Pfq-kT-JRl"/>
+                        <outlet property="taskLabel" destination="vLr-sr-PIr" id="4Tm-xZ-nMF"/>
                         <outlet property="taskNameField" destination="QHg-el-x2E" id="lSK-Uo-bOg"/>
                     </connections>
                 </viewController>
@@ -582,7 +579,6 @@
                     </tabBar>
                     <connections>
                         <segue destination="mDd-ww-7kS" kind="relationship" relationship="viewControllers" id="l2L-zX-3io"/>
-                        <segue destination="NiS-n7-b8K" kind="relationship" relationship="viewControllers" id="sMg-GG-zal"/>
                         <segue destination="sOr-TC-YGU" kind="relationship" relationship="viewControllers" id="bYm-WF-N8c"/>
                         <segue destination="XpS-1I-HuL" kind="relationship" relationship="viewControllers" id="N2Y-w9-qft"/>
                     </connections>
@@ -649,7 +645,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icons8-calendar-filled-50.png" width="25" height="25"/>
         <image name="icons8-checklist-filled-50.png" width="25" height="25"/>
         <image name="icons8-settings-26.png" width="26" height="26"/>
         <image name="icons8-star-filled-50.png" width="25" height="25"/>

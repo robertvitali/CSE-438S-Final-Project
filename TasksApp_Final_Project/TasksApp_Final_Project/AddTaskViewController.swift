@@ -17,6 +17,7 @@ class AddTaskViewController: UIViewController {
     @IBOutlet var notesBox: UITextView!
     @IBOutlet var navBar: UINavigationBar!
     @IBOutlet var taskButton: UIButton!
+    @IBOutlet var taskLabel: UILabel!
     
     private var datePicker: UIDatePicker?
     
@@ -24,7 +25,7 @@ class AddTaskViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if(taskName != ""){
+        if(taskName != "" && taskName != nil){
             //set title to edit
             taskNameField.text = taskName
             //taskDateField.text = taskDate
@@ -33,7 +34,14 @@ class AddTaskViewController: UIViewController {
             let date2 = dateFormatter2.string(from: taskDate!)
             taskDateField.text = date2
             notesBox.text = taskNotes
-            
+            taskName = ""
+            taskDate = nil
+            taskNotes = ""
+            taskButton.setTitle("Save Task", for: .normal)
+            taskLabel.text = "Edit Task"
+        }else{
+            taskButton.setTitle("Create Task", for: .normal)
+            taskLabel.text = "Create New Task"
         }
         
         
