@@ -76,13 +76,20 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         spinner.startAnimating()
         self.client.getForecast(latitude: self.myLat, longitude: self.myLon) { result in
             switch result {
-            case .success(let currentForecast, let requestMetadata):
+            case .success(let currentForecast, let _):
                 print("Forecast received!")
                 self.spinner.isHidden = true
                 self.iconView.refresh()
                 self.spinner.isHidden = true
                 self.summaryText = (currentForecast.currently?.summary)!
+                if(Profile.displayInF == true){
                 self.tempText = "\(Int((currentForecast.currently?.temperature)!))º \(self.displayUnits)"
+                }
+                else{
+                    let num = Int((currentForecast.currently?.temperature)!)
+                    let dnum = ((num-32)*5)/9
+                    self.tempText = "\(dnum)º C"
+                }
                 self.tempRangeText = "\((currentForecast.daily?.data[0].temperatureHigh)!) / \((currentForecast.daily?.data[0].temperatureLow)!)"
                 self.summaryLabel.font.withSize(20)
                 self.tempLabel.font.withSize(12)
