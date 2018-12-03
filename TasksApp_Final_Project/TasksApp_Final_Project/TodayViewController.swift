@@ -478,7 +478,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Do any additional setup after loading the view.
         weatherHeader.backgroundColor = Colors.headerBackground
         newsHeader.backgroundColor = Colors.headerBackground
-        
+       // navigationController?.navigationBar.prefersLargeTitles = true
         requestEventAccess()
         requestReminderAccess()
         fetchEvents()
@@ -490,6 +490,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         let calendar = Calendar.current
         let day = calendar.component(.day, from: date)
         todayTableView.delegate = self
+        titleBar.largeTitleDisplayMode = .automatic
         
        // titleBar.prefersLargeTitles = true
         titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
@@ -512,13 +513,12 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         print("enter viewDidAppear")
         fetchEvents()
         fetchReminder()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-        self.todayTableView.reloadData()
-        self.iconView.refresh()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.todayTableView.reloadData()
+            self.iconView.refresh()
             self.getData()
             self.setUpWeather()
-        self.spinner.isHidden = true
-            print(Profile.displayInF)
+            self.spinner.isHidden = true
         }
     }
     

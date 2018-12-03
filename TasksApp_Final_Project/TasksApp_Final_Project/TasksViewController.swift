@@ -31,8 +31,10 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.prefersLargeTitles = true
         // Do any additional setup after loading the view.
         navigationBar.title = "Folders"
+        navigationBar.largeTitleDisplayMode = .automatic
         taskTable.backgroundColor = Colors.headerBackground
     }
 

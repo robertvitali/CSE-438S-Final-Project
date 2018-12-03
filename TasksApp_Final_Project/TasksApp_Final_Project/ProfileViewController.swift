@@ -13,15 +13,20 @@ import FirebaseDatabase
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    @IBOutlet weak var settingBar: UINavigationBar!
     let userID = Auth.auth().currentUser!.uid
     let ref = Database.database().reference()
     var account:[String] = ["Sign Out"]
     var setting:[String] = ["Temperature"]
-    var headerList:[String] = ["Account","Settings"]
+    var headerList:[String] = ["Account","Preferences"]
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return headerList[section]
     }
+    
+    @IBOutlet weak var settingb: UINavigationItem!
+    
+  //  @IBOutlet weak var settingBar: UINavigationItem!
     
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -42,7 +47,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         else{
             Profile.displayInF = false
         }
-        ref.child("\(userID)/TempUnitF").setValue(["TempUnitF":Profile.displayInF])
+        ref.child("\(userID)/TempUnitF").setValue([Profile.displayInF])
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -55,7 +60,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             //https://stackoverflow.com/questions/47038673/add-switch-in-uitableview-cell-in-swift for adding switch to table view cell
             let switchView = UISwitch(frame : .zero)
             if(indexPath.row == 0){
-                switchView.setOn(Profile.displayInF ?? true, animated: true)
+                switchView.setOn(Profile.displayInF ?? false, animated: true)
             }
             switchView.tag = indexPath.row
             if(indexPath.row == 0){
@@ -90,31 +95,36 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func fetchDataFromFirebase() {
         print ("firebase time")
-        ref.child("\(userID)?/TempUnitF").observe(.value, with: {(snapshot) in
+        ref.child("\(userID)/TempUnitF/0").observe(.value, with: {(snapshot) in
                 let store = snapshot.value as? Bool
             if(store == nil){
+                print("nill")
                 Profile.displayInF = true
-            }else{
+                self.ref.child("\(self.userID)/TempUnitF").setValue([Profile.displayInF])
+            }
+            else{
+                print("entered here")
                 Profile.displayInF = store
             }
               // Profile.displayInF = store
-            })
+    })
     }
-    
     override func viewDidLoad() {
+        settingBar.prefersLargeTitles = true
         super.viewDidLoad()
-        print(Profile.displayInF)
         self.fetchDataFromFirebase()
-        ref.child("\(userID)/TempUnitF").setValue(["TempUnitF":Profile.displayInF])
-        print(Profile.displayInF)
+       settingb.title = "Settings"
+        settingb.largeTitleDisplayMode = .automatic
+      //  ref.child("\(userID)/TempUnitF").setValue([Profile.displayInF])
         self.setupTableView()
         // Do any additional setup after loading the view.
     }
 
     override func viewDidAppear(_ animated: Bool) {
         self.fetchDataFromFirebase()
-        print(Profile.displayInF)
-        settingTableView.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.settingTableView.reloadData()
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
