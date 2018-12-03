@@ -246,7 +246,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             cell.detailTextLabel?.text = "\(eventList!.events[indexPath.row].startDate.time(date: eventList!.events[indexPath.row].startDate)) -- \(eventList!.events[indexPath.row].endDate.time(date: eventList!.events[indexPath.row].endDate))"
         }
        if indexPath.section == 1 {
-            print("reached here")
             cell.textLabel!.text = reminderList!.reminders[indexPath.row].title
         }
         return cell
@@ -264,7 +263,12 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let completed = completedAction(at: indexPath)
+        if(indexPath.section == 1){
         return UISwipeActionsConfiguration(actions: [completed])
+        }
+        else{
+            return nil
+        }
     }
     
     func completedAction(at indexPath:IndexPath) -> UIContextualAction{
