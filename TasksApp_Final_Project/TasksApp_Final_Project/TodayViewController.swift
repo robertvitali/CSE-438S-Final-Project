@@ -198,7 +198,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         view.backgroundColor = Colors.headerBackground
         let label = UILabel()
         label.text = headerList[section]
-        label.frame =  CGRect(x:30,y:5,width:100,height:35)
+        label.frame =  CGRect(x:20,y:5,width:100,height:35)
         label.font = UIFont.boldSystemFont(ofSize: 20.0)
         view.addSubview(label)
         
