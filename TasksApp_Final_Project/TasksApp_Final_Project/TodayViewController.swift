@@ -166,29 +166,34 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     //table view header view
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
-        view.backgroundColor = UIColor.lightGray
+        view.backgroundColor = UIColor(displayP3Red: 110.0/255, green: 193.0/255, blue: 248.0/255, alpha: 0.8)
         let label = UILabel()
         label.text = headerList[section]
-        label.frame =  CGRect(x:45,y:5,width:100,height:35)
+        label.frame =  CGRect(x:30,y:5,width:100,height:35)
+        label.font = UIFont.boldSystemFont(ofSize: 18.0)
         view.addSubview(label)
         
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .custom)
         button.tag = section
+        let triangle = UIImage(named: "triangle")
+        let rTriangle = UIImage(named: "reversed")
+        
         if section == 0 {
             if eventList!.isExpanded == true {
-                button.setTitle("Close", for: .normal)
+                button.setImage(rTriangle, for: .normal)
             } else {
-                button.setTitle("Open", for: .normal)
+                button.setImage(triangle, for: .normal)
             }
         } else {
             if reminderList!.isExpanded == true {
-                button.setTitle("Close", for: .normal)
+                button.setImage(rTriangle, for: .normal)
             } else {
-                button.setTitle("Open", for: .normal)
+                button.setImage(triangle, for: .normal)
             }
         }
+        
         button.addTarget(self, action: #selector(expandCollapse), for: .touchUpInside)
-        button.frame = CGRect(x: 250, y: 5, width: 50, height: 35)
+        button.frame = CGRect(x: 310, y: 15, width: 18, height: 15)
         view.addSubview(button)
         return view
     }
@@ -202,6 +207,13 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         if section == 1 {
             reminderList!.isExpanded = !reminderList!.isExpanded
         }
+        
+        let animation = CABasicAnimation(keyPath: "transform.rotation")
+        animation.toValue = CGFloat.pi
+        animation.duration = 0.2
+        animation.isRemovedOnCompletion = false
+        animation.fillMode = kCAFillModeForwards
+        button.layer.add(animation, forKey: nil)
         
         todayTableView.reloadSections(IndexSet(arrayLiteral: section), with: .automatic)
     }

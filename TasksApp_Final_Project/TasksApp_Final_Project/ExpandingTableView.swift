@@ -14,9 +14,9 @@ class ExpandingTableView: UITableView {
     override func draw(_ rect: CGRect) {
         layer.masksToBounds = false
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.3
+        layer.shadowOpacity = 0.4
         layer.shadowOffset = .zero
-        layer.shadowRadius = 1.5
+        layer.shadowRadius = 2
     }
     
     //  https://stackoverflow.com/questions/35876003/expand-uitableview-to-show-all-cells-in-stack-view
