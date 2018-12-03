@@ -13,6 +13,7 @@ var nameClass:String?
 var taskName:String?
 var taskDate:Date?
 var taskNotes:String?
+var uniqueIDT: Int64?
 
 class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
@@ -199,6 +200,7 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         taskName = title.value(forKey:"name") as? String
         taskDate = title.value(forKey:"date") as? Date
         taskNotes = title.value(forKey:"notes") as? String
+        uniqueIDT = title.value(forKey:"uniqueID") as? Int64
         navigationController?.pushViewController(destination, animated: true)
     }
     

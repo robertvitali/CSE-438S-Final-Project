@@ -21,6 +21,8 @@ class AddTaskViewController: UIViewController {
     
     private var datePicker: UIDatePicker?
     
+    var itemName: [NSManagedObject] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,28 +78,55 @@ class AddTaskViewController: UIViewController {
     
     @IBAction func createTaskClicked(_ sender: Any) {
         if(taskNameField.text != "" && taskDateField.text != ""){
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context = appDelegate.persistentContainer.viewContext
-            let entity = NSEntityDescription.entity(forEntityName: "Tasks", in: context)!
-            let theTitle = NSManagedObject(entity: entity, insertInto: context)
-            theTitle.setValue(taskNameField.text, forKey: "name")
-            
-            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MM/dd/yy"
             let date = dateFormatter.date(from: taskDateField.text!)
-            theTitle.setValue(date, forKey: "date")
-            theTitle.setValue(notesBox.text, forKey: "notes")
-            theTitle.setValue(nameClass!, forKey: "folderName")
-            theTitle.setValue(false, forKey: "complete")
-            let number = Int.random(in: 0 ... 1000000000000)
-            theTitle.setValue(number, forKey: "uniqueID")
-            
-            
-            do{
-                try context.save()
-            }catch{
-                print("CANNOT SAVE! ERROR!")
+            if(taskLabel.text == "Create New Task"){
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let context = appDelegate.persistentContainer.viewContext
+                let entity = NSEntityDescription.entity(forEntityName: "Tasks", in: context)!
+                let theTitle = NSManagedObject(entity: entity, insertInto: context)
+                theTitle.setValue(taskNameField.text, forKey: "name")
+                
+                
+                
+                theTitle.setValue(date, forKey: "date")
+                theTitle.setValue(notesBox.text, forKey: "notes")
+                theTitle.setValue(nameClass!, forKey: "folderName")
+                theTitle.setValue(false, forKey: "complete")
+                let number = Int.random(in: 0 ... 1000000000000)
+                theTitle.setValue(number, forKey: "uniqueID")
+                
+                
+                do{
+                    try context.save()
+                }catch{
+                    print("CANNOT SAVE! ERROR!")
+                }
+                
+            }else{
+                
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let context = appDelegate.persistentContainer.viewContext
+                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Tasks")
+                
+                do{
+                    itemName = try context.fetch(fetchRequest)
+                }catch{
+                    print("error")
+                }
+                
+                let position:Int = self.getPosition(uniqueString: uniqueIDT!)
+                let objectUpdate = self.itemName[position]
+                objectUpdate.setValue(taskNameField.text, forKey: "name")
+                objectUpdate.setValue(date, forKey: "date")
+                objectUpdate.setValue(notesBox.text, forKey: "notes")
+                
+                do{
+                    try context.save()
+                }catch{
+                    print("ERROR")
+                }
             }
             taskNameField.text = ""
             taskDateField.text = ""
@@ -106,6 +135,17 @@ class AddTaskViewController: UIViewController {
         }
     }
     
+    func getPosition(uniqueString: Int64) -> Int{
+        var count = 0
+        for item in itemName{
+            let uid = item.value(forKey: "uniqueID") as? Int64
+            if(uid == uniqueString){
+                return count
+            }
+            count = count + 1
+        }
+        return 0
+    }
     
     @objc func dateChanged(datePicker: UIDatePicker){
         let dateFormatter = DateFormatter()
