@@ -55,24 +55,6 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         complete.backgroundColor = .green
         return UISwipeActionsConfiguration(actions: [complete])
     }
-    /*
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let context = appDelegate.persistentContainer.viewContext
-    nameClass = self.itemName[indexPath.row].value(forKey:"name") as? String
-    self.deleteTasks()
-    context.delete(self.itemName[indexPath.row])
-    self.itemName.remove(at: indexPath.row)
-    
-    print("TRYING TO DELETE")
-    do{
-    try context.save()
-    }catch{
-    print("ERROR")
-    }
-    //DELETE ROWS ISNT WORKING
-    //self.taskTable.deleteRows(at: [indexPath], with: .automatic)
-    self.taskTable.reloadData()
-    completion(true)*/
     
     func getPosition(uniqueString: Int64) -> Int{
         var count = 0
@@ -110,7 +92,7 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
             completion(true)
         }
         let edit = UIContextualAction(style: .normal, title: "Edit"){ (action, view, completion) in
-
+                
             completion(true)
         }
         delete.image = UIImage(named: "trash1")
@@ -129,6 +111,39 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         let cell = assignmentTable.dequeueReusableCell(withIdentifier: "assignmentCell", for: indexPath)
         cell.textLabel?.text = title.value(forKey: "name") as? String
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let title = self.sortedItems[indexPath.row]
+        let titleLabel = title.value(forKey: "name") as? String
+        let messageLabel = title.value(forKey: "date") as? Date
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yy"
+        let date = dateFormatter.string(from: messageLabel!)
+        
+        let messageLabel2 = title.value(forKey: "notes") as? String
+        
+        let stringTemp1 = messageLabel2 ?? ""
+        
+        
+        let entireMessage = date + "\n" + stringTemp1
+        let alert = UIAlertController(title: titleLabel, message: entireMessage, preferredStyle: .alert)
+        let update = UIAlertAction(title: "Update", style: .default, handler: self.update)
+        let complete = UIAlertAction(title: "Complete", style: .default, handler: self.complete)
+        let dismiss = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
+        alert.addAction(update)
+        alert.addAction(complete)
+        alert.addAction(dismiss)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func update(alert:UIAlertAction){
+        
+    }
+    
+    func complete(alert:UIAlertAction){
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

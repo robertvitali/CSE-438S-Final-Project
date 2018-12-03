@@ -213,8 +213,6 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Folders")
-        
-        
         do{
             let test = try context.fetch(fetchRequest)
             let objectUpdate = test[theIndex] 
