@@ -15,12 +15,27 @@ class AddTaskViewController: UIViewController {
     @IBOutlet var taskNameField: UITextField!
     @IBOutlet var taskDateField: UITextField!
     @IBOutlet var notesBox: UITextView!
+    @IBOutlet var navBar: UINavigationBar!
+    @IBOutlet var taskButton: UIButton!
     
     private var datePicker: UIDatePicker?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if(taskName != ""){
+            //set title to edit
+            taskNameField.text = taskName
+            //taskDateField.text = taskDate
+            let dateFormatter2 = DateFormatter()
+            dateFormatter2.dateFormat = "MM/dd/yy"
+            let date2 = dateFormatter2.string(from: taskDate!)
+            taskDateField.text = date2
+            notesBox.text = taskNotes
+            
+        }
+        
         
         
         notesBox!.layer.borderWidth = 0.5

@@ -450,7 +450,7 @@
         <!--Add Task View Controller-->
         <scene sceneID="zC2-Sv-fve">
             <objects>
-                <viewController id="nd9-iQ-QL8" customClass="AddTaskViewController" customModule="TasksApp_Final_Project" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Add Task VC" id="nd9-iQ-QL8" customClass="AddTaskViewController" customModule="TasksApp_Final_Project" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ovS-sa-dhs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -533,7 +533,9 @@
                         <viewLayoutGuide key="safeArea" id="qrJ-3i-gXx"/>
                     </view>
                     <connections>
+                        <outlet property="navBar" destination="fud-Y4-03s" id="vQo-gd-jby"/>
                         <outlet property="notesBox" destination="xMA-P5-nFn" id="PlR-Ok-l8A"/>
+                        <outlet property="taskButton" destination="6fQ-rI-azU" id="tZi-83-2nA"/>
                         <outlet property="taskDateField" destination="tX7-KW-1Y3" id="Pfq-kT-JRl"/>
                         <outlet property="taskNameField" destination="QHg-el-x2E" id="lSK-Uo-bOg"/>
                     </connections>

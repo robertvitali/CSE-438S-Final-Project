@@ -10,6 +10,9 @@ import UIKit
 import CoreData
 
 var nameClass:String?
+var taskName:String?
+var taskDate:Date?
+var taskNotes:String?
 
 class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
@@ -17,6 +20,7 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
     var sortedItems: [NSManagedObject] = []
     var theIndex:Int = 0
     var showingCompleted:Bool = false
+    var currentPos = 0
     
     
     
@@ -166,6 +170,7 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         let title = self.sortedItems[indexPath.row]
         let titleLabel = title.value(forKey: "name") as? String
         let messageLabel = title.value(forKey: "date") as? Date
+        currentPos = indexPath.row
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yy"
@@ -188,11 +193,34 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
     }
     
     func update(alert:UIAlertAction){
-        
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let destination = storyboard.instantiateViewController(withIdentifier: "Add Task VC") as! AddTaskViewController
+        let title = sortedItems[currentPos]
+        taskName = title.value(forKey:"name") as? String
+        taskDate = title.value(forKey:"date") as? Date
+        taskNotes = title.value(forKey:"notes") as? String
+        navigationController?.pushViewController(destination, animated: true)
     }
     
     func complete(alert:UIAlertAction){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let title = self.sortedItems[currentPos]
+        let uniqueString:Int64 = (title.value(forKey: "uniqueID") as? Int64)!
+        let position:Int = self.getPosition(uniqueString: uniqueString)
+        let objectUpdate = self.sortedItems[currentPos]
+        var tf:Bool = (objectUpdate.value(forKey: "complete") as? Bool)!
+        tf = !tf
+        objectUpdate.setValue(tf, forKey: "complete")
         
+        do{
+            try context.save()
+        }catch{
+            print("ERROR")
+        }
+        //DELETE ROWS ISNT WORKING
+        //self.taskTable.deleteRows(at: [indexPath], with: .automatic)
+        self.getData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
