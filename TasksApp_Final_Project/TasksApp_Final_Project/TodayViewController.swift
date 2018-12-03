@@ -133,7 +133,9 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             print("\(String(describing: event.title))")
         }
         eventList = ExpandableEvents(isExpanded: true, events: eList)
+        print("eList contains\(eList)")
     }
+    
     //fetch reminder from local reminder
     func fetchReminder(){
         var rList: [EKReminder] = []
@@ -146,8 +148,9 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                             rList.append(reminder)
                             print("\(String(describing: reminder.title))")
                             }
+                        self.reminderList = ExpandableReminders(isExpanded: true, reminders: rList)
+                        print("rList contains\(rList)")
                })
-        reminderList = ExpandableReminders(isExpanded: true, reminders: rList)
     }
     
     //set up table view
@@ -242,7 +245,8 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             
             cell.detailTextLabel?.text = "\(eventList!.events[indexPath.row].startDate.time(date: eventList!.events[indexPath.row].startDate)) -- \(eventList!.events[indexPath.row].endDate.time(date: eventList!.events[indexPath.row].endDate))"
         }
-       else if indexPath.section == 1 {
+       if indexPath.section == 1 {
+            print("reached here")
             cell.textLabel!.text = reminderList!.reminders[indexPath.row].title
         }
         return cell
