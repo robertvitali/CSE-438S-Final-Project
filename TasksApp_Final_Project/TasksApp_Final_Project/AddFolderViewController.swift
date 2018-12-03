@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 
+
 class AddFolderViewController: UIViewController {
     let database = Database.database().reference()
     let userID = Auth.auth().currentUser?.uid

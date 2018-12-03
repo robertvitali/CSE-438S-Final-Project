@@ -3,7 +3,13 @@
     <entity name="Folders" representedClassName="Folders" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="Tasks" representedClassName="Tasks" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
         <element name="Folders" positionX="-63" positionY="-18" width="128" height="60"/>
+        <element name="Tasks" positionX="-63" positionY="-9" width="128" height="90"/>
     </elements>
 </model>

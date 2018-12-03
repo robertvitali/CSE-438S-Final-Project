@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import CoreData
 
-class AssignmentsViewController: UIViewController {
+class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
+    
+    var itemName: [NSManagedObject] = []
+    var theIndex:Int = 0
     
     
     var className: String!
@@ -65,18 +69,25 @@ class AssignmentsViewController: UIViewController {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return itemName.count
     }
     
-    /*
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        return
-    }*/
-
-    /*
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        let title = itemName[indexPath.row]
+        let cell = assignmentTable.dequeueReusableCell(withIdentifier: "assignmentCell", for: indexPath)
+        cell.textLabel?.text = title.value(forKey: "name") as? String
+        return cell
+    }
     
-    }*/
-
+    override func viewWillAppear(_ animated: Bool) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Tasks")
+        
+        do{
+            itemName = try context.fetch(fetchRequest)
+        }catch{
+            print("ERROR")
+        }
+    }
 }

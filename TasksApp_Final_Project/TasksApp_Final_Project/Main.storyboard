@@ -336,68 +336,6 @@
             </objects>
             <point key="canvasLocation" x="2438" y="2749"/>
         </scene>
-        <!--Add Folder View Controller-->
-        <scene sceneID="CDA-hR-A3F">
-            <objects>
-                <viewController id="mRn-NF-F0q" customClass="AddFolderViewController" customModule="TasksApp_Final_Project" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="j1O-Za-VmB">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a List" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z8X-kO-Sdk">
-                                <rect key="frame" x="92" y="49" width="191" height="62"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="62" id="cg2-3Y-0tm"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="List Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YTf-QB-i0U">
-                                <rect key="frame" x="92" y="213" width="82" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zpn-qP-krZ">
-                                <rect key="frame" x="92" y="242" width="191" height="32"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cpA-8T-5Hg">
-                                <rect key="frame" x="150" y="270" width="75" height="127"/>
-                                <state key="normal" title="Create List"/>
-                                <connections>
-                                    <action selector="addToList:" destination="mRn-NF-F0q" eventType="touchUpInside" id="utW-DC-H4r"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="cpA-8T-5Hg" firstAttribute="centerY" secondItem="j1O-Za-VmB" secondAttribute="centerY" id="7IV-bt-UhZ"/>
-                            <constraint firstItem="Z8X-kO-Sdk" firstAttribute="leading" secondItem="YTf-QB-i0U" secondAttribute="leading" id="Bke-x6-uAM"/>
-                            <constraint firstItem="Z8X-kO-Sdk" firstAttribute="leading" secondItem="Gqc-D5-AdW" secondAttribute="leading" constant="92" id="FXB-2q-NIj"/>
-                            <constraint firstItem="Z8X-kO-Sdk" firstAttribute="trailing" secondItem="zpn-qP-krZ" secondAttribute="trailing" id="LWw-75-OZZ"/>
-                            <constraint firstItem="cpA-8T-5Hg" firstAttribute="top" secondItem="zpn-qP-krZ" secondAttribute="bottom" constant="45" id="QCX-ad-h4U"/>
-                            <constraint firstItem="YTf-QB-i0U" firstAttribute="leading" secondItem="zpn-qP-krZ" secondAttribute="leading" id="QSt-7k-OQI"/>
-                            <constraint firstItem="Z8X-kO-Sdk" firstAttribute="top" secondItem="Gqc-D5-AdW" secondAttribute="top" constant="29" id="SaN-O7-rhD"/>
-                            <constraint firstItem="Z8X-kO-Sdk" firstAttribute="centerX" secondItem="j1O-Za-VmB" secondAttribute="centerX" id="Xl6-p4-kk3"/>
-                            <constraint firstItem="YTf-QB-i0U" firstAttribute="top" secondItem="Z8X-kO-Sdk" secondAttribute="bottom" constant="58" id="c82-UT-8vW"/>
-                            <constraint firstItem="zpn-qP-krZ" firstAttribute="top" secondItem="YTf-QB-i0U" secondAttribute="bottom" constant="8" symbolic="YES" id="fsK-xA-OGn"/>
-                            <constraint firstItem="zpn-qP-krZ" firstAttribute="centerX" secondItem="cpA-8T-5Hg" secondAttribute="centerX" id="i2e-yK-t8m"/>
-                            <constraint firstItem="Gqc-D5-AdW" firstAttribute="bottom" secondItem="cpA-8T-5Hg" secondAttribute="bottom" constant="270" id="kib-Ab-qTc"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="Gqc-D5-AdW"/>
-                    </view>
-                    <connections>
-                        <outlet property="textField" destination="zpn-qP-krZ" id="kp1-WV-2Sx"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dbi-Os-9l6" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3181.5999999999999" y="2748.5757121439283"/>
-        </scene>
         <!--Assignments View Controller-->
         <scene sceneID="6cT-hM-uFL">
             <objects>
@@ -409,6 +347,20 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4nz-Ze-KZf">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="assignmentCell" id="1hj-ci-tfD">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1hj-ci-tfD" id="LqU-CV-3Jb">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="bgh-ub-lDi" id="OKU-5Q-hEL"/>
+                                    <outlet property="delegate" destination="bgh-ub-lDi" id="fYw-ff-eII"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

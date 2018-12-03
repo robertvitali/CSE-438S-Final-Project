@@ -52,23 +52,6 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         return cell
     }
     
-    /*
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        print(editingStyle)
-        if (editingStyle == UITableViewCellEditingStyle.delete){
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context = appDelegate.persistentContainer.viewContext
-            context.delete(itemName[indexPath.row])
-            print("TRYING TO DELETE")
-            do{
-                try context.save()
-                taskTable.reloadData()
-            }catch{
-                print("ERROR")
-            }
-        }
-    }*/
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let destination = storyboard.instantiateViewController(withIdentifier: "Assignments VC") as! AssignmentsViewController
@@ -177,7 +160,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         
         do{
             let test = try context.fetch(fetchRequest)
-            let objectUpdate = test[theIndex] as! NSManagedObject
+            let objectUpdate = test[theIndex] 
             objectUpdate.setValue(titleTextField.text, forKey: "name")
             try context.save()
         }catch{
