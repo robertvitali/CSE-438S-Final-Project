@@ -18,10 +18,6 @@
 		A033D3092CC38D8CFD44E058 /* Pods_TasksApp_Final_Project.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189424FD61D4DD47DF206BE9 /* Pods_TasksApp_Final_Project.framework */; };
 		A730412A21B3B664000B6F2F /* Skycons.swift in Sources */ = {isa = PBXBuildFile; fileRef = A730412921B3B664000B6F2F /* Skycons.swift */; };
 		E127E4D521ACAF9000C5085C /* AssignmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E127E4D421ACAF9000C5085C /* AssignmentsViewController.swift */; };
-		E129081121B4C8A800236F27 /* Folders+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E129080D21B4C8A700236F27 /* Folders+CoreDataClass.swift */; };
-		E129081221B4C8A800236F27 /* Folders+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E129080E21B4C8A800236F27 /* Folders+CoreDataProperties.swift */; };
-		E129081321B4C8A800236F27 /* Tasks+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E129080F21B4C8A800236F27 /* Tasks+CoreDataClass.swift */; };
-		E129081421B4C8A800236F27 /* Tasks+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E129081021B4C8A800236F27 /* Tasks+CoreDataProperties.swift */; };
 		E12CCE52219E2E90008E3D37 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12CCE51219E2E90008E3D37 /* SignInViewController.swift */; };
 		E14060BC219E34B70043E590 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14060BB219E34B70043E590 /* TodayViewController.swift */; };
 		E14060BE219E34C30043E590 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14060BD219E34C30043E590 /* CalendarViewController.swift */; };
@@ -74,10 +70,6 @@
 		CA8E12277D1F5DD285AE51C8 /* Pods_TasksApp_Final_ProjectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TasksApp_Final_ProjectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD065BDA632137E3175773E7 /* Pods-TasksApp_Final_ProjectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_ProjectTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_ProjectTests/Pods-TasksApp_Final_ProjectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E127E4D421ACAF9000C5085C /* AssignmentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentsViewController.swift; sourceTree = "<group>"; };
-		E129080D21B4C8A700236F27 /* Folders+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Folders+CoreDataClass.swift"; path = "CoreData/Folders+CoreDataClass.swift"; sourceTree = "<group>"; };
-		E129080E21B4C8A800236F27 /* Folders+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Folders+CoreDataProperties.swift"; path = "CoreData/Folders+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		E129080F21B4C8A800236F27 /* Tasks+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Tasks+CoreDataClass.swift"; path = "CoreData/Tasks+CoreDataClass.swift"; sourceTree = "<group>"; };
-		E129081021B4C8A800236F27 /* Tasks+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Tasks+CoreDataProperties.swift"; path = "CoreData/Tasks+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E12CCE51219E2E90008E3D37 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		E14060BB219E34B70043E590 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		E14060BD219E34C30043E590 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -181,10 +173,6 @@
 		E1939E7C219E27C3003B3702 /* TasksApp_Final_Project */ = {
 			isa = PBXGroup;
 			children = (
-				E129080D21B4C8A700236F27 /* Folders+CoreDataClass.swift */,
-				E129080E21B4C8A800236F27 /* Folders+CoreDataProperties.swift */,
-				E129080F21B4C8A800236F27 /* Tasks+CoreDataClass.swift */,
-				E129081021B4C8A800236F27 /* Tasks+CoreDataProperties.swift */,
 				E1939EAC219E27E8003B3702 /* Main.storyboard */,
 				E18B47EB21ACCCB500B2E40A /* AddTaskViewController.swift */,
 				E127E4D421ACAF9000C5085C /* AssignmentsViewController.swift */,
@@ -480,20 +468,16 @@
 				E14060C2219E34DB0043E590 /* ProfileViewController.swift in Sources */,
 				E14060BE219E34C30043E590 /* CalendarViewController.swift in Sources */,
 				2F03C3A921B205C500CB2E6E /* NewsAPIResults.swift in Sources */,
-				E129081121B4C8A800236F27 /* Folders+CoreDataClass.swift in Sources */,
-				E129081221B4C8A800236F27 /* Folders+CoreDataProperties.swift in Sources */,
 				2F03C3AA21B205C500CB2E6E /* NewsStory.swift in Sources */,
 				E1ACB32C21AB9FC400F24435 /* Date.swift in Sources */,
 				E12CCE52219E2E90008E3D37 /* SignInViewController.swift in Sources */,
 				E1C4B13521AC875B00EDDA5D /* AddFolderViewController.swift in Sources */,
 				2F940D9C21B393B50088E59E /* Expandable.swift in Sources */,
-				E129081421B4C8A800236F27 /* Tasks+CoreDataProperties.swift in Sources */,
 				2F998A0321B4E7CF001A8F74 /* Colors.swift in Sources */,
 				2F7AACF121AD0B3A00E39BF5 /* CustomView.swift in Sources */,
 				E1B7E67C21B45F1E009907E8 /* List.xcdatamodeld in Sources */,
 				E14060C0219E34CF0043E590 /* TasksViewController.swift in Sources */,
 				E1939E7E219E27C3003B3702 /* AppDelegate.swift in Sources */,
-				E129081321B4C8A800236F27 /* Tasks+CoreDataClass.swift in Sources */,
 				E14060BC219E34B70043E590 /* TodayViewController.swift in Sources */,
 				A730412A21B3B664000B6F2F /* Skycons.swift in Sources */,
 				E18B47EC21ACCCB500B2E40A /* AddTaskViewController.swift in Sources */,
