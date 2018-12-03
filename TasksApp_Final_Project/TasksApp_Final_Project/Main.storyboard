@@ -294,7 +294,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gDF-qd-sJf"/>
                     </view>
-                    <navigationItem key="navigationItem" id="yL0-Q2-0Bu"/>
+                    <navigationItem key="navigationItem" leftItemsSupplementBackButton="YES" largeTitleDisplayMode="always" id="yL0-Q2-0Bu"/>
                     <size key="freeformSize" width="375" height="1250"/>
                     <connections>
                         <outlet property="newsCollectionView" destination="5JY-1X-1gA" id="XBN-Mg-ZoA"/>

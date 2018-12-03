@@ -17,14 +17,17 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     let userID = Auth.auth().currentUser!.uid
     let ref = Database.database().reference()
     
+    
+    
     @IBOutlet var titleBar: UINavigationItem!
+    
+    
     @IBOutlet weak var todayTableView: UITableView!
     var eventStore:EKEventStore = EKEventStore.init()
     var eventList: ExpandableEvents? = nil
     var reminderList: ExpandableReminders? = nil
     var headerList:[String] = ["Events","Reminders"]
     var calendarArray:[EKCalendar] = []
-    
     
     //***********WEATHER************//
     @IBOutlet weak var weatherHeader: UIView!
@@ -483,7 +486,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         todayTableView.delegate = self
         
         titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
-        
         setupNewsCollectionView()
         fetchDataForNewsCollectionView()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
