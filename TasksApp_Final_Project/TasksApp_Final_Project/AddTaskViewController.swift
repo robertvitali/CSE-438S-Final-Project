@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 
 class AddTaskViewController: UIViewController {
@@ -16,6 +17,7 @@ class AddTaskViewController: UIViewController {
     @IBOutlet var notesBox: UITextView!
     
     private var datePicker: UIDatePicker?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +53,19 @@ class AddTaskViewController: UIViewController {
     
     @IBAction func createTaskClicked(_ sender: Any) {
         if(taskNameField.text != "" && taskDateField.text != ""){
+           
+            
+            
+            var tempTask:Tasks?
+            tempTask!.name = taskNameField.text
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM/dd/yy"
+            let date = dateFormatter.date(from: taskDateField.text!)
+            tempTask!.date = date! as NSDate
+            tempTask!.notes = notesBox.text
+            //currentFolder?.assignments = tempTask
+            tempTask?.parent = currentFolder
             taskNameField.text = ""
             taskDateField.text = ""
             notesBox.text = ""
@@ -63,8 +78,6 @@ class AddTaskViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yy"
         taskDateField.text = dateFormatter.string(from: datePicker.date)
-        //view.endEditing(true)
-        
     }
    
 

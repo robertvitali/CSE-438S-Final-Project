@@ -11,6 +11,8 @@ import EventKit
 import Firebase
 import CoreData
 
+var currentFolder:Folders?
+
 
 class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource{
     
@@ -55,6 +57,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let destination = storyboard.instantiateViewController(withIdentifier: "Assignments VC") as! AssignmentsViewController
+        currentFolder = itemName[indexPath.row] as? Folders
         let title = itemName[indexPath.row]
         destination.className = title.value(forKey:"name") as? String
         navigationController?.pushViewController(destination, animated: true)

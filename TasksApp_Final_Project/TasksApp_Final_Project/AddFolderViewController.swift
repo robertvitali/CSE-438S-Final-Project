@@ -11,8 +11,8 @@ import Firebase
 
 
 class AddFolderViewController: UIViewController {
-    let database = Database.database().reference()
-    let userID = Auth.auth().currentUser?.uid
+    //let database = Database.database().reference()
+    //let userID = Auth.auth().currentUser?.uid
     @IBOutlet var textField: UITextField!
     
     override func viewDidLoad() {

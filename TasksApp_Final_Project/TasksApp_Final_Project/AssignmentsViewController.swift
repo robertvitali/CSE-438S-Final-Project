@@ -9,10 +9,13 @@
 import UIKit
 import CoreData
 
+
+
 class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
     var itemName: [NSManagedObject] = []
     var theIndex:Int = 0
+    
     
     
     var className: String!
@@ -53,12 +56,24 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
     //delete and edit swipe
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "Delete"){ (action, view, completion) in
-            //todo
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            context.delete(self.itemName[indexPath.row])
+            self.itemName.remove(at: indexPath.row)
+            print("TRYING TO DELETE")
+            do{
+                try context.save()
+            }catch{
+                print("ERROR")
+            }
+            //DELETE ROWS ISNT WORKING
+            //self.taskTable.deleteRows(at: [indexPath], with: .automatic)
+            self.assignmentTable.reloadData()
             
             completion(true)
         }
         let edit = UIContextualAction(style: .destructive, title: "Edit"){ (action, view, completion) in
-            //todo
+
             completion(true)
         }
         delete.image = UIImage(named: "trash1")
