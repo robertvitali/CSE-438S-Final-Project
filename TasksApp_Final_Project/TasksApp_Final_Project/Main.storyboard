@@ -135,8 +135,8 @@
                                                             <constraint firstAttribute="width" constant="100" id="BXm-3I-qcN"/>
                                                         </constraints>
                                                     </view>
-                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EJb-nj-EDx">
-                                                        <rect key="frame" x="109" y="103" width="20" height="20"/>
+                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EJb-nj-EDx">
+                                                        <rect key="frame" x="165" y="90" width="20" height="20"/>
                                                     </activityIndicatorView>
                                                 </subviews>
                                                 <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
@@ -146,11 +146,11 @@
                                                     <constraint firstItem="Z4D-Q9-vcm" firstAttribute="leading" secondItem="AIa-77-buV" secondAttribute="leading" constant="50" id="67N-hV-GZv"/>
                                                     <constraint firstAttribute="trailing" secondItem="q4h-Ah-9Fn" secondAttribute="trailing" constant="40" id="6pJ-6U-r4F"/>
                                                     <constraint firstAttribute="width" constant="350" id="7SU-1w-cLr"/>
-                                                    <constraint firstItem="EJb-nj-EDx" firstAttribute="leading" secondItem="AIa-77-buV" secondAttribute="leading" constant="100" id="7UF-yH-crb"/>
                                                     <constraint firstItem="q4h-Ah-9Fn" firstAttribute="top" secondItem="7nX-jJ-7Mb" secondAttribute="bottom" constant="25" id="AsG-ym-pHi"/>
                                                     <constraint firstItem="7nX-jJ-7Mb" firstAttribute="leading" secondItem="AIa-77-buV" secondAttribute="leading" id="DuD-SE-74g"/>
+                                                    <constraint firstItem="EJb-nj-EDx" firstAttribute="centerX" secondItem="AIa-77-buV" secondAttribute="centerX" id="RVB-ed-xu4"/>
                                                     <constraint firstItem="L6M-a4-8l3" firstAttribute="leading" secondItem="AIa-77-buV" secondAttribute="leading" constant="50" id="VYc-Cq-TRo"/>
-                                                    <constraint firstItem="EJb-nj-EDx" firstAttribute="centerY" secondItem="q4h-Ah-9Fn" secondAttribute="centerY" id="fgD-tS-Re8"/>
+                                                    <constraint firstItem="EJb-nj-EDx" firstAttribute="centerY" secondItem="AIa-77-buV" secondAttribute="centerY" id="mwg-25-0Il"/>
                                                     <constraint firstAttribute="trailing" secondItem="7nX-jJ-7Mb" secondAttribute="trailing" id="oE3-Ao-gwD"/>
                                                     <constraint firstItem="L6M-a4-8l3" firstAttribute="top" secondItem="6Nn-IQ-5iT" secondAttribute="bottom" constant="15" id="oey-Br-GVR"/>
                                                     <constraint firstItem="6Nn-IQ-5iT" firstAttribute="leading" secondItem="AIa-77-buV" secondAttribute="leading" constant="50" id="of4-kf-JcR"/>

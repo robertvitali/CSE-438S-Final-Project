@@ -72,8 +72,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func getData() {
-        spinner.isHidden = false
-        spinner.startAnimating()
         self.client.getForecast(latitude: self.myLat, longitude: self.myLon) { result in
             switch result {
             case .success(let currentForecast, _):
@@ -130,6 +128,13 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
                 self.iconView.setColor = UIColor.black
                 self.spinner.isHidden = true
+                self.tempLabel.isHidden = false
+                self.summaryLabel.isHidden = false
+                self.tempRangeLabel.isHidden = false
+                self.iconView.isHidden = false
+                self.weatherIconView.isHidden = false
+                self.todayTableView.reloadData()
+                self.iconView.refresh()
             case .failure(let _):
                 //  Uh-oh. We have an error!
                 print("error getting forecast!")
@@ -139,6 +144,13 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     func setUpWeather() {
+        spinner.isHidden = false
+        tempLabel.isHidden = true
+        summaryLabel.isHidden = true
+        tempRangeLabel.isHidden = true
+        iconView.isHidden = true
+        weatherIconView.isHidden = true
+        spinner.startAnimating()
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.requestWhenInUseAuthorization()
@@ -496,11 +508,12 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
         setupNewsCollectionView()
         fetchDataForNewsCollectionView()
+        /*
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.todayTableView.reloadData()
             self.iconView.refresh()
             self.spinner.isHidden = true
-        }
+        }*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -513,13 +526,15 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         print("enter viewDidAppear")
         fetchEvents()
         fetchReminder()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        //setUpWeather()
+        getData()
+        /*
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.todayTableView.reloadData()
             self.iconView.refresh()
-            self.getData()
             self.setUpWeather()
-            self.spinner.isHidden = true
-        }
+            //self.spinner.isHidden = true
+        }*/
     }
     
    //****************News****************//
