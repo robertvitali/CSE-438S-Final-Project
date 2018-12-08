@@ -12,6 +12,7 @@ import FirebaseAuth
 import FirebaseDatabase
 import ForecastIO
 import CoreLocation
+import CoreData
 
 class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, CLLocationManagerDelegate {
     let userID = Auth.auth().currentUser!.uid
@@ -25,8 +26,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var eventStore:EKEventStore = EKEventStore.init()
     var eventList: ExpandableEvents? = nil
     var reminderList: ExpandableReminders? = nil
+    var taskList: ExpandableTasks? = nil
     var headerList:[String] = ["Events","Reminders"]
     var calendarArray:[EKCalendar] = []
+    var taskArray:[NSManagedObject] = []
+    var sortedtaskArray: [NSManagedObject] = []
     
     //***********WEATHER************//
     @IBOutlet weak var weatherHeader: UIView!
@@ -71,7 +75,37 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         myLon = location.coordinate.longitude
     }
     
-    func getData() {
+    func getTasksData(){
+        sortedtaskArray = []
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Tasks")
+        
+        do{
+            taskArray = try context.fetch(fetchRequest)
+            var s:Date
+            var tf:Bool = false
+            let date = Date()
+            //let dateFormatter = DateFormatter()
+            //dateFormatter.dateFormat = "MM/dd/yy"
+            //let result:Date = dateFormatter.date(from: date)
+            print("GETTING TASKS")
+            for item in taskArray {
+                s = (item.value(forKey: "date") as? Date)!
+                tf = (item.value(forKey: "complete") as? Bool)!
+                print("\(s)")
+                if(s <= date && tf == false){
+                    sortedtaskArray.append(item)
+                }
+            }
+            print("TASK COUNT: \(sortedtaskArray.count)")
+        }catch{
+            print("ERROR")
+        }
+        taskList = ExpandableTasks(isExpanded: true, tasks: sortedtaskArray)
+    }
+    
+    func getForecastData() {
         self.client.getForecast(latitude: self.myLat, longitude: self.myLon) { result in
             switch result {
             case .success(let currentForecast, _):
@@ -135,7 +169,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 self.weatherIconView.isHidden = false
                 self.todayTableView.reloadData()
                 self.iconView.refresh()
-            case .failure(let _):
+            case .failure(_):
                 //  Uh-oh. We have an error!
                 print("error getting forecast!")
             }
@@ -169,7 +203,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         iconView.backgroundColor = UIColor.clear
         
         self.weatherIconView.addSubview(iconView)
-        getData()
+        getForecastData()
     }
     
     //*****************************Event/calendar*********************************//
@@ -238,8 +272,14 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             } else {
                 button.setImage(triangle, for: .normal)
             }
-        } else {
+        } else if section == 1 {
             if reminderList!.isExpanded == true {
+                button.setImage(rTriangle, for: .normal)
+            } else {
+                button.setImage(triangle, for: .normal)
+            }
+        } else{
+            if taskList!.isExpanded == true {
                 button.setImage(rTriangle, for: .normal)
             } else {
                 button.setImage(triangle, for: .normal)
@@ -261,6 +301,9 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         if section == 1 {
             reminderList!.isExpanded = !reminderList!.isExpanded
         }
+        if section == 2 {
+            taskList!.isExpanded = !taskList!.isExpanded
+        }
         
         let animation = CABasicAnimation(keyPath: "transform.rotation")
         animation.toValue = CGFloat.pi
@@ -277,7 +320,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     //determine the content for each section
@@ -289,10 +332,16 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 return 0
             }
         }
-        if section == 1 {
+        else if section == 1 {
             if reminderList!.isExpanded == true {
                 return reminderList!.reminders.count
             } else {
+                return 0
+            }
+        }else if section == 2{
+            if taskList!.isExpanded == true{
+                return taskList!.tasks.count
+            }else{
                 return 0
             }
         }
@@ -313,6 +362,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
        if indexPath.section == 1 {
             cell.textLabel!.text = reminderList!.reminders[indexPath.row].title
+        }
+        
+        if indexPath.section == 2{
+            cell.textLabel!.text = reminderList!.reminders[indexPath.row].title
+            //task cells
         }
         return cell
     }
@@ -346,6 +400,8 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 } catch _ as NSError{return}
                 self.reminderList!.reminders.remove(at: indexPath.row)
                 self.todayTableView.reloadData()
+            }else if(indexPath.section == 2){
+                //this is where tasks go
             }
             completion(true)
             action.backgroundColor = .purple
@@ -365,6 +421,9 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.deleteReminder(self.reminderList!.reminders[indexPath.row])
             self.reminderList!.reminders.remove(at: indexPath.row)
             self.todayTableView.reloadData()
+        }
+        if(indexPath.section == 2){
+            //this is where tasks go
         }
         completion(true)
         action.backgroundColor = .red
@@ -497,6 +556,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         fetchReminder()
         setupTableView()
         setUpWeather()
+        getTasksData()
         
         let date = Date()
         let calendar = Calendar.current
@@ -527,7 +587,8 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         fetchEvents()
         fetchReminder()
         //setUpWeather()
-        getData()
+        getForecastData()
+        getTasksData()
         /*
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.todayTableView.reloadData()

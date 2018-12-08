@@ -8,6 +8,7 @@
 
 import Foundation
 import EventKit
+import CoreData
 
 struct ExpandableEvents {
     var isExpanded: Bool
@@ -17,4 +18,9 @@ struct ExpandableEvents {
 struct ExpandableReminders {
     var isExpanded: Bool
     var reminders: [EKReminder]
+}
+
+struct ExpandableTasks{
+    var isExpanded: Bool
+    var tasks: [NSManagedObject]
 }
