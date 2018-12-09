@@ -58,7 +58,7 @@ extension Date {
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: date)
         let minute = calendar.component(.minute, from: date)
-       // let second = calendar.component(.second, from: date)
+        // let second = calendar.component(.second, from: date)
         if(hour < 12){
             if(hour<10){
                 if(minute<10){
@@ -69,20 +69,20 @@ extension Date {
                 }
             }
             else{
-            if(minute<10){
-                return "\(hour):0\(minute) AM"
+                if(minute<10){
+                    return "\(hour):0\(minute) AM"
+                }
+                return "\(hour):\(minute) AM"
             }
-        return "\(hour):\(minute) AM"
         }
-    }
         else{
             if(hour-12<10){
-                    if(minute<10){
-                        return "0\(hour-12):0\(minute) PM"
-                    }
-                    else{
-                        return "0\(hour-12):\(minute) PM"
-                    }
+                if(minute<10){
+                    return "0\(hour-12):0\(minute) PM"
+                }
+                else{
+                    return "0\(hour-12):\(minute) PM"
+                }
             }
             else{
                 if(minute<10){
@@ -92,7 +92,19 @@ extension Date {
                     return "\(hour-12):\(minute) PM"
                 }
             }
-}
+        }
+    }
+    
+    func dateToStringFormatted(date: Date) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yy"
+        return dateFormatter.string(from: date)
+    }
+    
+    func stringToDateFormatted(str: String) -> Date{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yy"
+        return dateFormatter.date(from: str)!
     }
 }
 

@@ -30,11 +30,7 @@ class AddTaskViewController: UIViewController {
         if(taskName != "" && taskName != nil){
             //set title to edit
             taskNameField.text = taskName
-            //taskDateField.text = taskDate
-            let dateFormatter2 = DateFormatter()
-            dateFormatter2.dateFormat = "MM/dd/yy"
-            let date2 = dateFormatter2.string(from: taskDate!)
-            taskDateField.text = date2
+            taskDateField.text = Date().dateToStringFormatted(date: taskDate!)
             notesBox.text = taskNotes
             taskName = ""
             taskDate = nil
@@ -78,18 +74,13 @@ class AddTaskViewController: UIViewController {
     
     @IBAction func createTaskClicked(_ sender: Any) {
         if(taskNameField.text != "" && taskDateField.text != ""){
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MM/dd/yy"
-            let date = dateFormatter.date(from: taskDateField.text!)
+            let date = Date().stringToDateFormatted(str: taskDateField.text!)
             if(taskLabel.text == "Create New Task"){
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let context = appDelegate.persistentContainer.viewContext
                 let entity = NSEntityDescription.entity(forEntityName: "Tasks", in: context)!
                 let theTitle = NSManagedObject(entity: entity, insertInto: context)
                 theTitle.setValue(taskNameField.text, forKey: "name")
-                
-                
-                
                 theTitle.setValue(date, forKey: "date")
                 theTitle.setValue(notesBox.text, forKey: "notes")
                 theTitle.setValue(nameClass!, forKey: "folderName")
@@ -148,9 +139,7 @@ class AddTaskViewController: UIViewController {
     }
     
     @objc func dateChanged(datePicker: UIDatePicker){
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yy"
-        taskDateField.text = dateFormatter.string(from: datePicker.date)
+        taskDateField.text = Date().dateToStringFormatted(date: datePicker.date)
     }
    
 

@@ -27,7 +27,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var eventList: ExpandableEvents? = nil
     var reminderList: ExpandableReminders? = nil
     var taskList: ExpandableTasks? = nil
-    var headerList:[String] = ["Events","Reminders"]
+    var headerList:[String] = ["Events","Reminders","Tasks"]
     var calendarArray:[EKCalendar] = []
     var taskArray:[NSManagedObject] = []
     var sortedtaskArray: [NSManagedObject] = []
@@ -346,7 +346,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         else {
-            return 2
+            return 3
         }
     }
     
@@ -363,10 +363,10 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
        if indexPath.section == 1 {
             cell.textLabel!.text = reminderList!.reminders[indexPath.row].title
         }
-        
         if indexPath.section == 2{
-            cell.textLabel!.text = reminderList!.reminders[indexPath.row].title
-            //task cells
+            let taskItem = taskList!.tasks[indexPath.row]
+            cell.textLabel!.text = taskItem.value(forKey: "name") as? String
+            cell.detailTextLabel!.text = "\(taskItem.value(forKey: "date") as? Date)"
         }
         return cell
     }

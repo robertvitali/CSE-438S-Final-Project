@@ -172,13 +172,8 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         let titleLabel = title.value(forKey: "name") as? String
         let messageLabel = title.value(forKey: "date") as? Date
         currentPos = indexPath.row
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yy"
-        let date = dateFormatter.string(from: messageLabel!)
-        
+        let date = Date().dateToStringFormatted(date: messageLabel!)
         let messageLabel2 = title.value(forKey: "notes") as? String
-        
         let stringTemp1 = messageLabel2 ?? ""
         
         
