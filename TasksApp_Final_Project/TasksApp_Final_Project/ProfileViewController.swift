@@ -12,7 +12,7 @@ import Firebase
 import FirebaseDatabase
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
+    
     @IBOutlet weak var settingBar: UINavigationBar!
     let userID = Auth.auth().currentUser!.uid
     let ref = Database.database().reference()
@@ -26,9 +26,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBOutlet weak var settingb: UINavigationItem!
     
-  //  @IBOutlet weak var settingBar: UINavigationItem!
+    //  @IBOutlet weak var settingBar: UINavigationItem!
     
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(section == 0){
             return account.count
@@ -43,11 +43,15 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     @objc func changeTempUnit(_ sender:UISwitch){
         if(sender.isOn == true){
             Profile.displayInF = true
+            setting[0] = "Temperature: °F"
         }
         else{
             Profile.displayInF = false
+            setting[0] = "Temperature: °C"
         }
         ref.child("\(userID)/TempUnitF").setValue([Profile.displayInF])
+        settingTableView.reloadData()
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -96,7 +100,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     func fetchDataFromFirebase() {
         print ("firebase time")
         ref.child("\(userID)/TempUnitF/0").observe(.value, with: {(snapshot) in
-                let store = snapshot.value as? Bool
+            let store = snapshot.value as? Bool
             if(store == nil){
                 print("nill")
                 Profile.displayInF = true
@@ -106,20 +110,25 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
                 print("entered here")
                 Profile.displayInF = store
             }
-              // Profile.displayInF = store
-    })
+            // Profile.displayInF = store
+        })
     }
     override func viewDidLoad() {
         settingBar.prefersLargeTitles = true
         super.viewDidLoad()
         self.fetchDataFromFirebase()
-       settingb.title = "Settings"
+        settingb.title = "Settings"
         settingb.largeTitleDisplayMode = .automatic
-      //  ref.child("\(userID)/TempUnitF").setValue([Profile.displayInF])
+        //  ref.child("\(userID)/TempUnitF").setValue([Profile.displayInF])
         self.setupTableView()
+        if(Profile.displayInF == true){
+            setting[0] = "Temperature: °F"
+        }else{
+            setting[0] = "Temperature: °C"
+        }
         // Do any additional setup after loading the view.
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         self.fetchDataFromFirebase()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -130,16 +139,16 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

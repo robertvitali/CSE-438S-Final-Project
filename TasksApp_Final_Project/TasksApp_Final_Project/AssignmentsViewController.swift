@@ -209,14 +209,11 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         var tf:Bool = (objectUpdate.value(forKey: "complete") as? Bool)!
         tf = !tf
         objectUpdate.setValue(tf, forKey: "complete")
-        
         do{
             try context.save()
         }catch{
             print("ERROR")
         }
-        //DELETE ROWS ISNT WORKING
-        //self.taskTable.deleteRows(at: [indexPath], with: .automatic)
         self.getData()
     }
     

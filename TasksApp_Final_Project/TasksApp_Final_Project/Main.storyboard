@@ -550,9 +550,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xg1-T0-nJd">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xg1-T0-nJd">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" largeTitles="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dDp-Em-ITN">
@@ -564,6 +563,12 @@
                             </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="xg1-T0-nJd" firstAttribute="leading" secondItem="pxY-sL-xbx" secondAttribute="leading" id="Xgz-26-KYt"/>
+                            <constraint firstItem="xg1-T0-nJd" firstAttribute="top" secondItem="pxY-sL-xbx" secondAttribute="top" constant="44" id="hdV-ld-SKl"/>
+                            <constraint firstItem="pxY-sL-xbx" firstAttribute="bottom" secondItem="xg1-T0-nJd" secondAttribute="bottom" id="pS9-x7-ruE"/>
+                            <constraint firstItem="pxY-sL-xbx" firstAttribute="trailing" secondItem="xg1-T0-nJd" secondAttribute="trailing" id="rZD-lj-y00"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="pxY-sL-xbx"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" image="icons8-settings-26.png" id="ysV-R1-dE6"/>

@@ -80,20 +80,15 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Tasks")
-        
         do{
             taskArray = try context.fetch(fetchRequest)
             var s:Date
             var tf:Bool = false
             let date = Date()
-            //let dateFormatter = DateFormatter()
-            //dateFormatter.dateFormat = "MM/dd/yy"
-            //let result:Date = dateFormatter.date(from: date)
             print("GETTING TASKS")
             for item in taskArray {
                 s = (item.value(forKey: "date") as? Date)!
                 tf = (item.value(forKey: "complete") as? Bool)!
-                print("\(s)")
                 if(s <= date && tf == false){
                     sortedtaskArray.append(item)
                 }
@@ -103,6 +98,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             print("ERROR")
         }
         taskList = ExpandableTasks(isExpanded: true, tasks: sortedtaskArray)
+        todayTableView.reloadData()
     }
     
     func getForecastData() {
@@ -115,7 +111,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 self.spinner.isHidden = true
                 self.summaryText = (currentForecast.currently?.summary)!
                 if(Profile.displayInF == true){
-                self.tempText = "\(Int((currentForecast.currently?.temperature)!))º \(self.displayUnits)"
+                    self.tempText = "\(Int((currentForecast.currently?.temperature)!))º \(self.displayUnits)"
                 }
                 else{
                     let num = Int((currentForecast.currently?.temperature)!)
@@ -129,7 +125,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 self.summaryLabel.text = self.summaryText
                 self.tempLabel.text = self.tempText
                 self.tempRangeLabel.text = self.tempRangeText
-            //icons
+                //icons
                 if ((currentForecast.currently?.icon)!.rawValue == "clear-day") {
                     self.iconView.setType = self.weatherTypes[0]
                 }
@@ -219,7 +215,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         let eventsPredicate = self.eventStore.predicateForEvents(withStart: now, end: futureDate!, calendars: nil)
         let events = self.eventStore.events(matching: eventsPredicate)
         for event in events {
-        eList.append(event)
+            eList.append(event)
             print("\(String(describing: event.title))")
         }
         eventList = ExpandableEvents(isExpanded: true, events: eList)
@@ -228,17 +224,17 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     //fetch reminder from local reminder
     func fetchReminder(){
         var rList: [EKReminder] = []
-                var dateComponents = DateComponents.init()
-                dateComponents.day = 1
-                let reminderPredicate = self.eventStore.predicateForIncompleteReminders(withDueDateStarting: nil, ending: nil, calendars: nil)
-                    self.eventStore.fetchReminders(matching: reminderPredicate, completion: {
-                        (reminders: [EKReminder]?) -> Void in
-                            for reminder in reminders! {
-                            rList.append(reminder)
-                            print("\(String(describing: reminder.title))")
-                            }
-                        self.reminderList = ExpandableReminders(isExpanded: true, reminders: rList)
-               })
+        var dateComponents = DateComponents.init()
+        dateComponents.day = 1
+        let reminderPredicate = self.eventStore.predicateForIncompleteReminders(withDueDateStarting: nil, ending: nil, calendars: nil)
+        self.eventStore.fetchReminders(matching: reminderPredicate, completion: {
+            (reminders: [EKReminder]?) -> Void in
+            for reminder in reminders! {
+                rList.append(reminder)
+                print("\(String(describing: reminder.title))")
+            }
+            self.reminderList = ExpandableReminders(isExpanded: true, reminders: rList)
+        })
     }
     
     //set up table view
@@ -314,7 +310,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         todayTableView.reloadSections(IndexSet(arrayLiteral: section), with: .automatic)
     }
-
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 45
     }
@@ -355,18 +351,19 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         if indexPath.section == 0 {
-        cell.textLabel!.text = eventList!.events[indexPath.row].title
+            cell.textLabel!.text = eventList!.events[indexPath.row].title
             // eventList[indexPath.row].startDate.startHour
             
             cell.detailTextLabel?.text = "\(eventList!.events[indexPath.row].startDate.time(date: eventList!.events[indexPath.row].startDate)) to \(eventList!.events[indexPath.row].endDate.time(date: eventList!.events[indexPath.row].endDate))"
         }
-       if indexPath.section == 1 {
+        if indexPath.section == 1 {
             cell.textLabel!.text = reminderList!.reminders[indexPath.row].title
         }
         if indexPath.section == 2{
             let taskItem = taskList!.tasks[indexPath.row]
             cell.textLabel!.text = taskItem.value(forKey: "name") as? String
-            cell.detailTextLabel!.text = "\(taskItem.value(forKey: "date") as? Date)"
+            let taskDate = taskItem.value(forKey: "date") as? Date
+            cell.detailTextLabel!.text = "Due Date: \(Date().dateToStringFormatted(date: taskDate!))"
         }
         return cell
     }
@@ -378,13 +375,16 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     //swipe to delete table view cells
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = deleteAction(at: indexPath)
+        delete.image = UIImage(named: "trash1")
         return  UISwipeActionsConfiguration(actions: [delete])
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let completed = completedAction(at: indexPath)
-        if(indexPath.section == 1){
-        return UISwipeActionsConfiguration(actions: [completed])
+        completed.image = UIImage(named: "checkmark")
+        completed.backgroundColor = .green
+        if(indexPath.section != 0){
+            return UISwipeActionsConfiguration(actions: [completed])
         }
         else{
             return nil
@@ -392,7 +392,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func completedAction(at indexPath:IndexPath) -> UIContextualAction{
-         let action = UIContextualAction(style: .normal, title:"Complete"){(action,view,completion) in
+        let action = UIContextualAction(style: .normal, title:"Complete"){(action,view,completion) in
             if(indexPath.section == 1){
                 self.reminderList!.reminders[indexPath.row].isCompleted = true
                 do{
@@ -401,7 +401,22 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 self.reminderList!.reminders.remove(at: indexPath.row)
                 self.todayTableView.reloadData()
             }else if(indexPath.section == 2){
-                //this is where tasks go
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let context = appDelegate.persistentContainer.viewContext
+                let title = self.sortedtaskArray[indexPath.row]
+                let uniqueString:Int64 = (title.value(forKey: "uniqueID") as? Int64)!
+                let position:Int = self.getPosition(uniqueString: uniqueString)
+                let objectUpdate = self.sortedtaskArray[indexPath.row]
+                var tf:Bool = (objectUpdate.value(forKey: "complete") as? Bool)!
+                tf = !tf
+                objectUpdate.setValue(tf, forKey: "complete")
+                do{
+                    try context.save()
+                }catch{
+                    print("ERROR")
+                }
+                self.getTasksData()
+                self.todayTableView.reloadData()
             }
             completion(true)
             action.backgroundColor = .purple
@@ -409,25 +424,53 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         return action
     }
     
+    func getPosition(uniqueString: Int64) -> Int{
+        var count = 0
+        for item in taskArray{
+            let uid = item.value(forKey: "uniqueID") as? Int64
+            if(uid == uniqueString){
+                return count
+            }
+            count = count + 1
+        }
+        return 0
+    }
+    
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete"){(action, view, completion) in
-        if(indexPath.section == 0){
+            if(indexPath.section == 0){
                 print("\(indexPath.row) \(String(describing: self.eventList!.events[indexPath.row].title))deleted")
                 self.deleteEvent((self.eventList?.events[indexPath.row].eventIdentifier)!)
                 self.eventList!.events.remove(at: indexPath.row)
                 self.todayTableView.reloadData()
             }
-        if(indexPath.section == 1){
-            self.deleteReminder(self.reminderList!.reminders[indexPath.row])
-            self.reminderList!.reminders.remove(at: indexPath.row)
-            self.todayTableView.reloadData()
+            if(indexPath.section == 1){
+                self.deleteReminder(self.reminderList!.reminders[indexPath.row])
+                self.reminderList!.reminders.remove(at: indexPath.row)
+                self.todayTableView.reloadData()
+            }
+            if(indexPath.section == 2){
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let context = appDelegate.persistentContainer.viewContext
+                let title = self.sortedtaskArray[indexPath.row]
+                let uniqueString:Int64 = (title.value(forKey: "uniqueID") as? Int64)!
+                let position:Int = self.getPosition(uniqueString: uniqueString)
+                context.delete(self.taskArray[position])
+                self.taskArray.remove(at: position)
+                self.sortedtaskArray.remove(at: indexPath.row)
+                print("TRYING TO DELETE")
+                do{
+                    try context.save()
+                }catch{
+                    print("ERROR")
+                }
+                self.getTasksData()
+                self.todayTableView.reloadData()
+            }
+            
+            completion(true)
+            action.backgroundColor = .red
         }
-        if(indexPath.section == 2){
-            //this is where tasks go
-        }
-        completion(true)
-        action.backgroundColor = .red
-    }
         return action
     }
     
@@ -481,7 +524,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             if (granted) && (error == nil)
             {
                 do{
-                     try self.eventStore.remove(reminder_toDelete,commit: true)
+                    try self.eventStore.remove(reminder_toDelete,commit: true)
                 } catch _ as NSError{
                     return
                 }
@@ -491,7 +534,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     // open calendar function call
     func gotoAppleCalendar(date: Date) {
-    //https://stackoverflow.com/questions/48312759/swift-how-to-open-up-calendar-app-at-specific-date-and-time
+        //https://stackoverflow.com/questions/48312759/swift-how-to-open-up-calendar-app-at-specific-date-and-time
         let interval = date.timeIntervalSinceReferenceDate
         if let url = URL(string: "calshow:\(interval)") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -500,19 +543,19 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func gotoReminder(){
         if let url = URL(string: "x-apple-reminder://"){
-             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     //
-        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let date = Date()
         print("cell selected")
-            if(indexPath.section == 0){
-        gotoAppleCalendar(date: date)
-    }
-            else{
-                gotoReminder()
-            }
+        if(indexPath.section == 0){
+            gotoAppleCalendar(date: date)
+        }
+        else{
+            gotoReminder()
+        }
     }
     
     // request access for local event
@@ -549,7 +592,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Do any additional setup after loading the view.
         weatherHeader.backgroundColor = Colors.headerBackground
         newsHeader.backgroundColor = Colors.headerBackground
-       // navigationController?.navigationBar.prefersLargeTitles = true
+        // navigationController?.navigationBar.prefersLargeTitles = true
         requestEventAccess()
         requestReminderAccess()
         fetchEvents()
@@ -564,18 +607,12 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         todayTableView.delegate = self
         titleBar.largeTitleDisplayMode = .automatic
         
-       // titleBar.prefersLargeTitles = true
+        // titleBar.prefersLargeTitles = true
         titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
         setupNewsCollectionView()
         fetchDataForNewsCollectionView()
-        /*
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.todayTableView.reloadData()
-            self.iconView.refresh()
-            self.spinner.isHidden = true
-        }*/
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -584,21 +621,16 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var weatherViewfull: CustomView!
     override func viewDidAppear(_ animated: Bool) {
         print("enter viewDidAppear")
-        fetchEvents()
-        fetchReminder()
-        //setUpWeather()
-        getForecastData()
-        getTasksData()
-        /*
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.fetchEvents()
+            self.fetchReminder()
+            self.getTasksData()
+            self.getForecastData()
             self.todayTableView.reloadData()
-            self.iconView.refresh()
-            self.setUpWeather()
-            //self.spinner.isHidden = true
-        }*/
+        }
     }
     
-   //****************News****************//
+    //****************News****************//
     var newsData: NewsAPIResults? = nil
     var currentIndex = 0
     @IBOutlet weak var newsCollectionView: UICollectionView!
