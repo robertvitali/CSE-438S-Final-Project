@@ -158,6 +158,9 @@
                                                     <constraint firstItem="7nX-jJ-7Mb" firstAttribute="top" secondItem="AIa-77-buV" secondAttribute="top" id="zLR-qt-qCP"/>
                                                     <constraint firstItem="6Nn-IQ-5iT" firstAttribute="top" secondItem="7nX-jJ-7Mb" secondAttribute="bottom" constant="25" id="zST-fJ-VH8"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="oV8-qD-j4c" appends="YES" id="0qV-xN-3B8"/>
+                                                </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HaI-gM-iCD" userLabel="News View" customClass="CustomView" customModule="TasksApp_Final_Project" customModuleProvider="target">
                                                 <rect key="frame" x="12.5" y="917" width="350" height="200"/>
@@ -264,6 +267,7 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <accessibility key="accessibilityConfiguration" label="Widget Holder"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstItem="AIa-77-buV" firstAttribute="top" secondItem="4Ai-II-L0d" secondAttribute="top" constant="20" id="20l-fS-cGO"/>
                                             <constraint firstItem="gU6-Re-5Mp" firstAttribute="top" secondItem="AIa-77-buV" secondAttribute="bottom" constant="20" id="4qO-b7-K7z"/>
@@ -312,9 +316,14 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sXR-gy-pGe" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="jGn-hL-OnH">
+                <tapGestureRecognizer id="jGn-hL-OnH" userLabel="News Tap Gesture Recognizer">
                     <connections>
                         <action selector="goToArticle:" destination="rO0-oy-go4" id="AWR-yG-jt3"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="oV8-qD-j4c" userLabel="Weather Tap Gesture Recognizer">
+                    <connections>
+                        <action selector="goToWeather:" destination="rO0-oy-go4" id="aVC-Rp-Bd5"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

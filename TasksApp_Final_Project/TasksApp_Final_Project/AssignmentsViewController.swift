@@ -141,7 +141,7 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
             completion(true)
         }
         let edit = UIContextualAction(style: .normal, title: "Edit"){ (action, view, completion) in
-                
+            self.editTask()
             completion(true)
         }
         delete.image = UIImage(named: "trash1")
@@ -189,6 +189,10 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
     }
     
     func update(alert:UIAlertAction){
+        editTask()
+    }
+    
+    func editTask(){
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let destination = storyboard.instantiateViewController(withIdentifier: "Add Task VC") as! AddTaskViewController
         let title = sortedItems[currentPos]
@@ -225,7 +229,13 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         getData()
     }
     @IBAction func toggleCompleted(_ sender: Any) {
-        let alert = UIAlertController(title: "Toggle", message: "Would you like to toggle the completed/not completed events?", preferredStyle: .alert)
+        var showing:String = "Current Tasks"
+        var changeTo:String = "Completed Tasks"
+        if(showingCompleted == true){
+            showing = "Completed Tasks"
+            changeTo = "Current Tasks"
+        }
+        let alert = UIAlertController(title: "Displaying: \(showing)", message: "Switch to \(changeTo)?", preferredStyle: .alert)
         let Yes = UIAlertAction(title: "Yes", style: .default, handler: self.yes)
         let No = UIAlertAction(title: "No", style: .default, handler: nil)
         alert.addAction(Yes)

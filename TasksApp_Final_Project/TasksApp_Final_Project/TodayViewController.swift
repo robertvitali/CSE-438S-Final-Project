@@ -12,6 +12,7 @@ import FirebaseAuth
 import FirebaseDatabase
 import ForecastIO
 import CoreLocation
+import MapKit
 import CoreData
 
 class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, CLLocationManagerDelegate {
@@ -21,8 +22,19 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     @IBOutlet var titleBar: UINavigationItem!
-    
+    @IBOutlet weak var weatherHeader: UIView!
     @IBOutlet weak var todayTableView: UITableView!
+    @IBOutlet weak var summaryLabel: UILabel!
+    @IBOutlet weak var tempLabel: UILabel!
+    @IBOutlet weak var tempRangeLabel: UILabel!
+    @IBOutlet weak var weatherIconView: UIView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var weatherViewfull: CustomView!
+    @IBOutlet weak var newsCollectionView: UICollectionView!
+    @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var newsHeader: UIView!
+    
+    
     var eventStore:EKEventStore = EKEventStore.init()
     var eventList: ExpandableEvents? = nil
     var reminderList: ExpandableReminders? = nil
@@ -33,7 +45,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var sortedtaskArray: [NSManagedObject] = []
     
     //***********WEATHER************//
-    @IBOutlet weak var weatherHeader: UIView!
+    
     
     let client = DarkSkyClient(apiKey: "fba905c888a58959fec530185e206514")
     var myLat:Double = 42.3601
@@ -61,18 +73,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var tempText:String = ""
     var tempRangeText:String = ""
     
-    @IBOutlet weak var summaryLabel: UILabel!
-    @IBOutlet weak var tempLabel: UILabel!
-    @IBOutlet weak var tempRangeLabel: UILabel!
-    
-    @IBOutlet weak var weatherIconView: UIView!
-    
-    @IBOutlet weak var spinner: UIActivityIndicatorView!
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations[0]
         myLat = location.coordinate.latitude
         myLon = location.coordinate.longitude
+        print("LAT AND LON UPDATED: \(myLat),\(myLon)")
     }
     
     func getTasksData(){
@@ -98,7 +103,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             print("ERROR")
         }
         taskList = ExpandableTasks(isExpanded: true, tasks: sortedtaskArray)
-        todayTableView.reloadData()
+        
     }
     
     func getForecastData() {
@@ -106,9 +111,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             switch result {
             case .success(let currentForecast, _):
                 print("Forecast received!")
-                self.spinner.isHidden = true
                 self.iconView.refresh()
-                self.spinner.isHidden = true
                 self.summaryText = (currentForecast.currently?.summary)!
                 if(Profile.displayInF == true){
                     self.tempText = "\(Int((currentForecast.currently?.temperature)!))º \(self.displayUnits)"
@@ -158,12 +161,12 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
                 self.iconView.setColor = UIColor.black
                 self.spinner.isHidden = true
+                self.spinner.stopAnimating()
                 self.tempLabel.isHidden = false
                 self.summaryLabel.isHidden = false
                 self.tempRangeLabel.isHidden = false
                 self.iconView.isHidden = false
                 self.weatherIconView.isHidden = false
-                self.todayTableView.reloadData()
                 self.iconView.refresh()
             case .failure(_):
                 //  Uh-oh. We have an error!
@@ -375,8 +378,10 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     //swipe to delete table view cells
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = deleteAction(at: indexPath)
+        let edit = editAction(at: indexPath)
+        edit.image = UIImage(named: "edit")
         delete.image = UIImage(named: "trash1")
-        return  UISwipeActionsConfiguration(actions: [delete])
+        return  UISwipeActionsConfiguration(actions: [delete, edit])
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -472,6 +477,25 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             action.backgroundColor = .red
         }
         return action
+    }
+    
+    func editAction(at indexPath: IndexPath) -> UIContextualAction{
+        let edit = UIContextualAction(style: .normal, title: "Edit"){ (action, view, completion) in
+            if(indexPath.section == 2){
+                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                let destination = storyboard.instantiateViewController(withIdentifier: "Add Task VC") as! AddTaskViewController
+                let title = self.sortedtaskArray[indexPath.row]
+                taskName = title.value(forKey:"name") as? String
+                taskDate = title.value(forKey:"date") as? Date
+                taskNotes = title.value(forKey:"notes") as? String
+                uniqueIDT = title.value(forKey:"uniqueID") as? Int64
+                self.navigationController?.pushViewController(destination, animated: true)
+            }
+            completion(true)
+        }
+        
+        edit.backgroundColor = .orange
+        return edit
     }
     
     // delete event from calendar
@@ -593,22 +617,26 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         weatherHeader.backgroundColor = Colors.headerBackground
         newsHeader.backgroundColor = Colors.headerBackground
         // navigationController?.navigationBar.prefersLargeTitles = true
+
         requestEventAccess()
         requestReminderAccess()
         fetchEvents()
         fetchReminder()
+        getTasksData()
         setupTableView()
         setUpWeather()
-        getTasksData()
+        
+        todayTableView.delegate = self
         
         let date = Date()
         let calendar = Calendar.current
         let day = calendar.component(.day, from: date)
-        todayTableView.delegate = self
+        
         titleBar.largeTitleDisplayMode = .automatic
         
         // titleBar.prefersLargeTitles = true
         titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
+        
         setupNewsCollectionView()
         fetchDataForNewsCollectionView()
     }
@@ -618,24 +646,30 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
-    @IBOutlet weak var weatherViewfull: CustomView!
+    
     override func viewDidAppear(_ animated: Bool) {
+        manager.startUpdatingLocation()
         print("enter viewDidAppear")
         DispatchQueue.global(qos: .userInitiated).async {
             self.fetchEvents()
+            print("FETCHED EVENTS")
             self.fetchReminder()
-            self.getTasksData()
+            print("FETCHED REMINDERS")
+            
+            DispatchQueue.main.async {
+                self.getTasksData()
+                print("GOT TASKS")
+                self.todayTableView.reloadData()
+                 print("RELOAD TABLE")
+            }
             self.getForecastData()
-            self.todayTableView.reloadData()
+            print("GOT FORECAST")
         }
     }
     
     //****************News****************//
     var newsData: NewsAPIResults? = nil
     var currentIndex = 0
-    @IBOutlet weak var newsCollectionView: UICollectionView!
-    @IBOutlet weak var pageControl: UIPageControl!
-    @IBOutlet weak var newsHeader: UIView!
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
@@ -688,4 +722,12 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             UIApplication.shared.open(url, options: [:])
         }
     }
+    
+    
+    @IBAction func goToWeather(_ sender: UITapGestureRecognizer){
+        let url = URL(string: "https://darksky.net/forecast/\(myLat),\(myLon)")
+        UIApplication.shared.open(url!, options: [:])
+    }
+    
+    
 }
