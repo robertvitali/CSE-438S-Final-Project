@@ -43,6 +43,8 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var calendarArray:[EKCalendar] = []
     var taskArray:[NSManagedObject] = []
     var sortedtaskArray: [NSManagedObject] = []
+    var tableObjects: [NSManagedObject] = []
+    var currentPos = 0
     
     //***********WEATHER************//
     
@@ -73,6 +75,23 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var tempText:String = ""
     var tempRangeText:String = ""
     
+    func fetchDataFromFirebase() {
+        print ("firebase time")
+        ref.child("\(userID)/TempUnitF/0").observe(.value, with: {(snapshot) in
+            let store = snapshot.value as? Bool
+            if(store == nil){
+                print("nill")
+                Profile.displayInF = true
+                self.ref.child("\(self.userID)/TempUnitF").setValue([Profile.displayInF])
+            }
+            else{
+                print("entered here")
+                Profile.displayInF = store
+            }
+            // Profile.displayInF = store
+        })
+    }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations[0]
         myLat = location.coordinate.latitude
@@ -81,7 +100,9 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func getTasksData(){
-        sortedtaskArray = []
+        DispatchQueue.main.async{
+            self.sortedtaskArray = []
+        }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Tasks")
@@ -102,76 +123,94 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         }catch{
             print("ERROR")
         }
-        taskList = ExpandableTasks(isExpanded: true, tasks: sortedtaskArray)
+        let objectUpdate = self.tableObjects[2]
+        var tf:Bool = (objectUpdate.value(forKey: "isOpen") as? Bool)!
+        if(sortedtaskArray == []){
+            tf = false
+        }
+        taskList = ExpandableTasks(isExpanded: tf, tasks: sortedtaskArray)
         
     }
     
     func getForecastData() {
-        self.client.getForecast(latitude: self.myLat, longitude: self.myLon) { result in
-            switch result {
-            case .success(let currentForecast, _):
-                print("Forecast received!")
-                self.iconView.refresh()
-                self.summaryText = (currentForecast.currently?.summary)!
-                if(Profile.displayInF == true){
-                    self.tempText = "\(Int((currentForecast.currently?.temperature)!))º \(self.displayUnits)"
+        manager.startUpdatingLocation()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            print("AFTER 2 SECONDS")
+            self.client.getForecast(latitude: self.myLat, longitude: self.myLon) { result in
+                switch result {
+                case .success(let currentForecast, _):
+                    print("Forecast received!")
+                    self.iconView.refresh()
+                    self.summaryText = (currentForecast.currently?.summary)!
+                    if(Profile.displayInF == true){
+                        self.tempText = "\(Int((currentForecast.currently?.temperature)!))º \(self.displayUnits)"
+                    }
+                    else{
+                        let num = Int((currentForecast.currently?.temperature)!)
+                        let dnum = ((num-32)*5)/9
+                        self.tempText = "\(dnum)º C"
+                    }
+                    self.tempRangeText = "\((currentForecast.daily?.data[0].temperatureHigh)!) / \((currentForecast.daily?.data[0].temperatureLow)!)"
+                    self.summaryLabel.font.withSize(20)
+                    self.tempLabel.font.withSize(12)
+                    self.summaryLabel.textColor = .gray
+                    self.summaryLabel.text = self.summaryText
+                    self.tempLabel.text = self.tempText
+                    self.tempRangeLabel.text = self.tempRangeText
+                    //icons
+                    if ((currentForecast.currently?.icon)!.rawValue == "clear-day") {
+                        self.iconView.setType = self.weatherTypes[0]
+                    }
+                    else if ((currentForecast.currently?.icon)!.rawValue == "clear-night") {
+                        self.iconView.setType = self.weatherTypes[1]
+                    }
+                    else if ((currentForecast.currently?.icon)!.rawValue == "cloudy") {
+                        self.iconView.setType = self.weatherTypes[2]
+                    }
+                    else if ((currentForecast.currently?.icon)!.rawValue == "fog") {
+                        self.iconView.setType = self.weatherTypes[3]
+                    }
+                    else if ((currentForecast.currently?.icon)!.rawValue == "partly-cloudy-day") {
+                        self.iconView.setType = self.weatherTypes[4]
+                    }
+                    else if ((currentForecast.currently?.icon)!.rawValue == "partly-cloudy-night") {
+                        self.iconView.setType = self.weatherTypes[5]
+                    }
+                    else if ((currentForecast.currently?.icon)!.rawValue == "rain") {
+                        self.iconView.setType = self.weatherTypes[6]
+                    }
+                    else if ((currentForecast.currently?.icon)!.rawValue == "sleet") {
+                        self.iconView.setType = self.weatherTypes[7]
+                    }
+                    else if ((currentForecast.currently?.icon)!.rawValue == "snow") {
+                        self.iconView.setType = self.weatherTypes[8]
+                    }
+                    else if ((currentForecast.currently?.icon)!.rawValue == "wind") {
+                        self.iconView.setType = self.weatherTypes[9]
+                    }
+                    self.iconView.setColor = UIColor.black
+                    
+                    self.tempLabel.isHidden = false
+                    self.summaryLabel.isHidden = false
+                    self.tempRangeLabel.isHidden = false
+                    self.iconView.isHidden = false
+                    self.weatherIconView.isHidden = false
+                    
+                    
+                    self.spinner.isHidden = true
+                    print("STOP ANIMATING")
+                    self.iconView.refresh()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
+                        self.spinner.stopAnimating()
+                        self.iconView.refresh()
+                    }
+                
+                case .failure(_):
+                    //  Uh-oh. We have an error!
+                    print("error getting forecast!")
                 }
-                else{
-                    let num = Int((currentForecast.currently?.temperature)!)
-                    let dnum = ((num-32)*5)/9
-                    self.tempText = "\(dnum)º C"
-                }
-                self.tempRangeText = "\((currentForecast.daily?.data[0].temperatureHigh)!) / \((currentForecast.daily?.data[0].temperatureLow)!)"
-                self.summaryLabel.font.withSize(20)
-                self.tempLabel.font.withSize(12)
-                self.summaryLabel.textColor = .gray
-                self.summaryLabel.text = self.summaryText
-                self.tempLabel.text = self.tempText
-                self.tempRangeLabel.text = self.tempRangeText
-                //icons
-                if ((currentForecast.currently?.icon)!.rawValue == "clear-day") {
-                    self.iconView.setType = self.weatherTypes[0]
-                }
-                else if ((currentForecast.currently?.icon)!.rawValue == "clear-night") {
-                    self.iconView.setType = self.weatherTypes[1]
-                }
-                else if ((currentForecast.currently?.icon)!.rawValue == "cloudy") {
-                    self.iconView.setType = self.weatherTypes[2]
-                }
-                else if ((currentForecast.currently?.icon)!.rawValue == "fog") {
-                    self.iconView.setType = self.weatherTypes[3]
-                }
-                else if ((currentForecast.currently?.icon)!.rawValue == "partly-cloudy-day") {
-                    self.iconView.setType = self.weatherTypes[4]
-                }
-                else if ((currentForecast.currently?.icon)!.rawValue == "partly-cloudy-night") {
-                    self.iconView.setType = self.weatherTypes[5]
-                }
-                else if ((currentForecast.currently?.icon)!.rawValue == "rain") {
-                    self.iconView.setType = self.weatherTypes[6]
-                }
-                else if ((currentForecast.currently?.icon)!.rawValue == "sleet") {
-                    self.iconView.setType = self.weatherTypes[7]
-                }
-                else if ((currentForecast.currently?.icon)!.rawValue == "snow") {
-                    self.iconView.setType = self.weatherTypes[8]
-                }
-                else if ((currentForecast.currently?.icon)!.rawValue == "wind") {
-                    self.iconView.setType = self.weatherTypes[9]
-                }
-                self.iconView.setColor = UIColor.black
-                self.spinner.isHidden = true
-                self.spinner.stopAnimating()
-                self.tempLabel.isHidden = false
-                self.summaryLabel.isHidden = false
-                self.tempRangeLabel.isHidden = false
-                self.iconView.isHidden = false
-                self.weatherIconView.isHidden = false
-                self.iconView.refresh()
-            case .failure(_):
-                //  Uh-oh. We have an error!
-                print("error getting forecast!")
             }
+            self.manager.stopUpdatingLocation()
         }
     }
     
@@ -187,7 +226,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.requestWhenInUseAuthorization()
-        manager.startUpdatingLocation()
         
         iconView = SKYIconView(frame: CGRect(x: 0, y: 0, width: weatherIconView.bounds.size.width, height: weatherIconView.bounds.size.height))
         
@@ -221,7 +259,13 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             eList.append(event)
             print("\(String(describing: event.title))")
         }
-        eventList = ExpandableEvents(isExpanded: true, events: eList)
+        
+        let objectUpdate = tableObjects[0]
+        var tf:Bool = (objectUpdate.value(forKey: "isOpen") as? Bool)!
+        if(eList == []){
+            tf = false
+        }
+        eventList = ExpandableEvents(isExpanded: tf, events: eList)
     }
     
     //fetch reminder from local reminder
@@ -236,7 +280,12 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 rList.append(reminder)
                 print("\(String(describing: reminder.title))")
             }
-            self.reminderList = ExpandableReminders(isExpanded: true, reminders: rList)
+            let objectUpdate = self.tableObjects[1]
+            var tf:Bool = (objectUpdate.value(forKey: "isOpen") as? Bool)!
+            if(rList == []){
+                tf = false
+            }
+            self.reminderList = ExpandableReminders(isExpanded: tf, reminders: rList)
         })
     }
     
@@ -296,12 +345,15 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         if section == 0 {
             eventList!.isExpanded = !eventList!.isExpanded
+            saveIsOpenValues(section: 0, tf: eventList!.isExpanded)
         }
         if section == 1 {
             reminderList!.isExpanded = !reminderList!.isExpanded
+            saveIsOpenValues(section: 0, tf: reminderList!.isExpanded)
         }
         if section == 2 {
             taskList!.isExpanded = !taskList!.isExpanded
+            saveIsOpenValues(section: 0, tf: taskList!.isExpanded)
         }
         
         let animation = CABasicAnimation(keyPath: "transform.rotation")
@@ -408,9 +460,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             }else if(indexPath.section == 2){
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let context = appDelegate.persistentContainer.viewContext
-                let title = self.sortedtaskArray[indexPath.row]
-                let uniqueString:Int64 = (title.value(forKey: "uniqueID") as? Int64)!
-                let position:Int = self.getPosition(uniqueString: uniqueString)
                 let objectUpdate = self.sortedtaskArray[indexPath.row]
                 var tf:Bool = (objectUpdate.value(forKey: "complete") as? Bool)!
                 tf = !tf
@@ -577,9 +626,53 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         if(indexPath.section == 0){
             gotoAppleCalendar(date: date)
         }
-        else{
+        else if(indexPath.section == 1){
             gotoReminder()
+        }else if(indexPath.section == 2){
+            let title = self.sortedtaskArray[indexPath.row]
+            currentPos = indexPath.row
+            let titleLabel = title.value(forKey: "name") as? String
+            let dateValue = title.value(forKey: "date") as? Date
+            let date = Date().dateToStringFormatted(date: dateValue!)
+            let notesValue = title.value(forKey: "notes") as? String
+            let notesString = notesValue ?? ""
+            let messageString = date + "\n" + notesString
+            let alert = UIAlertController(title: titleLabel, message: messageString, preferredStyle: .alert)
+            let update = UIAlertAction(title: "Edit", style: .default, handler: self.update)
+            let complete = UIAlertAction(title: "Complete", style: .default, handler: self.complete)
+            let dismiss = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
+            alert.addAction(complete)
+            alert.addAction(update)
+            alert.addAction(dismiss)
+            self.present(alert, animated: true, completion: nil)
         }
+    }
+    
+    func update(alert:UIAlertAction){
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let destination = storyboard.instantiateViewController(withIdentifier: "Add Task VC") as! AddTaskViewController
+        let title = sortedtaskArray[currentPos]
+        taskName = title.value(forKey:"name") as? String
+        taskDate = title.value(forKey:"date") as? Date
+        taskNotes = title.value(forKey:"notes") as? String
+        uniqueIDT = title.value(forKey:"uniqueID") as? Int64
+        navigationController?.pushViewController(destination, animated: true)
+    }
+    
+    func complete(alert:UIAlertAction){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let objectUpdate = sortedtaskArray[currentPos]
+        var tf:Bool = (objectUpdate.value(forKey: "complete") as? Bool)!
+        tf = !tf
+        objectUpdate.setValue(tf, forKey: "complete")
+        do{
+            try context.save()
+        }catch{
+            print("ERROR")
+        }
+        getTasksData()
+        reloadingTodayTableView()
     }
     
     // request access for local event
@@ -611,15 +704,69 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         })
     }
     
+    //gets boolean values for if the table view items were open or not
+    func getIsOpenValues(){
+        tableObjects = []
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "TableObject")
+        
+        do{
+            tableObjects = try context.fetch(fetchRequest)
+        }catch{
+            print("ERROR")
+        }
+    }
+    
+    //save open/closed values of table view
+    func saveIsOpenValues(section: Int, tf: Bool){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let objectUpdate = tableObjects[section]
+        objectUpdate.setValue(tf, forKey: "isOpen")
+        do{
+            try context.save()
+        }catch{
+            print("ERROR")
+        }
+    }
+    
+    //this function creates the saved coredata values first time on launch
+    func createOneTime(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "TableObjects", in: context)
+        let tbOJ1 = NSManagedObject(entity: entity!, insertInto: context)
+        tbOJ1.setValue(true, forKey: "isOpen")
+        let tbOJ2 = NSManagedObject(entity: entity!, insertInto: context)
+        tbOJ2.setValue(true, forKey: "isOpen")
+        let tbOJ3 = NSManagedObject(entity: entity!, insertInto: context)
+        tbOJ3.setValue(true, forKey: "isOpen")
+        do{
+            try context.save()
+        }catch{
+            print("CANNOT SAVE! ERROR!")
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         weatherHeader.backgroundColor = Colors.headerBackground
         newsHeader.backgroundColor = Colors.headerBackground
         // navigationController?.navigationBar.prefersLargeTitles = true
-
+        
+        //getting the values of if the expanded views are open or not
+        getIsOpenValues()
+        
+        if(tableObjects == []){
+            createOneTime()
+            getIsOpenValues()
+        }
+        
         requestEventAccess()
         requestReminderAccess()
+        fetchDataFromFirebase()
         fetchEvents()
         fetchReminder()
         getTasksData()
@@ -646,22 +793,27 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
+    func reloadingTodayTableView(){
+        DispatchQueue.main.async {
+            self.todayTableView.reloadData()
+            print("RELOADED EVENTS")
+            
+        }
+    }
+    
     
     override func viewDidAppear(_ animated: Bool) {
-        manager.startUpdatingLocation()
         print("enter viewDidAppear")
         DispatchQueue.global(qos: .userInitiated).async {
             self.fetchEvents()
             print("FETCHED EVENTS")
+            self.reloadingTodayTableView()
             self.fetchReminder()
             print("FETCHED REMINDERS")
-            
-            DispatchQueue.main.async {
-                self.getTasksData()
-                print("GOT TASKS")
-                self.todayTableView.reloadData()
-                 print("RELOAD TABLE")
-            }
+            self.reloadingTodayTableView()
+            self.getTasksData()
+            print("GOT TASKS")
+            self.reloadingTodayTableView()
             self.getForecastData()
             print("GOT FORECAST")
         }

@@ -121,10 +121,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         settingb.largeTitleDisplayMode = .automatic
         //  ref.child("\(userID)/TempUnitF").setValue([Profile.displayInF])
         self.setupTableView()
-        if(Profile.displayInF == true){
-            setting[0] = "Temperature: °F"
-        }else{
+        if(Profile.displayInF == false){
             setting[0] = "Temperature: °C"
+        }else{
+            setting[0] = "Temperature: °F"
         }
         // Do any additional setup after loading the view.
     }

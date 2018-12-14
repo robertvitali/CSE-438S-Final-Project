@@ -14,9 +14,9 @@ import CoreData
 
 class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource{
     
-//    let database = Database.database().reference()
-//    let userID = Auth.auth().currentUser?.uid
-
+    //    let database = Database.database().reference()
+    //    let userID = Auth.auth().currentUser?.uid
+    
     var itemName: [NSManagedObject] = []
     var taskData: [NSManagedObject] = []
     var theIndex:Int = 0
@@ -24,20 +24,20 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     @IBOutlet var taskTable: UITableView!
     @IBOutlet var navigationBar: UINavigationItem!
     
-
+    
     
     //properties of core data
     //var resultsController: NSFetch
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      //  navigationController?.navigationBar.prefersLargeTitles = true
+        //  navigationController?.navigationBar.prefersLargeTitles = true
         // Do any additional setup after loading the view.
         navigationBar.title = "Folders"
-      //  navigationBar.largeTitleDisplayMode = .automatic
+        //  navigationBar.largeTitleDisplayMode = .automatic
         taskTable.backgroundColor = Colors.headerBackground
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
@@ -85,7 +85,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
                         count = count + 1
                     }
                 }
-        
+                
             }
         }catch{
             print("ERROR")
@@ -136,7 +136,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         }
     }
     
-
+    
     
     //delete and edit swipe
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -147,7 +147,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
             self.deleteTasks()
             context.delete(self.itemName[indexPath.row])
             self.itemName.remove(at: indexPath.row)
-           
+            
             print("TRYING TO DELETE")
             do{
                 try context.save()
@@ -230,15 +230,15 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     }
     
 }
-    
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+/*
+ // MARK: - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+ // Get the new view controller using segue.destinationViewController.
+ // Pass the selected object to the new view controller.
+ }
+ */
 

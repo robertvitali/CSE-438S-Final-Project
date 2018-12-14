@@ -82,9 +82,6 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         let complete = UIContextualAction(style: .destructive, title: "Check"){ (action, view, completion) in
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let context = appDelegate.persistentContainer.viewContext
-            let title = self.sortedItems[indexPath.row]
-            let uniqueString:Int64 = (title.value(forKey: "uniqueID") as? Int64)!
-            let position:Int = self.getPosition(uniqueString: uniqueString)
             let objectUpdate = self.sortedItems[indexPath.row]
             var tf:Bool = (objectUpdate.value(forKey: "complete") as? Bool)!
             tf = !tf
@@ -95,15 +92,17 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
             }catch{
                 print("ERROR")
             }
-            //DELETE ROWS ISNT WORKING
-            //self.taskTable.deleteRows(at: [indexPath], with: .automatic)
             self.getData()
             
             completion(true)
         }
         
         complete.image = UIImage(named: "checkmark")
-        complete.backgroundColor = .green
+        if(showingCompleted == true){
+            complete.backgroundColor = .lightGray
+        }else{
+            complete.backgroundColor = .green
+        }
         return UISwipeActionsConfiguration(actions: [complete])
     }
     
@@ -140,15 +139,20 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
             
             completion(true)
         }
-        let edit = UIContextualAction(style: .normal, title: "Edit"){ (action, view, completion) in
-            self.editTask()
-            completion(true)
-        }
         delete.image = UIImage(named: "trash1")
         delete.backgroundColor = .red
-        edit.image = UIImage(named: "edit")
-        edit.backgroundColor = .orange
-        return UISwipeActionsConfiguration(actions: [delete, edit])
+        if(showingCompleted == false){
+            let edit = UIContextualAction(style: .normal, title: "Edit"){ (action, view, completion) in
+                self.editTask()
+                completion(true)
+            }
+            edit.image = UIImage(named: "edit")
+            edit.backgroundColor = .orange
+            return UISwipeActionsConfiguration(actions: [delete, edit])
+        }else{
+            return UISwipeActionsConfiguration(actions: [delete])
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -179,11 +183,11 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         
         let entireMessage = date + "\n" + stringTemp1
         let alert = UIAlertController(title: titleLabel, message: entireMessage, preferredStyle: .alert)
-        let update = UIAlertAction(title: "Update", style: .default, handler: self.update)
+        let update = UIAlertAction(title: "Edit", style: .default, handler: self.update)
         let complete = UIAlertAction(title: "Complete", style: .default, handler: self.complete)
         let dismiss = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
-        alert.addAction(update)
         alert.addAction(complete)
+        alert.addAction(update)
         alert.addAction(dismiss)
         self.present(alert, animated: true, completion: nil)
     }
@@ -206,9 +210,6 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
     func complete(alert:UIAlertAction){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
-        let title = self.sortedItems[currentPos]
-        let uniqueString:Int64 = (title.value(forKey: "uniqueID") as? Int64)!
-        let position:Int = self.getPosition(uniqueString: uniqueString)
         let objectUpdate = self.sortedItems[currentPos]
         var tf:Bool = (objectUpdate.value(forKey: "complete") as? Bool)!
         tf = !tf

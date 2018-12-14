@@ -3,6 +3,9 @@
     <entity name="Folders" representedClassName=".Folders" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="TableObject" representedClassName="TableObject" syncable="YES" codeGenerationType="class">
+        <attribute name="isOpen" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
     <entity name="Tasks" representedClassName=".Tasks" syncable="YES">
         <attribute name="complete" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -14,5 +17,6 @@
     <elements>
         <element name="Folders" positionX="-63" positionY="-18" width="128" height="60"/>
         <element name="Tasks" positionX="-63" positionY="-9" width="128" height="135"/>
+        <element name="TableObject" positionX="-63" positionY="36" width="128" height="60"/>
     </elements>
 </model>
