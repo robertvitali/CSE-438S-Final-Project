@@ -43,7 +43,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var calendarArray:[EKCalendar] = []
     var taskArray:[NSManagedObject] = []
     var sortedtaskArray: [NSManagedObject] = []
-    var tableObjects: [NSManagedObject] = []
+    var stateArray: [NSManagedObject] = []
     var currentPos = 0
     
     //***********WEATHER************//
@@ -88,7 +88,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 print("entered here")
                 Profile.displayInF = store
             }
-            // Profile.displayInF = store
         })
     }
     
@@ -107,35 +106,30 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Tasks")
         do{
-            taskArray = try context.fetch(fetchRequest)
+            self.taskArray = try context.fetch(fetchRequest)
             var s:Date
             var tf:Bool = false
             let date = Date()
             print("GETTING TASKS")
-            for item in taskArray {
+            for item in self.taskArray {
                 s = (item.value(forKey: "date") as? Date)!
                 tf = (item.value(forKey: "complete") as? Bool)!
                 if(s <= date && tf == false){
-                    sortedtaskArray.append(item)
+                    self.sortedtaskArray.append(item)
                 }
             }
-            print("TASK COUNT: \(sortedtaskArray.count)")
+            print("TASK COUNT: \(self.sortedtaskArray.count)")
         }catch{
             print("ERROR")
         }
-        let objectUpdate = self.tableObjects[2]
-        var tf:Bool = (objectUpdate.value(forKey: "isOpen") as? Bool)!
-        if(sortedtaskArray == []){
-            tf = false
-        }
-        taskList = ExpandableTasks(isExpanded: tf, tasks: sortedtaskArray)
         
+        self.taskList = ExpandableTasks(isExpanded: (stateArray[2].value(forKey: "isOpen") as? Bool)!, tasks: self.sortedtaskArray)
     }
     
     func getForecastData() {
         manager.startUpdatingLocation()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            print("AFTER 2 SECONDS")
+            print("AFTER 1 SECOND DELAY GETTING FORECAST")
             self.client.getForecast(latitude: self.myLat, longitude: self.myLon) { result in
                 switch result {
                 case .success(let currentForecast, _):
@@ -198,11 +192,14 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                     
                     
                     self.spinner.isHidden = true
-                    print("STOP ANIMATING")
+                    print("SPINNER JUST BECAME HIDDEN")
                     self.iconView.refresh()
+                    print("FIRST ICON REFRESH")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
                         self.spinner.stopAnimating()
+                        print("DELAYED STOP SPINNER")
                         self.iconView.refresh()
+                        print("SECOND ICON REFRESH")
                     }
                 
                 case .failure(_):
@@ -259,13 +256,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             eList.append(event)
             print("\(String(describing: event.title))")
         }
-        
-        let objectUpdate = tableObjects[0]
-        var tf:Bool = (objectUpdate.value(forKey: "isOpen") as? Bool)!
-        if(eList == []){
-            tf = false
-        }
-        eventList = ExpandableEvents(isExpanded: tf, events: eList)
+        eventList = ExpandableEvents(isExpanded: (stateArray[0].value(forKey: "isOpen") as? Bool)!, events: eList)
     }
     
     //fetch reminder from local reminder
@@ -280,12 +271,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 rList.append(reminder)
                 print("\(String(describing: reminder.title))")
             }
-            let objectUpdate = self.tableObjects[1]
-            var tf:Bool = (objectUpdate.value(forKey: "isOpen") as? Bool)!
-            if(rList == []){
-                tf = false
-            }
-            self.reminderList = ExpandableReminders(isExpanded: tf, reminders: rList)
+            self.reminderList = ExpandableReminders(isExpanded: (self.stateArray[1].value(forKey: "isOpen") as? Bool)!, reminders: rList)
         })
     }
     
@@ -313,6 +299,8 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         button.tag = section
         let triangle = UIImage(named: "triangle")
         let rTriangle = UIImage(named: "reversed")
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
         
         if section == 0 {
             if eventList!.isExpanded == true {
@@ -320,18 +308,37 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             } else {
                 button.setImage(triangle, for: .normal)
             }
+            if(eventList!.events == []){
+                button.isHidden = true
+            }
+            stateArray[0].setValue(!(eventList!.isExpanded), forKey: "isOpen")
         } else if section == 1 {
             if reminderList!.isExpanded == true {
                 button.setImage(rTriangle, for: .normal)
             } else {
                 button.setImage(triangle, for: .normal)
             }
+            if(reminderList!.reminders == []){
+                button.isHidden = true
+            }
+            stateArray[1].setValue(!(reminderList!.isExpanded), forKey: "isOpen")
         } else{
             if taskList!.isExpanded == true {
                 button.setImage(rTriangle, for: .normal)
             } else {
                 button.setImage(triangle, for: .normal)
             }
+            if(taskList!.tasks == []){
+                button.isHidden = true
+            }
+            stateArray[2].setValue(!(taskList!.isExpanded), forKey: "isOpen")
+            
+        }
+        
+        do{
+            try context.save()
+        }catch{
+            print("ERROR")
         }
         
         button.addTarget(self, action: #selector(expandCollapse), for: .touchUpInside)
@@ -345,15 +352,12 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         if section == 0 {
             eventList!.isExpanded = !eventList!.isExpanded
-            saveIsOpenValues(section: 0, tf: eventList!.isExpanded)
         }
         if section == 1 {
             reminderList!.isExpanded = !reminderList!.isExpanded
-            saveIsOpenValues(section: 0, tf: reminderList!.isExpanded)
         }
         if section == 2 {
             taskList!.isExpanded = !taskList!.isExpanded
-            saveIsOpenValues(section: 0, tf: taskList!.isExpanded)
         }
         
         let animation = CABasicAnimation(keyPath: "transform.rotation")
@@ -704,50 +708,45 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         })
     }
     
-    //gets boolean values for if the table view items were open or not
-    func getIsOpenValues(){
-        tableObjects = []
+    func saveInitState(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "TableObject")
+        let entity = NSEntityDescription.entity(forEntityName: "ExpandedState", in: context)!
         
-        do{
-            tableObjects = try context.fetch(fetchRequest)
-        }catch{
-            print("ERROR")
-        }
-    }
-    
-    //save open/closed values of table view
-    func saveIsOpenValues(section: Int, tf: Bool){
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let objectUpdate = tableObjects[section]
-        objectUpdate.setValue(tf, forKey: "isOpen")
-        do{
-            try context.save()
-        }catch{
-            print("ERROR")
-        }
-    }
-    
-    //this function creates the saved coredata values first time on launch
-    func createOneTime(){
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "TableObjects", in: context)
-        let tbOJ1 = NSManagedObject(entity: entity!, insertInto: context)
-        tbOJ1.setValue(true, forKey: "isOpen")
-        let tbOJ2 = NSManagedObject(entity: entity!, insertInto: context)
-        tbOJ2.setValue(true, forKey: "isOpen")
-        let tbOJ3 = NSManagedObject(entity: entity!, insertInto: context)
-        tbOJ3.setValue(true, forKey: "isOpen")
+        let calEntity = NSManagedObject(entity: entity, insertInto: context)
+        calEntity.setValue(true, forKey: "isOpen")
+        
+        let remEntity = NSManagedObject(entity: entity, insertInto: context)
+        remEntity.setValue(true, forKey: "isOpen")
+        
+        
+        let taskEntity = NSManagedObject(entity: entity, insertInto: context)
+        taskEntity.setValue(true, forKey: "isOpen")
+        
         do{
             try context.save()
         }catch{
             print("CANNOT SAVE! ERROR!")
         }
     }
+    
+    func getSavedState(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let stateRequest = NSFetchRequest<NSManagedObject>(entityName: "ExpandedState")
+        do{
+            stateArray = try context.fetch(stateRequest)
+        }catch{
+            print("Cannot get task state")
+        }
+        
+        if(stateArray == []){
+            saveInitState()
+            getSavedState()
+        }
+        
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -756,13 +755,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         newsHeader.backgroundColor = Colors.headerBackground
         // navigationController?.navigationBar.prefersLargeTitles = true
         
-        //getting the values of if the expanded views are open or not
-        getIsOpenValues()
-        
-        if(tableObjects == []){
-            createOneTime()
-            getIsOpenValues()
-        }
+        getSavedState()
         
         requestEventAccess()
         requestReminderAccess()

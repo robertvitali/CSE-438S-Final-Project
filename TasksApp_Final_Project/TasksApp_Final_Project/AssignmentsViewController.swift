@@ -55,7 +55,6 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Tasks")
-        
         do{
             itemName = try context.fetch(fetchRequest)
             var s:String = ""

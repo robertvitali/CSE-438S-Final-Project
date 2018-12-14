@@ -23,6 +23,7 @@
 		E14060BC219E34B70043E590 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14060BB219E34B70043E590 /* TodayViewController.swift */; };
 		E14060C0219E34CF0043E590 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14060BF219E34CF0043E590 /* TasksViewController.swift */; };
 		E14060C2219E34DB0043E590 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14060C1219E34DB0043E590 /* ProfileViewController.swift */; };
+		E146922221C4783F0072A4F2 /* List.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E146922021C4783F0072A4F2 /* List.xcdatamodeld */; };
 		E18B47EC21ACCCB500B2E40A /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18B47EB21ACCCB500B2E40A /* AddTaskViewController.swift */; };
 		E1939E7E219E27C3003B3702 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1939E7D219E27C3003B3702 /* AppDelegate.swift */; };
 		E1939E85219E27C4003B3702 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1939E84219E27C4003B3702 /* Assets.xcassets */; };
@@ -32,7 +33,6 @@
 		E1939EAF219E27E9003B3702 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1939EAC219E27E8003B3702 /* Main.storyboard */; };
 		E194846F219E297F004044C3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E194846E219E297F004044C3 /* GoogleService-Info.plist */; };
 		E1ACB32C21AB9FC400F24435 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1ACB32B21AB9FC400F24435 /* Date.swift */; };
-		E1B7E67C21B45F1E009907E8 /* List.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E1B7E67A21B45F1E009907E8 /* List.xcdatamodeld */; };
 		E1DD1740218DF17466596217 /* Pods_TasksApp_Final_ProjectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8E12277D1F5DD285AE51C8 /* Pods_TasksApp_Final_ProjectUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +74,7 @@
 		E14060BB219E34B70043E590 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		E14060BF219E34CF0043E590 /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
 		E14060C1219E34DB0043E590 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		E146922121C4783F0072A4F2 /* List.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = List.xcdatamodel; sourceTree = "<group>"; };
 		E18B47EB21ACCCB500B2E40A /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 		E1939E7A219E27C3003B3702 /* TasksApp_Final_Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TasksApp_Final_Project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1939E7D219E27C3003B3702 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -89,7 +90,6 @@
 		E1939EAC219E27E8003B3702 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E194846E219E297F004044C3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E1ACB32B21AB9FC400F24435 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
-		E1B7E67B21B45F1E009907E8 /* List.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = List.xcdatamodel; sourceTree = "<group>"; };
 		E3AB839EEF64AB9840E5881C /* Pods-TasksApp_Final_ProjectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_ProjectUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_ProjectUITests/Pods-TasksApp_Final_ProjectUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F26D5EDF3A8FEF955C0EED79 /* Pods-TasksApp_Final_ProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_ProjectTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_ProjectTests/Pods-TasksApp_Final_ProjectTests.release.xcconfig"; sourceTree = "<group>"; };
 		F41F76A7FD11C829FAAA23FE /* Pods-TasksApp_Final_Project.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TasksApp_Final_Project.release.xcconfig"; path = "Pods/Target Support Files/Pods-TasksApp_Final_Project/Pods-TasksApp_Final_Project.release.xcconfig"; sourceTree = "<group>"; };
@@ -192,7 +192,7 @@
 				2F940D9B21B393B50088E59E /* Expandable.swift */,
 				A730412921B3B664000B6F2F /* Skycons.swift */,
 				2F998A0221B4E7CF001A8F74 /* Colors.swift */,
-				E1B7E67A21B45F1E009907E8 /* List.xcdatamodeld */,
+				E146922021C4783F0072A4F2 /* List.xcdatamodeld */,
 				1A6562D221B5233300C211A1 /* Profile.swift */,
 			);
 			path = TasksApp_Final_Project;
@@ -466,12 +466,12 @@
 				E14060C2219E34DB0043E590 /* ProfileViewController.swift in Sources */,
 				2F03C3A921B205C500CB2E6E /* NewsAPIResults.swift in Sources */,
 				2F03C3AA21B205C500CB2E6E /* NewsStory.swift in Sources */,
+				E146922221C4783F0072A4F2 /* List.xcdatamodeld in Sources */,
 				E1ACB32C21AB9FC400F24435 /* Date.swift in Sources */,
 				E12CCE52219E2E90008E3D37 /* SignInViewController.swift in Sources */,
 				2F940D9C21B393B50088E59E /* Expandable.swift in Sources */,
 				2F998A0321B4E7CF001A8F74 /* Colors.swift in Sources */,
 				2F7AACF121AD0B3A00E39BF5 /* CustomView.swift in Sources */,
-				E1B7E67C21B45F1E009907E8 /* List.xcdatamodeld in Sources */,
 				E14060C0219E34CF0043E590 /* TasksViewController.swift in Sources */,
 				E1939E7E219E27C3003B3702 /* AppDelegate.swift in Sources */,
 				E14060BC219E34B70043E590 /* TodayViewController.swift in Sources */,
@@ -806,12 +806,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		E1B7E67A21B45F1E009907E8 /* List.xcdatamodeld */ = {
+		E146922021C4783F0072A4F2 /* List.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				E1B7E67B21B45F1E009907E8 /* List.xcdatamodel */,
+				E146922121C4783F0072A4F2 /* List.xcdatamodel */,
 			);
-			currentVersion = E1B7E67B21B45F1E009907E8 /* List.xcdatamodel */;
+			currentVersion = E146922121C4783F0072A4F2 /* List.xcdatamodel */;
 			path = List.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

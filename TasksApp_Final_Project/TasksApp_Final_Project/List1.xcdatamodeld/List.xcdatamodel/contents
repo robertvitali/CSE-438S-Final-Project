@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18B75" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ExpandedCalendar" representedClassName="ExpandedCalendar" syncable="YES" codeGenerationType="class">
+        <attribute name="isOpen" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="ExpandedReminder" representedClassName="ExpandedReminder" syncable="YES" codeGenerationType="class">
+        <attribute name="isOpen" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="ExpandedState" representedClassName="ExpandedState" syncable="YES" codeGenerationType="class">
+        <attribute name="isOpen" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="Folders" representedClassName=".Folders" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Tasks" representedClassName=".Tasks" syncable="YES">
+        <attribute name="complete" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="folderName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uniqueID" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Folders" positionX="-63" positionY="-18" width="128" height="60"/>
+        <element name="ExpandedReminder" positionX="-63" positionY="36" width="128" height="60"/>
+        <element name="Tasks" positionX="-63" positionY="-9" width="128" height="135"/>
+        <element name="ExpandedState" positionX="-63" positionY="36" width="128" height="60"/>
+        <element name="ExpandedCalendar" positionX="-54" positionY="45" width="128" height="60"/>
+    </elements>
+</model>
