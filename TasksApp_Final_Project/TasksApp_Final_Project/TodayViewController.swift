@@ -14,6 +14,7 @@ import ForecastIO
 import CoreLocation
 import MapKit
 import CoreData
+import SafariServices
 
 class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, CLLocationManagerDelegate {
     let userID = Auth.auth().currentUser!.uid
@@ -201,7 +202,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                         self.iconView.refresh()
                         print("SECOND ICON REFRESH")
                     }
-                
+                    
                 case .failure(_):
                     //  Uh-oh. We have an error!
                     print("error getting forecast!")
@@ -299,8 +300,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         button.tag = section
         let triangle = UIImage(named: "triangle")
         let rTriangle = UIImage(named: "reversed")
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
+        
         
         if section == 0 {
             if eventList!.isExpanded == true {
@@ -311,7 +311,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             if(eventList!.events == []){
                 button.isHidden = true
             }
-            stateArray[0].setValue(!(eventList!.isExpanded), forKey: "isOpen")
         } else if section == 1 {
             if reminderList!.isExpanded == true {
                 button.setImage(rTriangle, for: .normal)
@@ -321,7 +320,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             if(reminderList!.reminders == []){
                 button.isHidden = true
             }
-            stateArray[1].setValue(!(reminderList!.isExpanded), forKey: "isOpen")
         } else{
             if taskList!.isExpanded == true {
                 button.setImage(rTriangle, for: .normal)
@@ -331,33 +329,37 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             if(taskList!.tasks == []){
                 button.isHidden = true
             }
-            stateArray[2].setValue(!(taskList!.isExpanded), forKey: "isOpen")
-            
         }
-        
-        do{
-            try context.save()
-        }catch{
-            print("ERROR")
-        }
-        
         button.addTarget(self, action: #selector(expandCollapse), for: .touchUpInside)
         button.frame = CGRect(x: 310, y: 15, width: 18, height: 15)
         view.addSubview(button)
         return view
     }
     
+    
     @objc func expandCollapse(button: UIButton) {
         let section = button.tag
         
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
         if section == 0 {
             eventList!.isExpanded = !eventList!.isExpanded
+            stateArray[0].setValue(eventList!.isExpanded, forKey: "isOpen")
         }
         if section == 1 {
             reminderList!.isExpanded = !reminderList!.isExpanded
+            stateArray[1].setValue(reminderList!.isExpanded, forKey: "isOpen")
         }
         if section == 2 {
             taskList!.isExpanded = !taskList!.isExpanded
+            stateArray[2].setValue(taskList!.isExpanded, forKey: "isOpen")
+        }
+        
+        do{
+            try context.save()
+        }catch{
+            print("ERROR saving open closed prefrences")
         }
         
         let animation = CABasicAnimation(keyPath: "transform.rotation")
@@ -437,7 +439,12 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         let edit = editAction(at: indexPath)
         edit.image = UIImage(named: "edit")
         delete.image = UIImage(named: "trash1")
-        return  UISwipeActionsConfiguration(actions: [delete, edit])
+        if(indexPath.section == 2){
+            return  UISwipeActionsConfiguration(actions: [delete, edit])
+        }
+        else{
+            return nil
+        }
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -750,6 +757,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("VIEW DID LOAD")
         // Do any additional setup after loading the view.
         weatherHeader.backgroundColor = Colors.headerBackground
         newsHeader.backgroundColor = Colors.headerBackground
@@ -790,26 +798,17 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         DispatchQueue.main.async {
             self.todayTableView.reloadData()
             print("RELOADED EVENTS")
-            
         }
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
-        print("enter viewDidAppear")
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.fetchEvents()
-            print("FETCHED EVENTS")
-            self.reloadingTodayTableView()
-            self.fetchReminder()
-            print("FETCHED REMINDERS")
-            self.reloadingTodayTableView()
-            self.getTasksData()
-            print("GOT TASKS")
-            self.reloadingTodayTableView()
-            self.getForecastData()
-            print("GOT FORECAST")
-        }
+        fetchEvents()
+        fetchReminder()
+        reloadingTodayTableView()
+        getTasksData()
+        reloadingTodayTableView()
+        getForecastData()
     }
     
     //****************News****************//
@@ -864,14 +863,21 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBAction func goToArticle(_ sender: UITapGestureRecognizer) {
         guard let results = newsData else {return}
         if let url = results.articles[currentIndex].url {
-            UIApplication.shared.open(url, options: [:])
+            //UIApplication.shared.open(url, options: [:])
+            openWebsite(url: url)
         }
     }
     
     
     @IBAction func goToWeather(_ sender: UITapGestureRecognizer){
         let url = URL(string: "https://darksky.net/forecast/\(myLat),\(myLon)")
-        UIApplication.shared.open(url!, options: [:])
+        //UIApplication.shared.open(url!, options: [:])
+        openWebsite(url: url!)
+    }
+    
+    func openWebsite(url: URL){
+        let webVC = SFSafariViewController(url: url)
+        present(webVC, animated: true)
     }
     
     

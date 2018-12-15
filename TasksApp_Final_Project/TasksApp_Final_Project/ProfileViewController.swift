@@ -13,7 +13,7 @@ import FirebaseDatabase
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak var settingBar: UINavigationBar!
+  
     let userID = Auth.auth().currentUser!.uid
     let ref = Database.database().reference()
     var account:[String] = ["Sign Out"]
@@ -24,8 +24,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         return headerList[section]
     }
     
-    @IBOutlet weak var settingb: UINavigationItem!
-    
+
     //  @IBOutlet weak var settingBar: UINavigationItem!
     
     
@@ -114,11 +113,11 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         })
     }
     override func viewDidLoad() {
-        settingBar.prefersLargeTitles = true
+        //settingBar.prefersLargeTitles = true
         super.viewDidLoad()
         self.fetchDataFromFirebase()
-        settingb.title = "Settings"
-        settingb.largeTitleDisplayMode = .automatic
+        //settingb.title = "Settings"
+        //settingb.largeTitleDisplayMode = .automatic
         //  ref.child("\(userID)/TempUnitF").setValue([Profile.displayInF])
         self.setupTableView()
         if(Profile.displayInF == false){

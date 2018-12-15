@@ -93,6 +93,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         return count
     }
     
+    
     //this function reloads the data when the scene is reloaded
     override func viewDidAppear(_ animated: Bool) {
         taskTable.reloadData()
@@ -134,6 +135,35 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         }catch{
             print("ERROR")
         }
+    }
+    
+    //archive
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let complete = UIContextualAction(style: .destructive, title: "Check"){ (action, view, completion) in
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            let objectUpdate = self.itemName[indexPath.row]
+            var tf:Bool = (objectUpdate.value(forKey: "archive") as? Bool)!
+            tf = !tf
+            objectUpdate.setValue(tf, forKey: "archive")
+            
+            do{
+                try context.save()
+            }catch{
+                print("ERROR")
+            }
+            completion(true)
+        }
+        
+        
+        
+        complete.image = UIImage(named: "archive")
+        if(true){
+            complete.backgroundColor = .lightGray
+        }else{
+            complete.backgroundColor = .green
+        }
+        return UISwipeActionsConfiguration(actions: [complete])
     }
     
     
@@ -187,9 +217,9 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     @IBAction func addButton(_ sender: Any) {
         let alert = UIAlertController(title: "Add Folder", message: "Name Your Folder", preferredStyle: .alert)
         let save = UIAlertAction(title: "Save", style: .default, handler: self.save)
-        let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil )
-        alert.addAction(save)
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: nil )
         alert.addAction(cancel)
+        alert.addAction(save)
         alert.addTextField(configurationHandler: titleTextField)
         self.present(alert, animated: true, completion: nil)
     }
@@ -201,6 +231,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
             let entity = NSEntityDescription.entity(forEntityName: "Folders", in: context)!
             let theTitle = NSManagedObject(entity: entity, insertInto: context)
             theTitle.setValue(titleTextField.text, forKey: "name")
+            theTitle.setValue(false, forKey: "archive")
             do{
                 try context.save()
                 itemName.append(theTitle)
