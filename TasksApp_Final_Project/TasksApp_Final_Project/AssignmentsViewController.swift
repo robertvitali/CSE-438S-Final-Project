@@ -30,14 +30,16 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
     @IBOutlet var topTitle: UINavigationItem!
     @IBOutlet var assignmentTable: UITableView!
     @IBOutlet var addTask: UIBarButtonItem!
+    @IBOutlet var addButton: UIBarButtonItem!
+    @IBOutlet var moreButton: UIBarButtonItem!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         nameClass = className
         topTitle.title = className
-        assignmentTable.backgroundColor = Colors.headerBackground
-        
+        addButton.tintColor = UIColor.black
+        moreButton.tintColor = UIColor.black
         print("Assignments VC")
         
         

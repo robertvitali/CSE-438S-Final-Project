@@ -23,6 +23,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     
     @IBOutlet var taskTable: UITableView!
     @IBOutlet var navigationBar: UINavigationItem!
+    @IBOutlet var addButton: UIBarButtonItem!
     
     
     
@@ -35,12 +36,11 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         navigationBar.title = "Tasks"
         navigationController?.navigationBar.barTintColor = Colors.headerBackground
         navigationBar.largeTitleDisplayMode = .always
-        //taskTable.backgroundColor = Colors.headerBackground
+        addButton.tintColor = UIColor.black
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
         // Dispose of any resources that can be recreated.
     }
     

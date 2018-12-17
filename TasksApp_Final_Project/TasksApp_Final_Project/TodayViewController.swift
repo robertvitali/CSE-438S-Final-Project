@@ -784,7 +784,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         titleBar.largeTitleDisplayMode = .automatic
         
-        // titleBar.prefersLargeTitles = true
         //titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
         titleBar.title = "\(date.monthAsString()) \(day)\(date.dayEnding())"
         navigationController?.navigationBar.barTintColor = Colors.headerBackground

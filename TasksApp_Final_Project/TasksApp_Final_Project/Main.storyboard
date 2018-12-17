@@ -373,6 +373,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addButton" destination="Ez7-RJ-N2c" id="qVx-0g-PSO"/>
                         <outlet property="navigationBar" destination="70d-dK-7UG" id="bGd-7h-F5z"/>
                         <outlet property="taskTable" destination="l2d-4w-vGJ" id="Kgq-Bl-fLG"/>
                     </connections>
@@ -432,8 +433,10 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="addButton" destination="uFk-HP-rDp" id="MpV-pa-qnR"/>
                         <outlet property="addTask" destination="uFk-HP-rDp" id="JrD-Cp-c2Q"/>
                         <outlet property="assignmentTable" destination="4nz-Ze-KZf" id="CRF-II-goM"/>
+                        <outlet property="moreButton" destination="Xjb-ov-mua" id="BJw-P2-gig"/>
                         <outlet property="topTitle" destination="aVh-QN-xN8" id="OTK-cf-b4d"/>
                     </connections>
                 </viewController>
@@ -670,4 +673,5 @@
         <image name="icons8-settings-26" width="19.5" height="19.5"/>
         <image name="icons8-star-filled-50.png" width="25" height="25"/>
     </resources>
+    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>
