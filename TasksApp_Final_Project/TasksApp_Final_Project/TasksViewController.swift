@@ -31,11 +31,11 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //  navigationController?.navigationBar.prefersLargeTitles = true
         // Do any additional setup after loading the view.
-        navigationBar.title = "Folders"
-        //  navigationBar.largeTitleDisplayMode = .automatic
-        taskTable.backgroundColor = Colors.headerBackground
+        navigationBar.title = "Tasks"
+        navigationController?.navigationBar.barTintColor = Colors.headerBackground
+        navigationBar.largeTitleDisplayMode = .always
+        //taskTable.backgroundColor = Colors.headerBackground
     }
     
     override func didReceiveMemoryWarning() {
@@ -60,6 +60,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let destination = storyboard.instantiateViewController(withIdentifier: "Assignments VC") as! AssignmentsViewController
         let title = itemName[indexPath.row]

@@ -22,6 +22,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     
+    
     @IBOutlet var titleBar: UINavigationItem!
     @IBOutlet weak var weatherHeader: UIView!
     @IBOutlet weak var todayTableView: UITableView!
@@ -632,6 +633,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     //
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let date = Date()
         print("cell selected")
         if(indexPath.section == 0){
@@ -783,7 +785,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         titleBar.largeTitleDisplayMode = .automatic
         
         // titleBar.prefersLargeTitles = true
-        titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
+        //titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
+        titleBar.title = "\(date.monthAsString()) \(day)\(date.dayEnding())"
+        navigationController?.navigationBar.barTintColor = Colors.headerBackground
+        
+        
         
         setupNewsCollectionView()
         fetchDataForNewsCollectionView()

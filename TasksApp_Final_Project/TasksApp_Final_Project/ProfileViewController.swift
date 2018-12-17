@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
   
     let userID = Auth.auth().currentUser!.uid
     let ref = Database.database().reference()
-    var account:[String] = ["Sign Out"]
+    var account:[String] = ["Sign Out", "Permissions"]
     var setting:[String] = ["Temperature"]
     var headerList:[String] = ["Account","Preferences"]
     
@@ -76,13 +76,19 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("selcted")
+        tableView.deselectRow(at: indexPath, animated: true)
         if(indexPath.section == 0){
-            GIDSignIn.sharedInstance().signOut()
-            print("SIGN OUT")
-            let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-            
-            let nextViewController = storyBoard.instantiateViewController(withIdentifier: "SignIn") as! SignInViewController
-            self.present(nextViewController, animated:true, completion:nil)
+            if(indexPath.row == 0){
+                GIDSignIn.sharedInstance().signOut()
+                print("SIGN OUT")
+                let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+                
+                let nextViewController = storyBoard.instantiateViewController(withIdentifier: "SignIn") as! SignInViewController
+                self.present(nextViewController, animated:true, completion:nil)
+            }else if(indexPath.row == 1){
+                let settingsURL = URL(string: UIApplicationOpenSettingsURLString)
+                UIApplication.shared.open(settingsURL!)
+            }
         }
     }
     
@@ -113,19 +119,15 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         })
     }
     override func viewDidLoad() {
-        //settingBar.prefersLargeTitles = true
         super.viewDidLoad()
         self.fetchDataFromFirebase()
-        //settingb.title = "Settings"
-        //settingb.largeTitleDisplayMode = .automatic
-        //  ref.child("\(userID)/TempUnitF").setValue([Profile.displayInF])
         self.setupTableView()
         if(Profile.displayInF == false){
             setting[0] = "Temperature: °C"
         }else{
             setting[0] = "Temperature: °F"
         }
-        // Do any additional setup after loading the view.
+        navigationController?.navigationBar.barTintColor = Colors.headerBackground
     }
     
     override func viewDidAppear(_ animated: Bool) {

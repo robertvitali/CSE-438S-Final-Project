@@ -171,6 +171,7 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let title = self.sortedItems[indexPath.row]
         let titleLabel = title.value(forKey: "name") as? String
         let messageLabel = title.value(forKey: "date") as? Date
