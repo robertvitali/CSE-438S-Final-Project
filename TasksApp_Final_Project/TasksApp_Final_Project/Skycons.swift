@@ -102,7 +102,9 @@ class SKYIconView: UIView {
     }
     
     func refresh() {
-        self.setNeedsDisplay()
+        DispatchQueue.main.async {
+            self.setNeedsDisplay()
+        }
     }
     
     override func draw(_ rect: CGRect) {

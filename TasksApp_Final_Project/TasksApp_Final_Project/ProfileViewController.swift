@@ -20,7 +20,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     var account:[String] = ["Sign Out", "Permissions"]
     var setting:[String] = ["Temperature", "Show Archived Folders"]
     var headerList:[String] = ["Account","Preferences"]
-    var settings:[NSManagedObject] = []
+    var savedSettings:[NSManagedObject] = []
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return headerList[section]
@@ -72,7 +72,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
                 switchView.setOn(Profile.displayInF ?? false, animated: true)
             }else if(indexPath.row == 1){
                 //put in load data for archiving a folder
-                let tf = settings[0].value(forKey: "tf") as? Bool
+                let tf = savedSettings[0].value(forKey: "tf") as? Bool
                 switchView.setOn(tf!, animated: true)
             }
             switchView.tag = indexPath.row
@@ -134,13 +134,13 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
         self.fetchDataFromFirebase()
         self.getSettings()
-        self.setupTableView()
         if(Profile.displayInF == false){
             setting[0] = "Temperature: °C"
         }else{
             setting[0] = "Temperature: °F"
         }
         navigationController?.navigationBar.barTintColor = Colors.headerBackground
+        self.setupTableView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -165,12 +165,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Settings")
         do{
-            settings = try context.fetch(fetchRequest)
+            savedSettings = try context.fetch(fetchRequest)
         }catch{
             print("ERROR")
         }
-        if(settings == []){
-            setSettings(position: 0)
+        if(savedSettings == []){
+            createNewSetting()
         }
     }
     
@@ -178,7 +178,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
-        let objectUpdate = settings[position]
+        let objectUpdate = savedSettings[position]
         var tfVal = objectUpdate.value(forKey: "tf") as? Bool
         if(tfVal != true && tfVal != false){
             tfVal = true
@@ -189,6 +189,20 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         }catch{
             print("ERROR")
         }
+    }
+    
+    func createNewSetting(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Settings", in: context)!
+        let theTitle = NSManagedObject(entity: entity, insertInto: context)
+        theTitle.setValue(false, forKey: "tf")
+        do{
+            try context.save()
+        }catch{
+            print("CANNOT SAVE! ERROR!")
+        }
+        getSettings()
     }
     
     

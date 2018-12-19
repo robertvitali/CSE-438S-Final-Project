@@ -21,7 +21,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     var sortedItems: [NSManagedObject] = []
     var taskData: [NSManagedObject] = []
     var settings: [NSManagedObject] = []
-    var showingCompleted = true
+    var showingCompleted = false
     var theIndex:Int = 0
     
     @IBOutlet var taskTable: UITableView!
@@ -58,7 +58,8 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "folderCell")
         let titleLabel = title.value(forKey: "name") as? String
         let tf = title.value(forKey: "archive") as? Bool
-        let count: Int = getNumberOfTasks(Name: titleLabel!)
+        //error showing here
+        let count: Int = getNumberOfTasks(Name: titleLabel ?? "") 
         cell.textLabel?.text = titleLabel
         cell.detailTextLabel?.text = "\(count)"
         if(tf == true){
@@ -145,8 +146,21 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     
     //this function reloads the data when the scene is reloaded
     override func viewDidAppear(_ animated: Bool) {
-        getData()
+        //getting info about showing archived
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Settings")
+        do{
+            settings = try context.fetch(fetchRequest)
+        }catch{
+            print("ERROR")
+        }
         print("DID APPEAR")
+        if(settings != []){
+            showingCompleted = settings[0].value(forKey: "tf") as? Bool ?? false
+        }
+        
+        getData()
     }
     
     func deleteTasks(){
@@ -211,10 +225,10 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         let delete = UIContextualAction(style: .destructive, title: "Delete"){ (action, view, completion) in
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let context = appDelegate.persistentContainer.viewContext
-            nameClass = self.itemName[indexPath.row].value(forKey:"name") as? String
+            nameClass = self.sortedItems[indexPath.row].value(forKey:"name") as? String
             self.deleteTasks()
-            context.delete(self.itemName[indexPath.row])
-            self.itemName.remove(at: indexPath.row)
+            context.delete(self.sortedItems[indexPath.row])
+            self.sortedItems.remove(at: indexPath.row)
             
             print("TRYING TO DELETE")
             do{
@@ -233,7 +247,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
             alert.addAction(update)
             alert.addTextField(configurationHandler: self.titleTextField)
             self.present(alert, animated: true, completion: nil)
-            let title = self.itemName[indexPath.row]
+            let title = self.sortedItems[indexPath.row]
             self.titleTextField.text = title.value(forKey:"name") as? String
             self.theIndex = indexPath.row
             completion(true)
@@ -272,7 +286,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
             theTitle.setValue(false, forKey: "archive")
             do{
                 try context.save()
-                itemName.append(theTitle)
+                sortedItems.append(theTitle)
                 
             }catch{
                 print("ERROR")
