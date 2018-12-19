@@ -10,6 +10,7 @@ import UIKit
 import GoogleSignIn
 import Firebase
 import FirebaseDatabase
+import CoreData
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -17,8 +18,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     let userID = Auth.auth().currentUser!.uid
     let ref = Database.database().reference()
     var account:[String] = ["Sign Out", "Permissions"]
-    var setting:[String] = ["Temperature"]
+    var setting:[String] = ["Temperature", "Show Archived Folders"]
     var headerList:[String] = ["Account","Preferences"]
+    var settings:[NSManagedObject] = []
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return headerList[section]
@@ -60,10 +62,11 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         if indexPath.section == 1 {
             cell.textLabel!.text = setting[indexPath.row]
-            //https://stackoverflow.com/questions/47038673/add-switch-in-uitableview-cell-in-swift for adding switch to table view cell
             let switchView = UISwitch(frame : .zero)
             if(indexPath.row == 0){
                 switchView.setOn(Profile.displayInF ?? false, animated: true)
+            }else if(indexPath.row == 1){
+                //put in load data for archiving a folder
             }
             switchView.tag = indexPath.row
             if(indexPath.row == 0){

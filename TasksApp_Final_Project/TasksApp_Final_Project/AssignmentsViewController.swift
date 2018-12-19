@@ -102,7 +102,7 @@ class AssignmentsViewController: UIViewController, UITextFieldDelegate, UITableV
         if(showingCompleted == true){
             complete.backgroundColor = .lightGray
         }else{
-            complete.backgroundColor = .green
+            complete.backgroundColor = Colors.headerBackground
         }
         return UISwipeActionsConfiguration(actions: [complete])
     }

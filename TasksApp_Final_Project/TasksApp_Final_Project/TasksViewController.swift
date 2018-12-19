@@ -18,7 +18,10 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     //    let userID = Auth.auth().currentUser?.uid
     
     var itemName: [NSManagedObject] = []
+    var sortedItems: [NSManagedObject] = []
     var taskData: [NSManagedObject] = []
+    var settings: [NSManagedObject] = []
+    var showingCompleted = true
     var theIndex:Int = 0
     
     @IBOutlet var taskTable: UITableView!
@@ -33,6 +36,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        getData()
         navigationBar.title = "Tasks"
         navigationController?.navigationBar.barTintColor = Colors.headerBackground
         navigationBar.largeTitleDisplayMode = .always
@@ -46,16 +50,20 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemName.count
+        return sortedItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let title = itemName[indexPath.row]
+        let title = sortedItems[indexPath.row]
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "folderCell")
         let titleLabel = title.value(forKey: "name") as? String
+        let tf = title.value(forKey: "archive") as? Bool
         let count: Int = getNumberOfTasks(Name: titleLabel!)
         cell.textLabel?.text = titleLabel
         cell.detailTextLabel?.text = "\(count)"
+        if(tf == true){
+            cell.textLabel?.textColor = Colors.headerBackground
+        }
         return cell
     }
     
@@ -63,9 +71,49 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         tableView.deselectRow(at: indexPath, animated: true)
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let destination = storyboard.instantiateViewController(withIdentifier: "Assignments VC") as! AssignmentsViewController
-        let title = itemName[indexPath.row]
+        let title = sortedItems[indexPath.row]
         destination.className = title.value(forKey:"name") as? String
         navigationController?.pushViewController(destination, animated: true)
+    }
+    
+    
+    func getData(){
+        settings = []
+        let appDelegate1 = UIApplication.shared.delegate as! AppDelegate
+        let context1 = appDelegate1.persistentContainer.viewContext
+        let fetchRequest1 = NSFetchRequest<NSManagedObject>(entityName: "Settings")
+        do{
+            settings = try context1.fetch(fetchRequest1)
+        }catch{
+            print("ERROR")
+        }
+        if(settings == []){
+            showingCompleted = false
+        }else{
+            showingCompleted = settings[0].value(forKey: "tf") as? Bool ?? false
+        }
+        
+        
+        sortedItems = []
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Folders")
+        do{
+            itemName = try context.fetch(fetchRequest)
+            if(showingCompleted == false){
+                var tf:Bool = false
+                for item in itemName {
+                    tf = (item.value(forKey: "archive") as? Bool)!
+                    if(tf == showingCompleted){
+                        sortedItems.append(item)
+                    }
+                }
+            }
+            else{ sortedItems = itemName}
+        }catch{
+            print("ERROR")
+        }
+        taskTable.reloadData()
     }
     
     func getNumberOfTasks(Name: String) -> Int{
@@ -97,19 +145,8 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     
     //this function reloads the data when the scene is reloaded
     override func viewDidAppear(_ animated: Bool) {
-        taskTable.reloadData()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Folders")
-        
-        do{
-            itemName = try context.fetch(fetchRequest)
-        }catch{
-            print("ERROR")
-        }
+        getData()
+        print("DID APPEAR")
     }
     
     func deleteTasks(){
@@ -124,7 +161,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
             print("GETTING TASKS")
             if taskData.count != 0{
                 print("COUNT IS NOT ZERO")
-                for (index, item) in taskData.enumerated() {
+                for item in taskData {
                     s = (item.value(forKey: "folderName") as? String)!
                     print("\(s)")
                     if(s == nameClass){
@@ -140,11 +177,11 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
     
     //archive
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let objectUpdate = self.sortedItems[indexPath.row]
+        var tf:Bool = (objectUpdate.value(forKey: "archive") as? Bool)!
         let complete = UIContextualAction(style: .destructive, title: "Check"){ (action, view, completion) in
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context = appDelegate.persistentContainer.viewContext
-            let objectUpdate = self.itemName[indexPath.row]
-            var tf:Bool = (objectUpdate.value(forKey: "archive") as? Bool)!
             tf = !tf
             objectUpdate.setValue(tf, forKey: "archive")
             
@@ -154,15 +191,15 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
                 print("ERROR")
             }
             completion(true)
+            self.getData()
         }
         
         
-        
         complete.image = UIImage(named: "archive")
-        if(true){
+        if(tf == true){
             complete.backgroundColor = .lightGray
         }else{
-            complete.backgroundColor = .green
+            complete.backgroundColor = Colors.headerBackground
         }
         return UISwipeActionsConfiguration(actions: [complete])
     }
@@ -240,7 +277,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
             }catch{
                 print("ERROR")
             }
-            self.taskTable.reloadData()
+            getData()
         }
         
     }
@@ -252,7 +289,7 @@ class TasksViewController: UIViewController, UITextFieldDelegate, UITableViewDel
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Folders")
         do{
             let test = try context.fetch(fetchRequest)
-            let objectUpdate = test[theIndex] 
+            let objectUpdate = test[theIndex]
             objectUpdate.setValue(titleTextField.text, forKey: "name")
             try context.save()
         }catch{

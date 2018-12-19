@@ -782,7 +782,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         let calendar = Calendar.current
         let day = calendar.component(.day, from: date)
         
-        titleBar.largeTitleDisplayMode = .automatic
+        titleBar.largeTitleDisplayMode = .always
         
         //titleBar.title = "\(date.weekDay()) \(date.monthAsString()) \(day)\(date.dayEnding())"
         titleBar.title = "\(date.monthAsString()) \(day)\(date.dayEnding())"
