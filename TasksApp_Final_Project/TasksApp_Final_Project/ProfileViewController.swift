@@ -52,7 +52,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         ref.child("\(userID)/TempUnitF").setValue([Profile.displayInF])
         settingTableView.reloadData()
-        
+    }
+    
+    @objc func changeArchive(_ sender:UISwitch){
+        setSettings(position: 0)
+        getSettings()
+        settingTableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -67,10 +72,14 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
                 switchView.setOn(Profile.displayInF ?? false, animated: true)
             }else if(indexPath.row == 1){
                 //put in load data for archiving a folder
+                let tf = settings[0].value(forKey: "tf") as? Bool
+                switchView.setOn(tf!, animated: true)
             }
             switchView.tag = indexPath.row
             if(indexPath.row == 0){
                 switchView.addTarget(self, action: #selector(ProfileViewController.changeTempUnit(_:)), for: .valueChanged)
+            }else if(indexPath.row == 1){
+                switchView.addTarget(self, action: #selector(ProfileViewController.changeArchive(_:)), for: .valueChanged)
             }
             cell.accessoryView = switchView
         }
@@ -124,6 +133,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         self.fetchDataFromFirebase()
+        self.getSettings()
         self.setupTableView()
         if(Profile.displayInF == false){
             setting[0] = "Temperature: °C"
@@ -135,6 +145,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidAppear(_ animated: Bool) {
         self.fetchDataFromFirebase()
+        self.getSettings()
+        if(Profile.displayInF == false){
+            setting[0] = "Temperature: °C"
+        }else{
+            setting[0] = "Temperature: °F"
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.settingTableView.reloadData()
         }
@@ -143,6 +159,38 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func getSettings(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Settings")
+        do{
+            settings = try context.fetch(fetchRequest)
+        }catch{
+            print("ERROR")
+        }
+        if(settings == []){
+            setSettings(position: 0)
+        }
+    }
+    
+    func setSettings(position:Int){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let objectUpdate = settings[position]
+        var tfVal = objectUpdate.value(forKey: "tf") as? Bool
+        if(tfVal != true && tfVal != false){
+            tfVal = true
+        }
+        objectUpdate.setValue(!tfVal!, forKey: "tf")
+        do{
+            try context.save()
+        }catch{
+            print("ERROR")
+        }
+    }
+    
     
     
     /*

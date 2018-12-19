@@ -442,8 +442,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         delete.image = UIImage(named: "trash1")
         if(indexPath.section == 2){
             return  UISwipeActionsConfiguration(actions: [delete, edit])
-        }
-        else{
+        }else{
             return nil
         }
     }
