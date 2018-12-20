@@ -19,7 +19,7 @@ class AddTaskViewController: UIViewController {
     @IBOutlet var taskButton: UIButton!
     @IBOutlet var taskLabel: UILabel!
     
-    private var datePicker: UIDatePicker?
+    private var datePicker = UIDatePicker()
     
     var itemName: [NSManagedObject] = []
     
@@ -40,6 +40,7 @@ class AddTaskViewController: UIViewController {
         }else{
             taskButton.setTitle("Create Task", for: .normal)
             taskLabel.text = "Create New Task"
+            taskDateField.text = Date().dateToStringFormatted(date: Date())
         }
         
         
@@ -49,10 +50,16 @@ class AddTaskViewController: UIViewController {
         notesBox!.layer.borderColor = UIColor.lightGray.cgColor
         
         
-        datePicker = UIDatePicker()
-        datePicker?.datePickerMode = .date
-        datePicker?.addTarget(self, action: #selector(AddTaskViewController.dateChanged(datePicker:)), for: .valueChanged)
+        datePicker.datePickerMode = .date
+        datePicker.addTarget(self, action: #selector(AddTaskViewController.dateChanged(datePicker:)), for: .valueChanged)
         taskDateField.inputView = datePicker
+        
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(AddTaskViewController.viewTapped(gestureRecognizer:)))
+        toolbar.setItems([doneButton], animated: true)
+        taskDateField.inputAccessoryView = toolbar
         
         
         
