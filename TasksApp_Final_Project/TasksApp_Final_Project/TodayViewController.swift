@@ -258,7 +258,10 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             eList.append(event)
             print("\(String(describing: event.title))")
         }
-        eventList = ExpandableEvents(isExpanded: (stateArray[0].value(forKey: "isOpen") as? Bool)!, events: eList)
+        
+        DispatchQueue.global(qos: .background).async {
+            self.eventList = ExpandableEvents(isExpanded: (self.stateArray[0].value(forKey: "isOpen") as? Bool)!, events: eList)
+        }
     }
     
     //fetch reminder from local reminder
