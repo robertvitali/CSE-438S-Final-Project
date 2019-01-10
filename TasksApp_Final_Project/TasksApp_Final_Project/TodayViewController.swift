@@ -196,9 +196,8 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                         self.tempRangeLabel.isHidden = false
                         self.iconView.isHidden = false
                         self.weatherIconView.isHidden = false
+                        self.spinner.isHidden = true
                     }
-                    
-                    self.spinner.isHidden = true
                     print("SPINNER JUST BECAME HIDDEN")
                     self.iconView.refresh()
                     print("FIRST ICON REFRESH")
@@ -379,7 +378,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         animation.toValue = CGFloat.pi
         animation.duration = 0.25
         animation.isRemovedOnCompletion = false
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         button.layer.add(animation, forKey: nil)
         
         todayTableView.reloadSections(IndexSet(arrayLiteral: section), with: .automatic)
@@ -584,10 +583,10 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                     if calendarEvent_toDelete.recurrenceRules?.isEmpty == false
                     {
                         let alert = UIAlertController(title: "Repeating Event", message:
-                            "This is a repeating event.", preferredStyle: UIAlertControllerStyle.alert)
+                            "This is a repeating event.", preferredStyle: UIAlertController.Style.alert)
                         
                         //delete this event only
-                        let thisEvent_Action = UIAlertAction(title: "Delete this event", style: UIAlertActionStyle.default)
+                        let thisEvent_Action = UIAlertAction(title: "Delete this event", style: UIAlertAction.Style.default)
                         {
                             (result : UIAlertAction) -> Void in
                             
@@ -633,13 +632,13 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         //https://stackoverflow.com/questions/48312759/swift-how-to-open-up-calendar-app-at-specific-date-and-time
         let interval = date.timeIntervalSinceReferenceDate
         if let url = URL(string: "calshow:\(interval)") {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
         }
     }
     
     func gotoReminder(){
         if let url = URL(string: "x-apple-reminder://"){
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
         }
     }
     //
@@ -897,4 +896,9 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

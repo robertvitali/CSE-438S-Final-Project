@@ -98,7 +98,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
                 let nextViewController = storyBoard.instantiateViewController(withIdentifier: "SignIn") as! SignInViewController
                 self.present(nextViewController, animated:true, completion:nil)
             }else if(indexPath.row == 1){
-                let settingsURL = URL(string: UIApplicationOpenSettingsURLString)
+                let settingsURL = URL(string: UIApplication.openSettingsURLString)
                 UIApplication.shared.open(settingsURL!)
             }
         }
