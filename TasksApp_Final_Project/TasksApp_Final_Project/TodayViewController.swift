@@ -101,6 +101,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func getTasksData(){
+        let tf = stateArray[2].value(forKey: "isOpen") as? Bool
         DispatchQueue.main.async{
             self.sortedtaskArray = []
         }
@@ -125,7 +126,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             print("ERROR")
         }
         
-        self.taskList = ExpandableTasks(isExpanded: (stateArray[2].value(forKey: "isOpen") as? Bool)!, tasks: self.sortedtaskArray)
+        self.taskList = ExpandableTasks(isExpanded: tf!, tasks: self.sortedtaskArray)
     }
     
     func getForecastData() {
@@ -147,12 +148,15 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                         self.tempText = "\(dnum)º C"
                     }
                     self.tempRangeText = "\((currentForecast.daily?.data[0].temperatureHigh)!) / \((currentForecast.daily?.data[0].temperatureLow)!)"
-                    self.summaryLabel.font.withSize(20)
-                    self.tempLabel.font.withSize(12)
-                    self.summaryLabel.textColor = .gray
-                    self.summaryLabel.text = self.summaryText
-                    self.tempLabel.text = self.tempText
-                    self.tempRangeLabel.text = self.tempRangeText
+                    DispatchQueue.main.async {
+                        self.summaryLabel.font.withSize(20)
+                        self.tempLabel.font.withSize(12)
+                        self.summaryLabel.textColor = .gray
+                        self.summaryLabel.text = self.summaryText
+                        self.tempLabel.text = self.tempText
+                        self.tempRangeLabel.text = self.tempRangeText
+                    }
+                    
                     //icons
                     if ((currentForecast.currently?.icon)!.rawValue == "clear-day") {
                         self.iconView.setType = self.weatherTypes[0]
@@ -186,12 +190,13 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                     }
                     self.iconView.setColor = UIColor.black
                     
-                    self.tempLabel.isHidden = false
-                    self.summaryLabel.isHidden = false
-                    self.tempRangeLabel.isHidden = false
-                    self.iconView.isHidden = false
-                    self.weatherIconView.isHidden = false
-                    
+                    DispatchQueue.main.async {
+                        self.tempLabel.isHidden = false
+                        self.summaryLabel.isHidden = false
+                        self.tempRangeLabel.isHidden = false
+                        self.iconView.isHidden = false
+                        self.weatherIconView.isHidden = false
+                    }
                     
                     self.spinner.isHidden = true
                     print("SPINNER JUST BECAME HIDDEN")
@@ -246,6 +251,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     // fetch event from local calendar data
     func fetchEvents() {
+        let tf = self.stateArray[0].value(forKey: "isOpen") as? Bool
         var eList: [EKEvent] = []
         let now = Date()
         let calendar = Calendar.current
@@ -259,13 +265,16 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             print("\(String(describing: event.title))")
         }
         
+        
+        
         DispatchQueue.global(qos: .background).async {
-            self.eventList = ExpandableEvents(isExpanded: (self.stateArray[0].value(forKey: "isOpen") as? Bool)!, events: eList)
+            self.eventList = ExpandableEvents(isExpanded: tf!, events: eList)
         }
     }
     
     //fetch reminder from local reminder
     func fetchReminder(){
+        let tf = self.stateArray[1].value(forKey: "isOpen") as? Bool
         var rList: [EKReminder] = []
         var dateComponents = DateComponents.init()
         dateComponents.day = 1
@@ -276,7 +285,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 rList.append(reminder)
                 print("\(String(describing: reminder.title))")
             }
-            self.reminderList = ExpandableReminders(isExpanded: (self.stateArray[1].value(forKey: "isOpen") as? Bool)!, reminders: rList)
+            self.reminderList = ExpandableReminders(isExpanded: tf!, reminders: rList)
         })
     }
     
